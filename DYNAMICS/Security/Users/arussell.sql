@@ -1,0 +1,2 @@
+CREATE USER [arussell] WITHOUT LOGIN
+GO

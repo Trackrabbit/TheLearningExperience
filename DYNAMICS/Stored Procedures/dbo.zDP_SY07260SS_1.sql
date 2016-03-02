@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_SY07260SS_1] (@ListDictID smallint, @ListID smallint, @ViewID int, @SEQNUMBR int) AS  set nocount on SELECT TOP 1  ListDictID, ListID, ViewID, SEQNUMBR, URL, SRS_Report_Name, DEX_ROW_ID FROM .SY07260 WHERE ListDictID = @ListDictID AND ListID = @ListID AND ViewID = @ViewID AND SEQNUMBR = @SEQNUMBR ORDER BY ListDictID ASC, ListID ASC, ViewID ASC, SEQNUMBR ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SY07260SS_1] TO [DYNGRP]
+GO

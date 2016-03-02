@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_ASIEXP60F_1] (@ASI_Favorite_Dict_ID_RS smallint, @ASI_Favorite_Type_RS smallint, @ASI_Goto_Sequence_RS smallint, @ASI_Favorite_Dict_ID_RE smallint, @ASI_Favorite_Type_RE smallint, @ASI_Goto_Sequence_RE smallint) AS /* 14.00.0084.000 */ set nocount on IF @ASI_Favorite_Dict_ID_RS IS NULL BEGIN SELECT TOP 25  ASI_Favorite_Dict_ID, ASI_Favorite_Type, ASI_Goto_Sequence, ASI_Goto_Prompt, ASI_GoTo_Value, ASI_GoTo_Default, DEX_ROW_ID FROM .ASIEXP60 ORDER BY ASI_Favorite_Dict_ID ASC, ASI_Favorite_Type ASC, ASI_Goto_Sequence ASC END ELSE IF @ASI_Favorite_Dict_ID_RS = @ASI_Favorite_Dict_ID_RE BEGIN SELECT TOP 25  ASI_Favorite_Dict_ID, ASI_Favorite_Type, ASI_Goto_Sequence, ASI_Goto_Prompt, ASI_GoTo_Value, ASI_GoTo_Default, DEX_ROW_ID FROM .ASIEXP60 WHERE ASI_Favorite_Dict_ID = @ASI_Favorite_Dict_ID_RS AND ASI_Favorite_Type BETWEEN @ASI_Favorite_Type_RS AND @ASI_Favorite_Type_RE AND ASI_Goto_Sequence BETWEEN @ASI_Goto_Sequence_RS AND @ASI_Goto_Sequence_RE ORDER BY ASI_Favorite_Dict_ID ASC, ASI_Favorite_Type ASC, ASI_Goto_Sequence ASC END ELSE BEGIN SELECT TOP 25  ASI_Favorite_Dict_ID, ASI_Favorite_Type, ASI_Goto_Sequence, ASI_Goto_Prompt, ASI_GoTo_Value, ASI_GoTo_Default, DEX_ROW_ID FROM .ASIEXP60 WHERE ASI_Favorite_Dict_ID BETWEEN @ASI_Favorite_Dict_ID_RS AND @ASI_Favorite_Dict_ID_RE AND ASI_Favorite_Type BETWEEN @ASI_Favorite_Type_RS AND @ASI_Favorite_Type_RE AND ASI_Goto_Sequence BETWEEN @ASI_Goto_Sequence_RS AND @ASI_Goto_Sequence_RE ORDER BY ASI_Favorite_Dict_ID ASC, ASI_Favorite_Type ASC, ASI_Goto_Sequence ASC END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_ASIEXP60F_1] TO [DYNGRP]
+GO

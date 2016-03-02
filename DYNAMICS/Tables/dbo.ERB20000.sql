@@ -1,0 +1,24 @@
+CREATE TABLE [dbo].[ERB20000]
+(
+[Excel_Report_ID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[LNITMSEQ] [int] NOT NULL,
+[Drill_Down_ID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[ERB20000] ADD CONSTRAINT [PKERB20000] PRIMARY KEY NONCLUSTERED  ([Excel_Report_ID], [LNITMSEQ]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[ERB20000].[Excel_Report_ID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[ERB20000].[LNITMSEQ]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[ERB20000].[Drill_Down_ID]'
+GO
+GRANT SELECT ON  [dbo].[ERB20000] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[ERB20000] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[ERB20000] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[ERB20000] TO [DYNGRP]
+GO

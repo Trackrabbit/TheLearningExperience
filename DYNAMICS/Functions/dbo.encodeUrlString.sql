@@ -1,0 +1,10 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE FUNCTION [dbo].[encodeUrlString]   (  @nonEncodedString varchar(255)  )  RETURNS varchar(255) AS BEGIN  Declare @EncodedString varchar(255)   select @EncodedString = REPLACE ( @nonEncodedString , '%' , '%25')  select @EncodedString = REPLACE ( @EncodedString , char(34) , '%22' )  select @EncodedString = REPLACE ( @EncodedString , '#' , '%23' )  select @EncodedString = REPLACE ( @EncodedString , '$' , '%24' )  select @EncodedString = REPLACE ( @EncodedString , '&' , '%26' )  select @EncodedString = REPLACE ( @EncodedString , '+' , '%2b' )  select @EncodedString = REPLACE ( @EncodedString , ',' , '%2c' )  select @EncodedString = REPLACE ( @EncodedString , '/' , '%2f' )  select @EncodedString = REPLACE ( @EncodedString , ':' , '%3a' )  select @EncodedString = REPLACE ( @EncodedString , ';' , '%3b' )  select @EncodedString = REPLACE ( @EncodedString , '<' , '%3c' )  select @EncodedString = REPLACE ( @EncodedString , '=' , '%3d' )  select @EncodedString = REPLACE ( @EncodedString , '>' , '%3e' )  select @EncodedString = REPLACE ( @EncodedString , '?' , '%3f' )  select @EncodedString = REPLACE ( @EncodedString , '@' , '%40' )  select @EncodedString = REPLACE ( @EncodedString , '[' , '%5b' )  select @EncodedString = REPLACE ( @EncodedString , '\' , '%5c' )  select @EncodedString = REPLACE ( @EncodedString , ']' , '%5d' )  select @EncodedString = REPLACE ( @EncodedString , '^' , '%5e' )  select @EncodedString = REPLACE ( @EncodedString , '`' , '%60' )  select @EncodedString = REPLACE ( @EncodedString , '{' , '%7b' )  select @EncodedString = REPLACE ( @EncodedString , '|' , '%7c' )  select @EncodedString = REPLACE ( @EncodedString , '}' , '%7d' )  select @EncodedString = REPLACE ( @EncodedString , '~' , '%7e' )  select @EncodedString = REPLACE ( @EncodedString , ' ' , '%20' ) RETURN(@EncodedString) END   
+GO
+GRANT EXECUTE ON  [dbo].[encodeUrlString] TO [DYNGRP]
+GO
+GRANT EXECUTE ON  [dbo].[encodeUrlString] TO [rpt_all user]
+GO

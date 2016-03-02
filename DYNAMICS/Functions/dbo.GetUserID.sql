@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE FUNCTION [dbo].[GetUserID](@UniqueID char(37)) RETURNS char(15) AS  BEGIN  DECLARE   @GPUserID char(15)  select @GPUserID = USERID from SY01400 where ADObjectGuid = @UniqueID  RETURN ISNULL(@GPUserID, '') END   
+GO
+GRANT EXECUTE ON  [dbo].[GetUserID] TO [DYNGRP]
+GO

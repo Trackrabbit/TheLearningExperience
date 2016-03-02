@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_SY40800SI] (@SITENAME char(81), @Report_Server_URL char(255), @System_Level_Reports char(255), @SrsServerMode smallint, @SrsReportServerUrl char(255), @SrsReportManagerUrl char(255), @SrsSharePointSite char(255), @SrsReportLibrary char(255), @SRS_Reports_on_Home_Page tinyint, @ExcelReportLocation smallint, @ExcelReportsSystemFolder char(255), @ExcelReportsUserFolder char(255), @ExcelSharePointSite char(255), @ExcelDataConnectionLibra char(255), @ExcelReportsLibrary char(255), @CrmCredentialsMethod smallint, @CrmServiceUrl char(255), @SrsTenant char(255), @MR_ServiceUrl char(255), @MR_DesignerAppPath char(255), @DEX_ROW_ID int OUT) AS /* 14.00.0084.000 */ set nocount on BEGIN INSERT INTO .SY40800 (SITENAME, Report_Server_URL, System_Level_Reports, SrsServerMode, SrsReportServerUrl, SrsReportManagerUrl, SrsSharePointSite, SrsReportLibrary, SRS_Reports_on_Home_Page, ExcelReportLocation, ExcelReportsSystemFolder, ExcelReportsUserFolder, ExcelSharePointSite, ExcelDataConnectionLibra, ExcelReportsLibrary, CrmCredentialsMethod, CrmServiceUrl, SrsTenant, MR_ServiceUrl, MR_DesignerAppPath) VALUES ( @SITENAME, @Report_Server_URL, @System_Level_Reports, @SrsServerMode, @SrsReportServerUrl, @SrsReportManagerUrl, @SrsSharePointSite, @SrsReportLibrary, @SRS_Reports_on_Home_Page, @ExcelReportLocation, @ExcelReportsSystemFolder, @ExcelReportsUserFolder, @ExcelSharePointSite, @ExcelDataConnectionLibra, @ExcelReportsLibrary, @CrmCredentialsMethod, @CrmServiceUrl, @SrsTenant, @MR_ServiceUrl, @MR_DesignerAppPath) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SY40800SI] TO [DYNGRP]
+GO

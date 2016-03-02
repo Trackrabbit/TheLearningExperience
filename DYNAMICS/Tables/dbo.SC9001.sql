@@ -1,0 +1,32 @@
+CREATE TABLE [dbo].[SC9001]
+(
+[PRODID] [smallint] NOT NULL,
+[Series_Number] [smallint] NOT NULL,
+[TABLTECH] [char] (79) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[TBLPHYSNM] [char] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[TABLDESC] [char] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[SC9001] ADD CONSTRAINT [PKSC9001] PRIMARY KEY NONCLUSTERED  ([PRODID], [Series_Number], [TABLTECH]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK2SC9001] ON [dbo].[SC9001] ([PRODID], [TABLTECH]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SC9001].[PRODID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SC9001].[Series_Number]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SC9001].[TABLTECH]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SC9001].[TBLPHYSNM]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SC9001].[TABLDESC]'
+GO
+GRANT SELECT ON  [dbo].[SC9001] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[SC9001] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[SC9001] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[SC9001] TO [DYNGRP]
+GO

@@ -1,0 +1,2 @@
+CREATE USER [george] WITHOUT LOGIN
+GO

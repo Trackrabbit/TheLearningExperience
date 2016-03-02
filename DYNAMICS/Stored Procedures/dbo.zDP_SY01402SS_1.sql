@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_SY01402SS_1] (@USERID char(15), @syDefaultType smallint) AS  set nocount on SELECT TOP 1  USERID, syDefaultType, SYUSERDFSTR, DEX_ROW_ID FROM .SY01402 WHERE USERID = @USERID AND syDefaultType = @syDefaultType ORDER BY USERID ASC, syDefaultType ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SY01402SS_1] TO [DYNGRP]
+GO

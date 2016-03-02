@@ -1,0 +1,26 @@
+CREATE TABLE [dbo].[CONSTANTS]
+(
+[ConstantID] [smallint] NOT NULL,
+[Name] [char] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[Value] [char] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [PKCONSTANTS] ON [dbo].[CONSTANTS] ([ConstantID]) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [_WA_Sys_Name_0EA330E9] ON [dbo].[CONSTANTS] ([Name]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[CONSTANTS].[ConstantID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[CONSTANTS].[Name]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[CONSTANTS].[Value]'
+GO
+GRANT SELECT ON  [dbo].[CONSTANTS] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[CONSTANTS] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[CONSTANTS] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[CONSTANTS] TO [DYNGRP]
+GO

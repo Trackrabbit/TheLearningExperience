@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[taCreateRequisitionsPre]  @I_vREQUISITIONNUMBER_I int output,     @I_vREQSTATUS_I smallint output,     @I_vDEPARTMENTCODE_I char(7) output,    @I_vPOSITIONCODE_I char(7) output,     @I_vCOMPANYCODE_I char(5) output,     @I_vDIVISIONCODE_I char(7) output,     @I_vMANAGER_I char(31) output,       @I_vSUPERVISORCODE_I char(7) output,    @I_vSTRTDATE datetime output,      @I_vENDDATE datetime output,      @I_vOPENINGDATE_I datetime output,     @I_vRECRUITER_I char(31) output,     @I_vRECRUITMENT_I smallint output,     @I_vADVERTISINGLIST_I_1 char(15) output,   @I_vADVERTISINGLIST_I_2 char(15) output,   @I_vADVERTISINGLIST_I_3 char(15) output,   @I_vADVERTISINGLIST_I_4 char(15) output,   @I_vADVERTISINGLIST_I_5 char(15) output,   @I_vPOSITIONSAVAILABLE_I smallint output,   @I_vPOSITIONSFILLED_I smallint output,    @I_vAPPLICANTSAPPLIED_I smallint output,   @I_vAPPSINTERVIEWED_I smallint output,    @I_vADVERTISINGCOSTS_I numeric(19,5) output,  @I_vRECRUITERSFEES_I numeric(19,5) output,   @I_vCHANGEBY_I char(15) output,      @I_vUpdateIfExists tinyint output,     @I_vRequesterTrx smallint output,     @I_vUSRDEFND1 char(50) output,      @I_vUSRDEFND2 char(50) output,         @I_vUSRDEFND3 char(50) output,         @I_vUSRDEFND4 varchar(8000) output,     @I_vUSRDEFND5 varchar(8000) output,     @O_iErrorState int output,       @oErrString varchar(255) output       as  set nocount on  select @O_iErrorState = 0  return (@O_iErrorState)   
+GO
+GRANT EXECUTE ON  [dbo].[taCreateRequisitionsPre] TO [DYNGRP]
+GO

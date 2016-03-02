@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_DU000010L_2] (@PRODID_RS smallint, @versionMajor_RS smallint, @versionMinor_RS smallint, @versionBuild_RS smallint, @PRODID_RE smallint, @versionMajor_RE smallint, @versionMinor_RE smallint, @versionBuild_RE smallint) AS  set nocount on IF @PRODID_RS IS NULL BEGIN SELECT TOP 25  PRODID, fileNumber, fileName, fileOSName, versionMajor, versionMinor, versionBuild, conversionScript, ACTION1, priorityLevel, CODENAME, DEX_ROW_ID FROM .DU000010 ORDER BY PRODID DESC, versionMajor DESC, versionMinor DESC, versionBuild DESC, DEX_ROW_ID DESC END ELSE IF @PRODID_RS = @PRODID_RE BEGIN SELECT TOP 25  PRODID, fileNumber, fileName, fileOSName, versionMajor, versionMinor, versionBuild, conversionScript, ACTION1, priorityLevel, CODENAME, DEX_ROW_ID FROM .DU000010 WHERE PRODID = @PRODID_RS AND versionMajor BETWEEN @versionMajor_RS AND @versionMajor_RE AND versionMinor BETWEEN @versionMinor_RS AND @versionMinor_RE AND versionBuild BETWEEN @versionBuild_RS AND @versionBuild_RE ORDER BY PRODID DESC, versionMajor DESC, versionMinor DESC, versionBuild DESC, DEX_ROW_ID DESC END ELSE BEGIN SELECT TOP 25  PRODID, fileNumber, fileName, fileOSName, versionMajor, versionMinor, versionBuild, conversionScript, ACTION1, priorityLevel, CODENAME, DEX_ROW_ID FROM .DU000010 WHERE PRODID BETWEEN @PRODID_RS AND @PRODID_RE AND versionMajor BETWEEN @versionMajor_RS AND @versionMajor_RE AND versionMinor BETWEEN @versionMinor_RS AND @versionMinor_RE AND versionBuild BETWEEN @versionBuild_RS AND @versionBuild_RE ORDER BY PRODID DESC, versionMajor DESC, versionMinor DESC, versionBuild DESC, DEX_ROW_ID DESC END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_DU000010L_2] TO [DYNGRP]
+GO

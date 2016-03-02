@@ -1,0 +1,120 @@
+CREATE TABLE [dbo].[HR2REQ01]
+(
+[REQUISITIONNUMBER_I] [int] NOT NULL,
+[REQSTATUS_I] [smallint] NOT NULL,
+[COMPANYCODE_I] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DIVISIONCODE_I] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEPARTMENTCODE_I] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[POSITIONCODE_I] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[MANAGER_I] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[SUPERVISORCODE_I] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[STRTDATE] [datetime] NOT NULL,
+[ENDDATE] [datetime] NOT NULL,
+[OPENINGDATE_I] [datetime] NOT NULL,
+[RECRUITER_I] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[RECRUITMENT_I] [smallint] NOT NULL,
+[ADVERTISINGLIST_I_1] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[ADVERTISINGLIST_I_2] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[ADVERTISINGLIST_I_3] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[ADVERTISINGLIST_I_4] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[ADVERTISINGLIST_I_5] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[POSITIONSAVAILABLE_I] [smallint] NOT NULL,
+[POSITIONSFILLED_I] [smallint] NOT NULL,
+[APPLICANTSAPPLIED_I] [smallint] NOT NULL,
+[APPSINTERVIEWED_I] [smallint] NOT NULL,
+[ADVERTISINGCOSTS_I] [numeric] (19, 5) NOT NULL,
+[RECRUITERSFEES_I] [numeric] (19, 5) NOT NULL,
+[TRAVELCOSTS_I] [numeric] (19, 5) NOT NULL,
+[LODGINGCOSTS_I] [numeric] (19, 5) NOT NULL,
+[MOVINGEXPENSES_I] [numeric] (19, 5) NOT NULL,
+[OTHERCOSTS_I] [numeric] (19, 5) NOT NULL,
+[NOTESINDEX_I] [numeric] (19, 5) NOT NULL,
+[CHANGEBY_I] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CHANGEDATE_I] [datetime] NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[HR2REQ01] ADD CONSTRAINT [CK__HR2REQ01__CHANGE__51C76D37] CHECK ((datepart(hour,[CHANGEDATE_I])=(0) AND datepart(minute,[CHANGEDATE_I])=(0) AND datepart(second,[CHANGEDATE_I])=(0) AND datepart(millisecond,[CHANGEDATE_I])=(0)))
+GO
+ALTER TABLE [dbo].[HR2REQ01] ADD CONSTRAINT [CK__HR2REQ01__ENDDAT__52BB9170] CHECK ((datepart(hour,[ENDDATE])=(0) AND datepart(minute,[ENDDATE])=(0) AND datepart(second,[ENDDATE])=(0) AND datepart(millisecond,[ENDDATE])=(0)))
+GO
+ALTER TABLE [dbo].[HR2REQ01] ADD CONSTRAINT [CK__HR2REQ01__OPENIN__53AFB5A9] CHECK ((datepart(hour,[OPENINGDATE_I])=(0) AND datepart(minute,[OPENINGDATE_I])=(0) AND datepart(second,[OPENINGDATE_I])=(0) AND datepart(millisecond,[OPENINGDATE_I])=(0)))
+GO
+ALTER TABLE [dbo].[HR2REQ01] ADD CONSTRAINT [CK__HR2REQ01__STRTDA__54A3D9E2] CHECK ((datepart(hour,[STRTDATE])=(0) AND datepart(minute,[STRTDATE])=(0) AND datepart(second,[STRTDATE])=(0) AND datepart(millisecond,[STRTDATE])=(0)))
+GO
+ALTER TABLE [dbo].[HR2REQ01] ADD CONSTRAINT [PKHR2REQ01] PRIMARY KEY CLUSTERED  ([REQUISITIONNUMBER_I]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK3HR2REQ01] ON [dbo].[HR2REQ01] ([COMPANYCODE_I], [DIVISIONCODE_I], [DEPARTMENTCODE_I], [POSITIONCODE_I], [REQUISITIONNUMBER_I], [DEX_ROW_ID]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK2HR2REQ01] ON [dbo].[HR2REQ01] ([REQSTATUS_I], [REQUISITIONNUMBER_I], [DEX_ROW_ID]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[HR2REQ01].[REQUISITIONNUMBER_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[HR2REQ01].[REQSTATUS_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[COMPANYCODE_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[DIVISIONCODE_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[DEPARTMENTCODE_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[POSITIONCODE_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[MANAGER_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[SUPERVISORCODE_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[HR2REQ01].[STRTDATE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[HR2REQ01].[ENDDATE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[HR2REQ01].[OPENINGDATE_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[RECRUITER_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[HR2REQ01].[RECRUITMENT_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[ADVERTISINGLIST_I_1]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[ADVERTISINGLIST_I_2]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[ADVERTISINGLIST_I_3]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[ADVERTISINGLIST_I_4]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[ADVERTISINGLIST_I_5]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[HR2REQ01].[POSITIONSAVAILABLE_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[HR2REQ01].[POSITIONSFILLED_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[HR2REQ01].[APPLICANTSAPPLIED_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[HR2REQ01].[APPSINTERVIEWED_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[HR2REQ01].[ADVERTISINGCOSTS_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[HR2REQ01].[RECRUITERSFEES_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[HR2REQ01].[TRAVELCOSTS_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[HR2REQ01].[LODGINGCOSTS_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[HR2REQ01].[MOVINGEXPENSES_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[HR2REQ01].[OTHERCOSTS_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[HR2REQ01].[NOTESINDEX_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR2REQ01].[CHANGEBY_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[HR2REQ01].[CHANGEDATE_I]'
+GO
+GRANT SELECT ON  [dbo].[HR2REQ01] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[HR2REQ01] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[HR2REQ01] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[HR2REQ01] TO [DYNGRP]
+GO

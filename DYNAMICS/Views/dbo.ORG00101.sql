@@ -1,0 +1,14 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ create view [dbo].[ORG00101] (  RELID,  RELSTRNG,  ENTYLVL,  ENTYNAMES_1,  ENTYNAMES_2,  ENTYNAMES_3,  ENTYNAMES_4,  ENTYDESC,  DEX_ROW_ID ) as select   r.RELID,  r.RELSTRNG,  e.ENTYLVL,   isnull((select ORG40100.ENTYNAME  from ORG40100   where ORG40100.ENTITYID = convert(smallint,substring(r.RELSTRNG,1,5))),'') 'ENTYNAMES_1',    isnull((select ORG40100.ENTYNAME  from ORG40100   where ORG40100.ENTITYID = convert(smallint,substring(r.RELSTRNG,7,5))),'') 'ENTYNAMES_2',    isnull((select ORG40100.ENTYNAME  from ORG40100   where ORG40100.ENTITYID = convert(smallint,substring(r.RELSTRNG,13,5))),'') 'ENTYNAMES_3',   isnull((select ORG40100.ENTYNAME  from ORG40100   where ORG40100.ENTITYID = convert(smallint,substring(r.RELSTRNG,19,5))),'') 'ENTYNAMES_4',   e.ENTYDESC,  r.DEX_ROW_ID from   ORG00100 r,   ORG40100 e where   e.ENTITYID = r.ENTITYID    
+GO
+GRANT SELECT ON  [dbo].[ORG00101] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[ORG00101] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[ORG00101] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[ORG00101] TO [DYNGRP]
+GO

@@ -1,0 +1,10 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[seeSOPTopReturnedItemsMultiCocaller]   @UserDate datetime,  @MaxItems int,  @ItemNumber varchar(15) = '',  @TimeUnit varchar(10) = 'Period',  @companyID varchar(8000)  as   create table #TopReturned  (CoID char(15) not null,   SOPNUMBE char(21) not null,  ITEMNMBR char(31) not null,   ITEMDESC char(101) not null,  QUANTITY numeric(9,5),  LOCNCODE char(11) not null,  QTYONHND numeric(9,5),  QTYORDER numeric(9,5),  QTYREMAI numeric(9,5),  SALSTERR char(15) not null,  SLPRSNID char(15) not null)  declare @string1 varchar(8000) declare  getCompanyID cursor  for  select StrPiece from SplitDelimitedString (',',@companyID) open getCompanyID FETCH NEXT From getCompanyID into @companyID   WHILE @@FETCH_STATUS = 0 BEGIN  select @string1 = ''+RTRIM(@companyID)+'' + '..seeSOPTopReturnedItemsMultiCo'   + ' '   + '''' +  RIGHT ('0000'+ CAST (DATENAME(yyyy,@UserDate) AS varchar), 4) + RIGHT ('00'+ CAST (month(@UserDate) AS varchar), 2) + RIGHT ('00'+ CAST (DATENAME(dd,@UserDate) AS varchar), 2) + ''''   + ' ,'   + '''' + rtrim(cast(@MaxItems as int)) + ''''   + ' ,'   + '''' + rtrim(cast(@ItemNumber as varchar(15))) + ''''   + ' ,'   + '''' + rtrim(cast(@TimeUnit as varchar(10))) + ''''   insert into #TopReturned  exec (@string1)  FETCH NEXT From getCompanyID into @companyID  End CLOSE getCompanyID DEALLOCATE getCompanyID  select DYNAMICS..SY01500.CMPNYNAM as CoName, CoID, SOPNUMBE,#TopReturned.ITEMNMBR, ITEMDESC,QUANTITY,LOCNCODE,QTYONHND,QTYORDER,QTYREMAI,SALSTERR,SLPRSNID, ordering.ORDER_QUANTITY from #TopReturned join DYNAMICS..SY01500 on #TopReturned.CoID = DYNAMICS..SY01500.INTERID join (select ITEMNMBR, SUM(QUANTITY) as ORDER_QUANTITY from #TopReturned group by ITEMNMBR) ordering on ordering.ITEMNMBR = #TopReturned.ITEMNMBR order by ORDER_QUANTITY desc   
+GO
+GRANT EXECUTE ON  [dbo].[seeSOPTopReturnedItemsMultiCocaller] TO [DYNGRP]
+GO
+GRANT EXECUTE ON  [dbo].[seeSOPTopReturnedItemsMultiCocaller] TO [rpt_executive]
+GO

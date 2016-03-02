@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_SC9400SS_1] (@PRODID smallint, @RealTimeId char(101), @INTERID char(5), @Event_Type smallint) AS /* 12.00.0311.000 */ set nocount on SELECT TOP 1  PRODID, RealTimeId, Extender_Form_ID, TABLTECH, TBLPHYSNM, INTERID, TriggerType, Event_Type, URL, DEX_ROW_ID, TXTFIELD FROM .SC9400 WHERE PRODID = @PRODID AND RealTimeId = @RealTimeId AND INTERID = @INTERID AND Event_Type = @Event_Type ORDER BY PRODID ASC, RealTimeId ASC, INTERID ASC, Event_Type ASC, DEX_ROW_ID ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SC9400SS_1] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+CREATE PROC [dbo].[zDP_ERB90500SS_1] (@CMPANYID smallint, @Data_Connection_ID char(15)) AS set nocount on SELECT TOP 1  CMPANYID, Data_Connection_ID, DEX_ROW_ID FROM .ERB90500 WHERE CMPANYID = @CMPANYID AND Data_Connection_ID = @Data_Connection_ID ORDER BY CMPANYID ASC, Data_Connection_ID ASC set nocount off   
+GO
+GRANT EXECUTE ON  [dbo].[zDP_ERB90500SS_1] TO [DYNGRP]
+GO

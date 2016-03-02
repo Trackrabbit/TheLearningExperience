@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+CREATE PROC [dbo].[zDP_ERB11600F_3] (@Excel_Report_ID_RS char(15), @Summary_Field_RS tinyint, @Summary_Order_RS smallint, @LNITMSEQ_RS int, @Excel_Report_ID_RE char(15), @Summary_Field_RE tinyint, @Summary_Order_RE smallint, @LNITMSEQ_RE int) AS set nocount on IF @Excel_Report_ID_RS IS NULL BEGIN SELECT TOP 25  Excel_Report_ID, LNITMSEQ, Table_Number, Field_Number, Summary_Field, Summary_Order, Summary_Method, DEX_ROW_ID FROM .ERB11600 ORDER BY Excel_Report_ID ASC, Summary_Field ASC, Summary_Order ASC, LNITMSEQ ASC END ELSE IF @Excel_Report_ID_RS = @Excel_Report_ID_RE BEGIN SELECT TOP 25  Excel_Report_ID, LNITMSEQ, Table_Number, Field_Number, Summary_Field, Summary_Order, Summary_Method, DEX_ROW_ID FROM .ERB11600 WHERE Excel_Report_ID = @Excel_Report_ID_RS AND Summary_Field BETWEEN @Summary_Field_RS AND @Summary_Field_RE AND Summary_Order BETWEEN @Summary_Order_RS AND @Summary_Order_RE AND LNITMSEQ BETWEEN @LNITMSEQ_RS AND @LNITMSEQ_RE ORDER BY Excel_Report_ID ASC, Summary_Field ASC, Summary_Order ASC, LNITMSEQ ASC END ELSE BEGIN SELECT TOP 25  Excel_Report_ID, LNITMSEQ, Table_Number, Field_Number, Summary_Field, Summary_Order, Summary_Method, DEX_ROW_ID FROM .ERB11600 WHERE Excel_Report_ID BETWEEN @Excel_Report_ID_RS AND @Excel_Report_ID_RE AND Summary_Field BETWEEN @Summary_Field_RS AND @Summary_Field_RE AND Summary_Order BETWEEN @Summary_Order_RS AND @Summary_Order_RE AND LNITMSEQ BETWEEN @LNITMSEQ_RS AND @LNITMSEQ_RE ORDER BY Excel_Report_ID ASC, Summary_Field ASC, Summary_Order ASC, LNITMSEQ ASC END set nocount off   
+GO
+GRANT EXECUTE ON  [dbo].[zDP_ERB11600F_3] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_MESSAGESN_1] (@BS int, @Language_ID smallint, @MSGNUM smallint, @Language_ID_RS smallint, @MSGNUM_RS smallint, @Language_ID_RE smallint, @MSGNUM_RE smallint) AS  set nocount on IF @Language_ID_RS IS NULL BEGIN SELECT TOP 25  Language_ID, MSGNUM, SQL_MSG, DEX_ROW_ID FROM .MESSAGES WHERE ( Language_ID = @Language_ID AND MSGNUM > @MSGNUM OR Language_ID > @Language_ID ) ORDER BY Language_ID ASC, MSGNUM ASC END ELSE IF @Language_ID_RS = @Language_ID_RE BEGIN SELECT TOP 25  Language_ID, MSGNUM, SQL_MSG, DEX_ROW_ID FROM .MESSAGES WHERE Language_ID = @Language_ID_RS AND MSGNUM BETWEEN @MSGNUM_RS AND @MSGNUM_RE AND ( Language_ID = @Language_ID AND MSGNUM > @MSGNUM OR Language_ID > @Language_ID ) ORDER BY Language_ID ASC, MSGNUM ASC END ELSE BEGIN SELECT TOP 25  Language_ID, MSGNUM, SQL_MSG, DEX_ROW_ID FROM .MESSAGES WHERE Language_ID BETWEEN @Language_ID_RS AND @Language_ID_RE AND MSGNUM BETWEEN @MSGNUM_RS AND @MSGNUM_RE AND ( Language_ID = @Language_ID AND MSGNUM > @MSGNUM OR Language_ID > @Language_ID ) ORDER BY Language_ID ASC, MSGNUM ASC END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_MESSAGESN_1] TO [DYNGRP]
+GO

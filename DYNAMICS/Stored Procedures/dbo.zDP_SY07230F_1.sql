@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_SY07230F_1] (@ListDictID_RS smallint, @ListID_RS smallint, @ViewID_RS int, @ListDictID_RE smallint, @ListID_RE smallint, @ViewID_RE int) AS  set nocount on IF @ListDictID_RS IS NULL BEGIN SELECT TOP 25  ListDictID, ListID, ViewID, DEX_ROW_ID, FilterCriteria FROM .SY07230 ORDER BY ListDictID ASC, ListID ASC, ViewID ASC END ELSE IF @ListDictID_RS = @ListDictID_RE BEGIN SELECT TOP 25  ListDictID, ListID, ViewID, DEX_ROW_ID, FilterCriteria FROM .SY07230 WHERE ListDictID = @ListDictID_RS AND ListID BETWEEN @ListID_RS AND @ListID_RE AND ViewID BETWEEN @ViewID_RS AND @ViewID_RE ORDER BY ListDictID ASC, ListID ASC, ViewID ASC END ELSE BEGIN SELECT TOP 25  ListDictID, ListID, ViewID, DEX_ROW_ID, FilterCriteria FROM .SY07230 WHERE ListDictID BETWEEN @ListDictID_RS AND @ListDictID_RE AND ListID BETWEEN @ListID_RS AND @ListID_RE AND ViewID BETWEEN @ViewID_RS AND @ViewID_RE ORDER BY ListDictID ASC, ListID ASC, ViewID ASC END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SY07230F_1] TO [DYNGRP]
+GO

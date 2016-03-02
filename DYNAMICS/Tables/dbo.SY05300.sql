@@ -1,0 +1,27 @@
+CREATE TABLE [dbo].[SY05300]
+(
+[Language_ID] [smallint] NOT NULL,
+[STRTYPE] [smallint] NOT NULL,
+[UNTRSVAL] [char] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[TRANSVAL] [char] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[SY05300] ADD CONSTRAINT [PKSY05300] PRIMARY KEY NONCLUSTERED  ([Language_ID], [STRTYPE], [UNTRSVAL]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SY05300].[Language_ID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SY05300].[STRTYPE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SY05300].[UNTRSVAL]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SY05300].[TRANSVAL]'
+GO
+GRANT SELECT ON  [dbo].[SY05300] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[SY05300] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[SY05300] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[SY05300] TO [DYNGRP]
+GO

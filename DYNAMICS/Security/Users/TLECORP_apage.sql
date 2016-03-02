@@ -1,0 +1,5 @@
+IF NOT EXISTS (SELECT * FROM master.dbo.syslogins WHERE loginname = N'TLECORP\apage')
+CREATE LOGIN [TLECORP\apage] FROM WINDOWS
+GO
+CREATE USER [TLECORP\apage] FOR LOGIN [TLECORP\apage]
+GO

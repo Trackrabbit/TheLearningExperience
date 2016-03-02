@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[smUserClassDeleteButtonFLDCHG]  @I_cUserClass   char(15) = NULL,  @I_tNewClass    tinyint = NULL,  @I_iSQLSessionID        int = NULL,  @O_iErrorState  int = NULL output as  declare  @FALSE          tinyint,  @iError int,  @iStatus        int,  @iCount         int,  @tTransaction   tinyint  if @I_tNewClass is NULL   or @I_cUserClass is NULL  or @I_iSQLSessionID is NULL begin  select @O_iErrorState = 20094  return end  if @I_cUserClass = '' begin  select @O_iErrorState = 20238  return end  select @O_iErrorState = 0  exec @iStatus = smGetConstantInt  'FALSE',  @FALSE output,  @O_iErrorState output  select @iError = @@error if @iStatus = 0 and @iError <> 0 begin   select @iStatus = @iError end  if @iStatus <> 0 or @O_iErrorState <> 0  return @iStatus  if @@trancount = 0 begin  select @tTransaction = 1  begin transaction end  select  @iCount = count(USRCLASS) from  SY40200 where  USRCLASS = @I_cUserClass  if @iCount <> 0 begin  delete  SY40200  where  USRCLASS = @I_cUserClass   if @@rowcount <> @iCount  begin  if @tTransaction = 1  rollback transaction  select @O_iErrorState = 20262  return  end end  select   @iCount = count(USRCLASS) from  SY40400 where  USRCLASS = @I_cUserClass  if @iCount <> 0 begin  if @I_tNewClass = @FALSE  begin  delete   SY40400  where  USRCLASS = @I_cUserClass   if @@rowcount <> @iCount  begin  if @tTransaction = 1  rollback transaction  select @O_iErrorState = 20263  return  end  end end  if @tTransaction = 1  commit transaction  return    
+GO
+GRANT EXECUTE ON  [dbo].[smUserClassDeleteButtonFLDCHG] TO [DYNGRP]
+GO

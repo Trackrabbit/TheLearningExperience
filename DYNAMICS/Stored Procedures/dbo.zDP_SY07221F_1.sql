@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_SY07221F_1] (@ListDictID_RS smallint, @ListID_RS smallint, @ViewID_RS int, @ViewAccessType_RS smallint, @IDValue_RS smallint, @USERID_RS char(15), @ListDictID_RE smallint, @ListID_RE smallint, @ViewID_RE int, @ViewAccessType_RE smallint, @IDValue_RE smallint, @USERID_RE char(15)) AS  set nocount on IF @ListDictID_RS IS NULL BEGIN SELECT TOP 25  ListDictID, ListID, ViewID, ViewAccessType, IDValue, USERID, IsEditable, DEX_ROW_ID FROM .SY07221 ORDER BY ListDictID ASC, ListID ASC, ViewID ASC, ViewAccessType ASC, IDValue ASC, USERID ASC END ELSE IF @ListDictID_RS = @ListDictID_RE BEGIN SELECT TOP 25  ListDictID, ListID, ViewID, ViewAccessType, IDValue, USERID, IsEditable, DEX_ROW_ID FROM .SY07221 WHERE ListDictID = @ListDictID_RS AND ListID BETWEEN @ListID_RS AND @ListID_RE AND ViewID BETWEEN @ViewID_RS AND @ViewID_RE AND ViewAccessType BETWEEN @ViewAccessType_RS AND @ViewAccessType_RE AND IDValue BETWEEN @IDValue_RS AND @IDValue_RE AND USERID BETWEEN @USERID_RS AND @USERID_RE ORDER BY ListDictID ASC, ListID ASC, ViewID ASC, ViewAccessType ASC, IDValue ASC, USERID ASC END ELSE BEGIN SELECT TOP 25  ListDictID, ListID, ViewID, ViewAccessType, IDValue, USERID, IsEditable, DEX_ROW_ID FROM .SY07221 WHERE ListDictID BETWEEN @ListDictID_RS AND @ListDictID_RE AND ListID BETWEEN @ListID_RS AND @ListID_RE AND ViewID BETWEEN @ViewID_RS AND @ViewID_RE AND ViewAccessType BETWEEN @ViewAccessType_RS AND @ViewAccessType_RE AND IDValue BETWEEN @IDValue_RS AND @IDValue_RE AND USERID BETWEEN @USERID_RS AND @USERID_RE ORDER BY ListDictID ASC, ListID ASC, ViewID ASC, ViewAccessType ASC, IDValue ASC, USERID ASC END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SY07221F_1] TO [DYNGRP]
+GO

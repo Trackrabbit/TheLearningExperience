@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_ME276001SI] (@ME_Key_Array_1 char(41), @ME_Key_Array_2 char(41), @ME_Key_Array_3 char(41), @ME_Key_Array_4 char(41), @ME_Key_Array_5 char(41), @ME_Key_Array_6 char(41), @ME_Key_Array_7 char(41), @ME_Key_Array_8 char(41), @ME_Key_Array_9 char(41), @ME_Key_Array_10 char(41), @SEQNUMBR int, @ME_User_Count_Array_1 smallint, @ME_User_Count_Array_2 smallint, @ME_User_Count_Array_3 smallint, @ME_User_Count_Array_4 smallint, @ME_User_Count_Array_5 smallint, @ME_User_Count_Array_6 smallint, @ME_User_Count_Array_7 smallint, @ME_User_Count_Array_8 smallint, @ME_User_Count_Array_9 smallint, @ME_User_Count_Array_10 smallint, @DEX_ROW_ID int OUT) AS /* 14.00.0084.000 */ set nocount on BEGIN INSERT INTO .ME276001 (ME_Key_Array_1, ME_Key_Array_2, ME_Key_Array_3, ME_Key_Array_4, ME_Key_Array_5, ME_Key_Array_6, ME_Key_Array_7, ME_Key_Array_8, ME_Key_Array_9, ME_Key_Array_10, SEQNUMBR, ME_User_Count_Array_1, ME_User_Count_Array_2, ME_User_Count_Array_3, ME_User_Count_Array_4, ME_User_Count_Array_5, ME_User_Count_Array_6, ME_User_Count_Array_7, ME_User_Count_Array_8, ME_User_Count_Array_9, ME_User_Count_Array_10) VALUES ( @ME_Key_Array_1, @ME_Key_Array_2, @ME_Key_Array_3, @ME_Key_Array_4, @ME_Key_Array_5, @ME_Key_Array_6, @ME_Key_Array_7, @ME_Key_Array_8, @ME_Key_Array_9, @ME_Key_Array_10, @SEQNUMBR, @ME_User_Count_Array_1, @ME_User_Count_Array_2, @ME_User_Count_Array_3, @ME_User_Count_Array_4, @ME_User_Count_Array_5, @ME_User_Count_Array_6, @ME_User_Count_Array_7, @ME_User_Count_Array_8, @ME_User_Count_Array_9, @ME_User_Count_Array_10) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_ME276001SI] TO [DYNGRP]
+GO

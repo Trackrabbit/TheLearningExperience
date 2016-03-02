@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_SY04703SS_1] (@Manager_ID char(81)) AS  set nocount on SELECT TOP 1  Manager_ID, DEX_ROW_ID FROM .SY04703 WHERE Manager_ID = @Manager_ID ORDER BY Manager_ID ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SY04703SS_1] TO [DYNGRP]
+GO

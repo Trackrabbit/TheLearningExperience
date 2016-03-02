@@ -1,0 +1,2 @@
+CREATE USER [jkulberg] WITHOUT LOGIN
+GO

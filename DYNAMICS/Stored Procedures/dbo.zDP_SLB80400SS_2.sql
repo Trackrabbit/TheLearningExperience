@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+CREATE PROC [dbo].[zDP_SLB80400SS_2] (@SERVERID char(81), @SQL_Database_Name char(81), @Object_Type smallint, @TBLPHYSNM char(51)) AS set nocount on SELECT TOP 1  SERVERID, SQL_Database_Name, TBLPHYSNM, Object_Type, DEX_ROW_ID FROM .SLB80400 WHERE SERVERID = @SERVERID AND SQL_Database_Name = @SQL_Database_Name AND Object_Type = @Object_Type AND TBLPHYSNM = @TBLPHYSNM ORDER BY SERVERID ASC, SQL_Database_Name ASC, Object_Type ASC, TBLPHYSNM ASC set nocount off   
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SLB80400SS_2] TO [DYNGRP]
+GO
