@@ -1,0 +1,66 @@
+CREATE TABLE [dbo].[UPR10209]
+(
+[USERID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[EMPLOYID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[PYRNTYPE] [smallint] NOT NULL,
+[PYRLRTYP] [smallint] NOT NULL,
+[TRXNUMBER] [int] NOT NULL,
+[SEQNUMBR] [int] NOT NULL,
+[ACTINDX] [int] NOT NULL,
+[AMNTOPST] [numeric] (19, 5) NOT NULL,
+[CHEKNMBR] [char] (21) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[POSTEDDT] [datetime] NOT NULL,
+[DEPRTMNT] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[JOBTITLE] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[PAYROLCD] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[UPRACTYP] [smallint] NOT NULL,
+[PYADNMBR] [int] NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[UPR10209] ADD CONSTRAINT [CK__UPR10209__POSTED__2F8FEEBF] CHECK ((datepart(hour,[POSTEDDT])=(0) AND datepart(minute,[POSTEDDT])=(0) AND datepart(second,[POSTEDDT])=(0) AND datepart(millisecond,[POSTEDDT])=(0)))
+GO
+ALTER TABLE [dbo].[UPR10209] ADD CONSTRAINT [PKUPR10209] PRIMARY KEY NONCLUSTERED  ([USERID], [PYRNTYPE], [EMPLOYID], [PYRLRTYP], [TRXNUMBER], [SEQNUMBR]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK2UPR10209] ON [dbo].[UPR10209] ([USERID], [EMPLOYID], [ACTINDX], [POSTEDDT], [CHEKNMBR], [DEX_ROW_ID]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK1UPR10209] ON [dbo].[UPR10209] ([USERID], [PYRNTYPE], [EMPLOYID], [TRXNUMBER], [ACTINDX], [SEQNUMBR]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR10209].[USERID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR10209].[EMPLOYID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[UPR10209].[PYRNTYPE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[UPR10209].[PYRLRTYP]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[UPR10209].[TRXNUMBER]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[UPR10209].[SEQNUMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[UPR10209].[ACTINDX]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[UPR10209].[AMNTOPST]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR10209].[CHEKNMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[UPR10209].[POSTEDDT]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR10209].[DEPRTMNT]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR10209].[JOBTITLE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR10209].[PAYROLCD]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[UPR10209].[UPRACTYP]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[UPR10209].[PYADNMBR]'
+GO
+GRANT SELECT ON  [dbo].[UPR10209] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[UPR10209] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[UPR10209] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[UPR10209] TO [DYNGRP]
+GO

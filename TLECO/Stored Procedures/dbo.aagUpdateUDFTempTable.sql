@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ create     procedure [dbo].[aagUpdateUDFTempTable]  @UDFTable nvarchar(30),   @aaMLQueryID int,  @aaTrxDimID int,  @Opt int as begin  set nocount on  if @Opt = 0  begin  exec ('delete '+ @UDFTable)  exec ('insert into ' + @UDFTable + '(aaTrxDimID,aaUDFID,aaUDFString,aaUDFSelect)  select AAG01001.aaTrxDimID AS aaTrxDimID,  AAG01001.aaUDFID AS aaUDFID,  AAG01001.aaUDFString AS aaUDFString ,  isnull(AAG00316.aaUDFSelect,0) as aaUDFSelect  from AAG00316 right outer join  AAG01001 on AAG00316.aaUDFID = AAG01001.aaUDFID and  AAG00316.aaTrxDimID = AAG01001.aaTrxDimID  where AAG00316.aaMLQueryID = ' + @aaMLQueryID +  'union  select AAG01001.aaTrxDimID AS aaTrxDimID,  AAG01001.aaUDFID AS aaUDFID,  AAG01001.aaUDFString AS aaUDFString ,  isnull(AAG00316.aaUDFSelect,0) as aaUDFSelect  from AAG00316 right outer join  AAG01001 on AAG00316.aaUDFID = AAG01001.aaUDFID and  AAG00316.aaTrxDimID = AAG01001.aaTrxDimID  order by 2')  end  else if @Opt = 1  begin  delete from AAG00316 where aaMLQueryID = @aaMLQueryID  exec ('insert into AAG00316 (aaMLQueryID,aaTrxDimID,aaUDFID,aaUDFSelect)  select ' +@aaMLQueryID +' , aaTrxDimID,aaUDFID,aaUDFSelect from '+@UDFTable+  ' where aaUDFSelect = 1' )  end  if @Opt = 2  begin  exec('delete from ' + @UDFTable + ' where aaTrxDimID = '+@aaTrxDimID )  exec ('insert into ' + @UDFTable + '(aaTrxDimID,aaUDFID,aaUDFString,aaUDFSelect)  select aaTrxDimID ,aaUDFID ,aaUDFString,0 from AAG01001  where aaTrxDimID = '+@aaTrxDimID +' order by 2')  end  set nocount off end    
+GO
+GRANT EXECUTE ON  [dbo].[aagUpdateUDFTempTable] TO [DYNGRP]
+GO

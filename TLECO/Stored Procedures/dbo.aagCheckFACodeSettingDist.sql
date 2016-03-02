@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+create procedure [dbo].[aagCheckFACodeSettingDist] @I_nValidationLevel SMALLINT =0,  @I_cTableCode NVARCHAR(30) = NULL, @I_cTableError NVARCHAR(30) = NULL, @I_nFASetupID INT = 0, @O_fValidCodeSetting TINYINT = 1 OUTPUT, @I_UserID VARCHAR(20) As BEGIN   DECLARE @I_nAcctClassID INT,  @I_nActIndx INT,  @I_fValidCodeSetting TINYINT,  @I_Right INT,  @I_nListID INT,  @TempValidCode TINYINT   SELECT @I_nAcctClassID = 0,@I_nActIndx = 0 ,@I_fValidCodeSetting = 1, @I_Right = 1,@I_nListID = 0,@TempValidCode=1    EXEC ('DECLARE aaSetpTbl CURSOR FAST_FORWARD FOR  SELECT AAG04000.ListID,AAG04000.ACTINDX FROM ' + @I_cTableCode + ' INNER JOIN AAG04000 ON AAG04000.aaFASetupID = [' + @I_cTableCode + '].aaSubLedgerHdrID AND AAG04000.ListID = [' + @I_cTableCode + '].aaSubLedgerDistID where AAG04000.aaFASetupID = ' + @I_nFASetupID  )  OPEN aaSetpTbl  FETCH NEXT FROM aaSetpTbl INTO @I_nListID,@I_nActIndx  WHILE @@FETCH_STATUS = 0  BEGIN  exec ('delete from ' + @I_cTableError + ' where aaSubLedgerHdrID = ' + @I_nFASetupID +  ' and aaSubLedgerDistID =' + @I_nListID)   SELECT @I_nAcctClassID = aaAcctClassID FROM AAG00200 WHERE ACTINDX = @I_nActIndx   EXEC aagCheckFACodeSettingAssign  @I_nValidationLevel,  @I_cTableCode,  @I_cTableError,  @I_nFASetupID,  @I_nListID,  @I_nAcctClassID,  @I_nActIndx,  1,  @I_fValidCodeSetting,  @O_fValidCodeSetting OUTPUT,  @I_UserID,  @I_Right  IF @O_fValidCodeSetting =0   SET @TempValidCode=0  FETCH NEXT FROM aaSetpTbl INTO @I_nListID,@I_nActIndx  END  CLOSE aaSetpTbl  DEALLOCATE aaSetpTbl   IF @O_fValidCodeSetting <>1 OR @TempValidCode=0  SET @O_fValidCodeSetting = 0 END   
+GO
+GRANT EXECUTE ON  [dbo].[aagCheckFACodeSettingDist] TO [DYNGRP]
+GO

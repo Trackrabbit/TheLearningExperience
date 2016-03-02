@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[aagCopyToGLFromSubLedger] @I_nSubLedHdrID int,  @I_nGLdrID int,  @I_nJrnEntry int, @I_nYear int, @I_cTrxSource char(13), @I_dtGLPostingDate datetime , @O_fSuccess tinyint = 1 output as  begin tran  INSERT INTO AAG30000(aaGLHdrID,JRNENTRY,RCTRXSEQ,YEAR1,aaGLTRXSource,aaTRXType,GLPOSTDT)  VALUES (@I_nGLdrID, @I_nJrnEntry,0,@I_nYear,@I_cTrxSource,1,@I_dtGLPostingDate)   INSERT INTO AAG30001(aaGLHdrID,aaGLDistID,  CorrespondingUnit,ACTINDX,ACCTTYPE,DECPLACS,  DEBITAMT,CRDTAMNT,ORDBTAMT,ORCRDAMT,CURNCYID,CURRNIDX,RATETPID,EXGTBLID,  XCHGRATE,EXCHDATE,TIME1,RTCLCMTD,DENXRATE,MCTRXSTT,SEQNUMBR,  aaCustID,aaVendID,aaSiteID,aaItemID,aaCopyStatus,aaChangeDate, aaChangeTime)  SELECT @I_nGLdrID,aaSubLedgerDistID,  CorrespondingUnit,ACTINDX,ACCTTYPE,DECPLACS,   DEBITAMT,CRDTAMNT,ORDBTAMT,ORCRDAMT,CURNCYID,CURRNIDX,RATETPID,EXGTBLID,  XCHGRATE,EXCHDATE,TIME1,RTCLCMTD,DENXRATE,MCTRXSTT,SEQNUMBR,  aaCustID,aaVendID,aaSiteID,aaItemID,aaCopyStatus,convert(char(12), getdate(), 102), convert(char(12), getdate(), 108)  from AAG20001 where aaSubLedgerHdrID = @I_nSubLedHdrID   INSERT INTO AAG30002(aaGLHdrID,aaGLDistID,aaGLAssignID,  DEBITAMT,CRDTAMNT,ORDBTAMT,ORCRDAMT,DistRef,NOTEINDX,aaAliasID)  SELECT @I_nGLdrID,aaSubLedgerDistID,aaSubLedgerAssignID,  DEBITAMT,CRDTAMNT,ORDBTAMT,ORCRDAMT,DistRef,NOTEINDX,aaAliasID  from AAG20002 where aaSubLedgerHdrID = @I_nSubLedHdrID   INSERT INTO AAG30003(aaGLHdrID,aaGLDistID,aaGLAssignID,  aaTrxDimID,aaTrxCodeID)  SELECT @I_nGLdrID,aaSubLedgerDistID,aaSubLedgerAssignID,  aaTrxDimID,aaTrxCodeID  from AAG20003 where aaSubLedgerHdrID = @I_nSubLedHdrID  commit tran    
+GO
+GRANT EXECUTE ON  [dbo].[aagCopyToGLFromSubLedger] TO [DYNGRP]
+GO

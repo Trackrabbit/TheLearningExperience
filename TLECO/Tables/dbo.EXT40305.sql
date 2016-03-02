@@ -1,0 +1,21 @@
+CREATE TABLE [dbo].[EXT40305]
+(
+[Extender_Form_ID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[Next_ID_Field_Value] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[EXT40305] ADD CONSTRAINT [PKEXT40305] PRIMARY KEY NONCLUSTERED  ([Extender_Form_ID]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[EXT40305].[Extender_Form_ID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[EXT40305].[Next_ID_Field_Value]'
+GO
+GRANT SELECT ON  [dbo].[EXT40305] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[EXT40305] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[EXT40305] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[EXT40305] TO [DYNGRP]
+GO

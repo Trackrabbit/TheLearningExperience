@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_VAT10001SS_2] (@CCodeDesc char(31), @CCode char(7)) AS  set nocount on SELECT TOP 1  CCode, CCodeDesc, ECFLAG, ISOCode, NOTEINDX, DEX_ROW_ID FROM .VAT10001 WHERE CCodeDesc = @CCodeDesc AND CCode = @CCode ORDER BY CCodeDesc ASC, CCode ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_VAT10001SS_2] TO [DYNGRP]
+GO

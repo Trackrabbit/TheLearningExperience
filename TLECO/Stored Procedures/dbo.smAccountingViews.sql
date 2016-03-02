@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[smAccountingViews]  @I_iLanguageID int    = NULL,  @O_iErrorState int    = NULL output  as   declare  @iStatus int,   @iErrorState int   if @I_iLanguageID is NULL begin  select @O_iErrorState = 20267  return end  if (select count(*) from DYNAMICS.dbo.SY10996 where DICTID=0 and MSGNUM=22214) = 0  insert into DYNAMICS.dbo.SY10996 select 0,0,22214,' % For Drillback'  if (select count(*) from DYNAMICS.dbo.SY10996 where DICTID=1493 and MSGNUM=22214) = 0  insert into DYNAMICS.dbo.SY10996 select 1493,0,22214,' % For Drillback'  if (select count(*) from DYNAMICS.dbo.SY10996 where DICTID=346 and MSGNUM=32629) = 0  insert into DYNAMICS.dbo.SY10996 select 346,0,32629,' % For Drillback'  if (select count(*) from DYNAMICS.dbo.SY10996 where DICTID=258 and MSGNUM=32719) = 0  insert into DYNAMICS.dbo.SY10996 select 258,0,32719,' % For Drillback'  if (select count(*) from DYNAMICS.dbo.SY10996 where DICTID=309 and MSGNUM=22617) = 0  insert into DYNAMICS.dbo.SY10996 select 309,0,22617,' % For Drillback'  if (select count(*) from DYNAMICS.dbo.SY10996 where DICTID=949 and MSGNUM=30088) = 0  insert into DYNAMICS.dbo.SY10996 select 949,0,30088,' % For Drillback'  exec sp_Dynamics_Accounts_Alter @I_iLanguageID  exec sp_Dynamics_AccountSummary_Alter @I_iLanguageID exec sp_Dynamics_AccountTransactions_Alter @I_iLanguageID  if exists (select * from syscolumns where name = 'SPECDEPRALLOW' and id = (select id from sysobjects where name = 'FA00200' and type='U'))  exec sp_FixedAssets_FixedAssetsFAtoGLReconcile_Alter @I_iLanguageID  select @O_iErrorState = 0   return     
+GO
+GRANT EXECUTE ON  [dbo].[smAccountingViews] TO [DYNGRP]
+GO

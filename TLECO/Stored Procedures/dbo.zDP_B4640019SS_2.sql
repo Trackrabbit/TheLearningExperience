@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B4640019SS_2] (@BSSI_Tenant_Lease_Number char(25), @LOCNCODE char(11), @BSSI_Charge_ID char(25)) AS /* 12.00.0270.000 */ set nocount on SELECT TOP 1  BSSI_PortfolioID, BSSI_Tenant_Lease_Number, NAME, LOCNCODE, LOCNDSCR, BSSI_Charge_ID, BSSI_Description, YEAR1, CUSTNMBR, CUSTNAME, BSSI_ContributionAmount, BSSI_ContributionArea, BSSI_LeasableContriArea, BSSI_PayablesAmount, BSSI_BilledAmount, BSSI_AmountDue, BSSI_IsCompleted, BSSI_IsCorrected, BSSI_MinTargetOccupancy, BSSI_CoTenancy, BSSI_AdminFee, BSSI_DaysOccupied, BSSI_Leased_Space_SF, BSSI_Rate, BSSI_WeighedOccupiedArea, BSSI_NetProjectArea, BSSI_LineSeqNumber, SOPNUMBE, BSSI_AdminFeeAmount, BSSI_NetYearCost, BSSI_ShortComment, BSSI_IsInterior, USERID, BSSI_BuildingExpenses, BSSI_BuilldingArea, BSSI_LeasedMallArea, BSSI_ExteriorLeaseArea, BSSI_ExteriorLeasedArea, BSSI_DaysInYear, BSSI_Factor, BSSI_CurrentOccupancy, BSSI_CurrOccupInt, BSSI_NetYearCostInt, BSSI_ContribAmountInt, BSSI_LsbContribAreaInt, BSSI_LsdContribAreaInt, BSSI_WeigOccpAreaInt, BSSI_AdminFeeAmountInt, BSSI_NetProjAreaInt, BSSI_PayablesAmountInt, BSSI_RateInt, BSSI_ExteriorExpense, BSSI_InteriorExpense, BSSI_InteriorLeaseArea, BSSI_InteriorLeasedArea, BSSI_RecoverableChargeID, BSSI_LsbArea_Ext, From_Date, TODATE, DEX_ROW_ID FROM .B4640019 WHERE BSSI_Tenant_Lease_Number = @BSSI_Tenant_Lease_Number AND LOCNCODE = @LOCNCODE AND BSSI_Charge_ID = @BSSI_Charge_ID ORDER BY BSSI_Tenant_Lease_Number ASC, LOCNCODE ASC, BSSI_Charge_ID ASC, DEX_ROW_ID ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B4640019SS_2] TO [DYNGRP]
+GO

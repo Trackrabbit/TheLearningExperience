@@ -1,0 +1,24 @@
+CREATE TABLE [dbo].[B2900201]
+(
+[BSSI_LeaseLoanType] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[BSSI_LeaseLoan_NextNo] [char] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[NOTEINDX] [numeric] (19, 5) NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[B2900201] ADD CONSTRAINT [PKB2900201] PRIMARY KEY NONCLUSTERED  ([BSSI_LeaseLoanType]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[B2900201].[BSSI_LeaseLoanType]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[B2900201].[BSSI_LeaseLoan_NextNo]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[B2900201].[NOTEINDX]'
+GO
+GRANT SELECT ON  [dbo].[B2900201] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[B2900201] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[B2900201] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[B2900201] TO [DYNGRP]
+GO

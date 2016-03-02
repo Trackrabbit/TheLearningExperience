@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[taFSRTVMasterPre]  @I_vRTV_Number char(15) output,    @I_vRTV_Type char(11) output,    @I_vRTV_Return_Status char(3) output,   @I_vVRMA_Document_ID char(15) output,   @I_vRETDOCID char(15) output,    @I_vDSCRIPTN char(31) output,    @I_vVENDORID char(15) output,    @I_vVENDNAME char(65) output,    @I_vCKHOLD smallint output,    @I_vADRSCODE char(15) output,    @I_vShip_Address_Name char(65) output,   @I_vShip_Address_1 char(61) output,   @I_vShip_Address_2 char(61) output,   @I_vShip_Address_3 char(61) output,   @I_vShip_City char(35) output,    @I_vShip_State char(29) output,    @I_vZIPCODE char(11) output,    @I_vShip_Country char(61) output,   @I_vENTDTE datetime output,    @I_vENTTME datetime output,    @I_vLOCCODEB char(11) output,    @I_vLOCNCODE char(11) output,    @I_vBill_of_Lading_Out char(31) output,   @I_vShipping_Method_Out char(15) output,  @I_vBill_of_Lading char(31) output,   @I_vSHIPMTHD char(15) output,    @I_vOFFID char(11) output,    @I_vNOTETXT nvarchar(2000) output,    @I_vUSERID char(15) output,    @I_vUSERDEF1 char(21) output,    @I_vUSERDEF2 char(21) output,    @I_vUSRDEF03 char(21) output,    @I_vUSRDEF04 char(21) output,    @I_vUSRDEF05 char(21) output,    @I_vCURNCYID char(15) output,    @I_vUpdateIfExists tinyint output,   @I_vRequesterTrx smallint output,   @I_vUSRDEFND1 char(50) output,    @I_vUSRDEFND2 char(50) output,    @I_vUSRDEFND3 char(50) output,    @I_vUSRDEFND4 varchar(8000) output,   @I_vUSRDEFND5 varchar(8000) output,   @O_iErrorState int = NULL output, @oErrString varchar(255) output     as  set nocount on  select @O_iErrorState = 0  return (@O_iErrorState)   
+GO
+GRANT EXECUTE ON  [dbo].[taFSRTVMasterPre] TO [DYNGRP]
+GO

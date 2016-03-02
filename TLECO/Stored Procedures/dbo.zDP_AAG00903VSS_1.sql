@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_AAG00903VSS_1] (@PERIODDT datetime, @aaFiscalPeriod smallint) AS  set nocount on SELECT TOP 1  PERIODDT, aaFiscalPeriod, PERDBLNC, DEX_ROW_ID FROM .AAG00903V WHERE PERIODDT = @PERIODDT AND aaFiscalPeriod = @aaFiscalPeriod ORDER BY PERIODDT ASC, aaFiscalPeriod ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_AAG00903VSS_1] TO [DYNGRP]
+GO

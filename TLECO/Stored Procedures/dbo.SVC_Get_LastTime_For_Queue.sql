@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ Create Procedure [dbo].[SVC_Get_LastTime_For_Queue] (@STATIONID varchar(11),  @Status smallint,  @Priority numeric(19,5),  @ETTR numeric(19,5),  @CheckDate datetime OUTPUT,  @CheckTime datetime OUTPUT,  @vCombinedDateTime datetime OUTPUT,  @vEndDateTime datetime OUTPUT) as declare @CheckDateTime datetime declare @DayOfWeek smallint declare @DayAvail smallint declare @StationStartTime datetime declare @StationEndTime datetime declare @StartOkay smallint declare @EndOkay smallint declare @TempStartDate datetime declare @TempEndDate datetime set nocount on select @vCombinedDateTime = MAX(CONVERT(varchar(10),SVC06300.ECOMPDT,102) + ' ' +   CONVERT(varchar(10),SVC06300.EComp_Time,108))   from SVC06300   where SVC06300.Status = @Status and   SVC06300.SVC_Depot_Priority <= @Priority and   SVC06300.STATIONID = @STATIONID if @vCombinedDateTime is null  select @vCombinedDateTime = MAX(CONVERT(varchar(10),SVC06300.ECOMPDT,102) + ' ' +   CONVERT(varchar(10),SVC06300.EComp_Time,108))   from SVC06300   where SVC06300.STATIONID = @STATIONID and SVC06300.Status > @Status  if @vCombinedDateTime is NULL   select @vCombinedDateTime = GETDATE() if @CheckDate is null   return(0)  exec SVC_util_combine_date_time @CheckDate, @CheckTime, @CheckDateTime OUTPUT if @vCombinedDateTime < @CheckDateTime  select @vCombinedDateTime = @CheckDateTime exec SVC_Calc_AvailStartEndTime @STATIONID,  @ETTR,  @vCombinedDateTime,   @vCombinedDateTime OUTPUT,   @vEndDateTime OUTPUT return(0)    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Get_LastTime_For_Queue] TO [DYNGRP]
+GO

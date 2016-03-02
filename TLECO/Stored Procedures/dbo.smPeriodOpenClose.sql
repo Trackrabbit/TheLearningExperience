@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[smPeriodOpenClose] @I_tCloseAllPeriods tinyint = NULL, @I_sYear smallint = NULL, @I_iSQLSessionID int = NULL, @O_iErrorState int = NULL output  as  declare  @tTransaction tinyint,  @iNumberOfRecords int  if @I_tCloseAllPeriods is NULL or  @I_sYear is NULL or  @I_iSQLSessionID is NULL begin  select  @O_iErrorState = 20310  return end  if @@trancount = 0 begin  select  @tTransaction = 1  begin transaction end  select  @O_iErrorState = 0  select  @iNumberOfRecords = count ( FORIGIN ) from  SY40100 where  FORIGIN  = 1 and  PERIODID > 0 and  SERIES  = 0 and  YEAR1  = @I_sYear  if @iNumberOfRecords > 0 begin  update  SY40100  set  PSERIES_1 = @I_tCloseAllPeriods,  PSERIES_2 = @I_tCloseAllPeriods,  PSERIES_3 = @I_tCloseAllPeriods,  PSERIES_4 = @I_tCloseAllPeriods,  PSERIES_5 = @I_tCloseAllPeriods,  PSERIES_6 = @I_tCloseAllPeriods  where  FORIGIN  = 1 and  PERIODID > 0 and  SERIES  = 0 and  YEAR1  = @I_sYear   if @@RowCount <> @iNumberOfRecords  begin  select  @O_iErrorState = 20342  rollback transaction  return  end end  select  @iNumberOfRecords = count ( FORIGIN ) from  SY40100 where  FORIGIN  = 0 and  PERIODID > 0 and  SERIES  > 0 and  YEAR1  = @I_sYear  if @iNumberOfRecords > 0 begin  update  SY40100  set  CLOSED  = @I_tCloseAllPeriods  where  FORIGIN  = 0 and  PERIODID > 0 and  SERIES  > 0 and  YEAR1  = @I_sYear   if @@RowCount <> @iNumberOfRecords  begin  select  @O_iErrorState = 20304  rollback transaction  return  end end  if @tTransaction = 1  commit transaction  return    
+GO
+GRANT EXECUTE ON  [dbo].[smPeriodOpenClose] TO [DYNGRP]
+GO

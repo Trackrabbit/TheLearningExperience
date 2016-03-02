@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ create     procedure [dbo].[aagUpdateGLReportTempTable]  @USERID  nvarchar(15),  @aaHdr nvarchar(30),  @aaDist nvarchar(30),  @aaAssing nvarchar(30),  @Opt integer  as  begin  if @Opt = 1   begin  exec ('insert into ' + @aaHdr + '(USERID ,TRXBTCHSRC, aaGLHdrID, JRNENTRY, SERIES,  GLPOSTDT , aaGLTRXSource , aaTRXSource , RCTRXSEQ , YEAR1)   select USERID,TRXBTCHSRC, aaGLHdrID, JRNENTRY, SERIES,  GLPOSTDT, aaGLTRXSource, aaTRXSource, RCTRXSEQ, YEAR1 from AAG70000   where USERID =  '+''''+ @USERID+'''' )   exec ('insert into ' + @aaDist +' (USERID , TRXBTCHSRC , SERIES , aaGLHdrID ,  aaGLDistID , ACTINDX , DEBITAMT , CRDTAMNT, ORDBTAMT, ORCRDAMT, CURNCYID,CURRNIDX)   Select USERID, TRXBTCHSRC, SERIES, aaGLHdrID,  aaGLDistID, ACTINDX, DEBITAMT, CRDTAMNT, ORDBTAMT, ORCRDAMT, CURNCYID,CURRNIDX   from AAG70001 where USERID =  '+''''+ @USERID+'''' )   exec ('insert into '+ @aaAssing + '(USERID, TRXBTCHSRC, aaGLHdrID, aaGLDistID,   aaGLAssignID, DEBITAMT, SERIES ,CRDTAMNT, ORDBTAMT, ORCRDAMT, DistRef )  select USERID, TRXBTCHSRC, aaGLHdrID, aaGLDistID,   aaGLAssignID, DEBITAMT,  SERIES , CRDTAMNT, ORDBTAMT, ORCRDAMT,  DistRef from AAG70002 where USERID =  '+''''+ @USERID+''''  )   delete  AAG70000 where USERID = @USERID  delete  AAG70001 where USERID = @USERID  delete  AAG70002 where USERID = @USERID  end   if @Opt = 0  begin  delete  AAG70000 where USERID = @USERID  delete  AAG70001 where USERID = @USERID  delete  AAG70002 where USERID = @USERID  end  end    
+GO
+GRANT EXECUTE ON  [dbo].[aagUpdateGLReportTempTable] TO [DYNGRP]
+GO

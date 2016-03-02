@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[popRequisitionGetTotalsForLines]  @I_cPOPRequisitionNumber        char(21)    = NULL,  @O_ReqLineStatusNew int   = NULL output,  @O_ReqLineStatusOrdered int   = NULL output,  @O_ReqLineStatusCanceled int   = NULL output,  @O_DocumentAmount               numeric(19,5) = NULL output,  @O_iErrorState                  int           = NULL output  AS  DECLARE @NetExtendedCost numeric(19,5),  @NetFreightAmt numeric(19,5),  @NetTaxAmt numeric(19,5)  if( @I_cPOPRequisitionNumber is NULL  ) begin  select          @O_iErrorState = 21022  return end   select @O_iErrorState = 0,  @O_ReqLineStatusNew = 0,  @O_ReqLineStatusOrdered = 0,  @O_ReqLineStatusCanceled = 0,  @O_DocumentAmount = 0  select @NetExtendedCost = 0,  @NetFreightAmt = 0,  @NetTaxAmt = 0  select @NetExtendedCost = sum(EXTDCOST) , @NetFreightAmt = sum(FRTAMNT), @NetTaxAmt = SUM(TAXAMNT)  from POP10210 (NOLOCK) where POPRequisitionNumber = @I_cPOPRequisitionNumber  select @O_ReqLineStatusNew = count(RequisitionLineStatus)  from POP10210 (NOLOCK) where POPRequisitionNumber = @I_cPOPRequisitionNumber and ORD <> 0 and RequisitionLineStatus = 1 select @O_ReqLineStatusOrdered = count(RequisitionLineStatus)  from POP10210 (NOLOCK) where POPRequisitionNumber = @I_cPOPRequisitionNumber and ORD <> 0 and RequisitionLineStatus = 2 select @O_ReqLineStatusCanceled = count(RequisitionLineStatus)  from POP10210 (NOLOCK) where POPRequisitionNumber = @I_cPOPRequisitionNumber and ORD <> 0 and RequisitionLineStatus = 3  select @O_DocumentAmount = @NetExtendedCost + @NetFreightAmt + @NetTaxAmt   
+GO
+GRANT EXECUTE ON  [dbo].[popRequisitionGetTotalsForLines] TO [DYNGRP]
+GO

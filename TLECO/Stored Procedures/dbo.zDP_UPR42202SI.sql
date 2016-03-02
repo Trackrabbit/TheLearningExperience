@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_UPR42202SI] (@Time_on_Behalf_Code char(15), @EMPLCLAS char(15), @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .UPR42202 (Time_on_Behalf_Code, EMPLCLAS) VALUES ( @Time_on_Behalf_Code, @EMPLCLAS) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_UPR42202SI] TO [DYNGRP]
+GO

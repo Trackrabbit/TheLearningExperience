@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE procedure [dbo].[SVC_Set_SC_HDR_Status](@SRVRECTYPE smallint,@CALLNBR char(11)) as declare @Backorder_Status char(3) declare @Intransit_Status char(3) declare @PO_Status char(3) declare @PartsAvail_Status char(3) declare @Srv_Status char(3) declare @Header_Status char(3) select @Srv_Status = SRVSTAT,@Backorder_Status = Backorder_Status,  @Intransit_Status=Intransit_Status,@PO_Status=POSTAT,  @PartsAvail_Status = Parts_Available_Status from SVC00998 if exists(select * from SVC00203 where SRVRECTYPE = @SRVRECTYPE and  CALLNBR = @CALLNBR and  SRVSTAT = @Backorder_Status and   LINITMTYP = 'P')  select @Header_Status = @Backorder_Status  else if exists(select * from SVC00203 where SRVRECTYPE = @SRVRECTYPE and  CALLNBR = @CALLNBR and  SRVSTAT = @Intransit_Status and   LINITMTYP <> 'L')  select @Header_Status = @Intransit_Status  else if exists(select * from SVC00203 where SRVRECTYPE = @SRVRECTYPE and  CALLNBR = @CALLNBR and  SRVSTAT = @PO_Status and   LINITMTYP <> 'L')  select @Header_Status = @PO_Status  else if exists(select * from SVC00203 where SRVRECTYPE = @SRVRECTYPE and  CALLNBR = @CALLNBR and  SRVSTAT = @PartsAvail_Status and   LINITMTYP <> 'L')  select @Header_Status = @PartsAvail_Status  else  select @Header_Status = min(SRVSTAT) from SVC00203 where SRVRECTYPE = @SRVRECTYPE and  CALLNBR = @CALLNBR and  LINITMTYP = 'P' and  ITEMUSETYPE <> 'R' if @Header_Status > ''   begin  update SVC00200 set SRVSTAT = @Header_Status where SRVRECTYPE = @SRVRECTYPE and  CALLNBR = @CALLNBR  end    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Set_SC_HDR_Status] TO [DYNGRP]
+GO

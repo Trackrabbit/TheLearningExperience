@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B7112307SS_1] (@BSSI_Recognition_SNumber char(25), @LNITMSEQ int) AS /* 12.00.0270.000 */ set nocount on SELECT TOP 1  BSSI_Recognition_SNumber, LNITMSEQ, BSSI_Recognition_Amount, STRTDATE, ENDDATE, BSSI_Facility_ID, DEX_ROW_ID FROM .B7112307 WHERE BSSI_Recognition_SNumber = @BSSI_Recognition_SNumber AND LNITMSEQ = @LNITMSEQ ORDER BY BSSI_Recognition_SNumber ASC, LNITMSEQ ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B7112307SS_1] TO [DYNGRP]
+GO

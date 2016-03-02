@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B2900510SS_1] (@USERID char(15), @BSSI_ImportID char(15), @BSSI_ChargeID char(21)) AS /* 12.00.0311.000 */ set nocount on SELECT TOP 1  USERID, BSSI_ImportID, BSSI_ChargeID, BSSI_ChargeIncInLease, BSSI_ChargeAmt, BSSI_ChargeAccountIndex, BSSI_ChargeExcludeIntCal, STRTDATE, BSSI_ChargeDuration, ENDDATE, From_Period, To_Period, ERRDESCR, DEX_ROW_ID FROM .B2900510 WHERE USERID = @USERID AND BSSI_ImportID = @BSSI_ImportID AND BSSI_ChargeID = @BSSI_ChargeID ORDER BY USERID ASC, BSSI_ImportID ASC, BSSI_ChargeID ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B2900510SS_1] TO [DYNGRP]
+GO

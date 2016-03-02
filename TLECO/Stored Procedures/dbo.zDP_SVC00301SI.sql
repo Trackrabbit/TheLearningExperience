@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_SVC00301SI] (@EQUIPID int, @LNITMSEQ int, @SERLNMBR char(21), @ITEMNMBR char(31), @METER1 int, @METER2 int, @METER3 int, @LSTDTEDT datetime, @Daily_Usage numeric(19,5), @USERID char(15), @Meters_1 int, @Meters_2 int, @Meters_3 int, @Meters_4 int, @Meters_5 int, @Dailys_1 numeric(19,5), @Dailys_2 numeric(19,5), @Dailys_3 numeric(19,5), @Dailys_4 numeric(19,5), @Dailys_5 numeric(19,5), @Replaces_1 tinyint, @Replaces_2 tinyint, @Replaces_3 tinyint, @Replaces_4 tinyint, @Replaces_5 tinyint, @Reading_Entered_From char(31), @Meter_Deltas_1 int, @Meter_Deltas_2 int, @Meter_Deltas_3 int, @Meter_Deltas_4 int, @Meter_Deltas_5 int, @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .SVC00301 (EQUIPID, LNITMSEQ, SERLNMBR, ITEMNMBR, METER1, METER2, METER3, LSTDTEDT, Daily_Usage, USERID, Meters_1, Meters_2, Meters_3, Meters_4, Meters_5, Dailys_1, Dailys_2, Dailys_3, Dailys_4, Dailys_5, Replaces_1, Replaces_2, Replaces_3, Replaces_4, Replaces_5, Reading_Entered_From, Meter_Deltas_1, Meter_Deltas_2, Meter_Deltas_3, Meter_Deltas_4, Meter_Deltas_5) VALUES ( @EQUIPID, @LNITMSEQ, @SERLNMBR, @ITEMNMBR, @METER1, @METER2, @METER3, @LSTDTEDT, @Daily_Usage, @USERID, @Meters_1, @Meters_2, @Meters_3, @Meters_4, @Meters_5, @Dailys_1, @Dailys_2, @Dailys_3, @Dailys_4, @Dailys_5, @Replaces_1, @Replaces_2, @Replaces_3, @Replaces_4, @Replaces_5, @Reading_Entered_From, @Meter_Deltas_1, @Meter_Deltas_2, @Meter_Deltas_3, @Meter_Deltas_4, @Meter_Deltas_5) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SVC00301SI] TO [DYNGRP]
+GO

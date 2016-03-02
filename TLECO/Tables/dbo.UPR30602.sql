@@ -1,0 +1,48 @@
+CREATE TABLE [dbo].[UPR30602]
+(
+[EMPLOYID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[SEQNUMBR] [int] NOT NULL,
+[EMERGENCYCONTACT] [char] (61) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[EMERGENCYRELATION] [char] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[HOMEPHONE] [char] (21) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[WORKPHONE] [char] (21) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[EXTENSION] [char] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[ADDRESS1] [char] (61) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CITY] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[STATE] [char] (29) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[ZIPCODE] [char] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[UPR30602] ADD CONSTRAINT [PKUPR30602] PRIMARY KEY CLUSTERED  ([EMPLOYID], [SEQNUMBR]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR30602].[EMPLOYID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[UPR30602].[SEQNUMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR30602].[EMERGENCYCONTACT]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR30602].[EMERGENCYRELATION]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR30602].[HOMEPHONE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR30602].[WORKPHONE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR30602].[EXTENSION]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR30602].[ADDRESS1]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR30602].[CITY]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR30602].[STATE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[UPR30602].[ZIPCODE]'
+GO
+GRANT SELECT ON  [dbo].[UPR30602] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[UPR30602] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[UPR30602] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[UPR30602] TO [DYNGRP]
+GO

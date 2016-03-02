@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[taCreateAssetIDPre]  @I_vASSETID char(15) output,    @I_vASSETIDSUF smallint output,   @I_vSHRTNAME char(15) output,   @I_vASSETDESC char(40) output,   @I_vEXTASSETDESC char(40) output,   @I_vMaster_Asset_ID char(19) output,   @I_vSTRUCTUREID char(30) output,   @I_vASSETCLASSID char(15) output,   @I_vLOCATNID char(15) output,   @I_vACQDATE datetime output,   @I_vAcquisition_Cost numeric(19,5) output,   @I_vASSETTYPE smallint output,   @I_vASSETSTATUS smallint output,    @I_vPROPTYPE smallint output,     @I_vASSETQTY int output,    @I_vASSETBEGQTY int output,     @I_vASSETCURRMAINT numeric(19,5) output,   @I_vASSETYTDMAINT numeric(19,5) output,   @I_vASSETLTDMAINT numeric(19,5) output,   @I_vLASTMAINTDATE datetime output,   @I_vASSESSEDVALUE numeric(19,5) output,   @I_vMFGRNAME char(25) output,   @I_vSERLNMBR char(20) output,   @I_vMODELNUMBER char(20) output,   @I_vWARRENTYDATE datetime output,   @I_vCUSTODIAN char(25) output,   @I_vDATEADDED datetime output,   @I_vDELETEDATE datetime output,   @I_vPhysical_Location_ID char(15) output,   @I_vAsset_Label char(19) output,   @I_vVerified_Date datetime output,   @I_vPIN char(15) output,   @I_vACCTGRPID         char(15) output, @I_vUpdateIfExists  tinyint output,    @I_vUSRDEFND1    char(50) output,       @I_vUSRDEFND2   char(50) output,       @I_vUSRDEFND3   char(50) output,       @I_vUSRDEFND4   varchar(8000) output,       @I_vUSRDEFND5 varchar(8000) output,       @O_iErrorState int output,    @oErrString   varchar(255) output    as  set nocount on  select @O_iErrorState = 0  return (@O_iErrorState)   
+GO
+GRANT EXECUTE ON  [dbo].[taCreateAssetIDPre] TO [DYNGRP]
+GO

@@ -1,0 +1,53 @@
+CREATE TABLE [dbo].[SOP10204]
+(
+[SOPNUMBE] [char] (21) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[SOPTYPE] [smallint] NOT NULL,
+[CMPNTSEQ] [int] NOT NULL,
+[LNITMSEQ] [int] NOT NULL,
+[ITEMNMBR] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[PROMOSTS] [smallint] NOT NULL,
+[PROMOTYP] [smallint] NOT NULL,
+[PSITMVAL] [numeric] (19, 5) NOT NULL,
+[FREEITEM] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[FREEUOFM] [char] (9) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[PRMCMSEQ] [int] NOT NULL,
+[PRMLISEQ] [int] NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[SOP10204] ADD CONSTRAINT [PKSOP10204] PRIMARY KEY NONCLUSTERED  ([SOPNUMBE], [SOPTYPE], [CMPNTSEQ], [LNITMSEQ]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK2SOP10204] ON [dbo].[SOP10204] ([PROMOSTS], [ITEMNMBR], [SOPNUMBE], [SOPTYPE], [LNITMSEQ]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SOP10204].[SOPNUMBE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10204].[SOPTYPE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10204].[CMPNTSEQ]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10204].[LNITMSEQ]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SOP10204].[ITEMNMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10204].[PROMOSTS]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10204].[PROMOTYP]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[SOP10204].[PSITMVAL]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SOP10204].[FREEITEM]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SOP10204].[FREEUOFM]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10204].[PRMCMSEQ]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10204].[PRMLISEQ]'
+GO
+GRANT SELECT ON  [dbo].[SOP10204] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[SOP10204] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[SOP10204] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[SOP10204] TO [DYNGRP]
+GO

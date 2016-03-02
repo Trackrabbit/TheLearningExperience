@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_AAG50002F_1] (@aaSubLedgerHdrID_RS int, @aaSubLedgerDistID_RS int, @aaSubLedgerAssignID_RS int, @aaSubLedgerHdrID_RE int, @aaSubLedgerDistID_RE int, @aaSubLedgerAssignID_RE int) AS  set nocount on IF @aaSubLedgerHdrID_RS IS NULL BEGIN SELECT TOP 25  USERID, TRXBTCHSRC, aaSubLedgerHdrID, aaSubLedgerDistID, aaSubLedgerAssignID, SERIES, DEBITAMT, CRDTAMNT, ORDBTAMT, ORCRDAMT, DistRef, DEX_ROW_ID FROM .AAG50002 ORDER BY aaSubLedgerHdrID ASC, aaSubLedgerDistID ASC, aaSubLedgerAssignID ASC END ELSE IF @aaSubLedgerHdrID_RS = @aaSubLedgerHdrID_RE BEGIN SELECT TOP 25  USERID, TRXBTCHSRC, aaSubLedgerHdrID, aaSubLedgerDistID, aaSubLedgerAssignID, SERIES, DEBITAMT, CRDTAMNT, ORDBTAMT, ORCRDAMT, DistRef, DEX_ROW_ID FROM .AAG50002 WHERE aaSubLedgerHdrID = @aaSubLedgerHdrID_RS AND aaSubLedgerDistID BETWEEN @aaSubLedgerDistID_RS AND @aaSubLedgerDistID_RE AND aaSubLedgerAssignID BETWEEN @aaSubLedgerAssignID_RS AND @aaSubLedgerAssignID_RE ORDER BY aaSubLedgerHdrID ASC, aaSubLedgerDistID ASC, aaSubLedgerAssignID ASC END ELSE BEGIN SELECT TOP 25  USERID, TRXBTCHSRC, aaSubLedgerHdrID, aaSubLedgerDistID, aaSubLedgerAssignID, SERIES, DEBITAMT, CRDTAMNT, ORDBTAMT, ORCRDAMT, DistRef, DEX_ROW_ID FROM .AAG50002 WHERE aaSubLedgerHdrID BETWEEN @aaSubLedgerHdrID_RS AND @aaSubLedgerHdrID_RE AND aaSubLedgerDistID BETWEEN @aaSubLedgerDistID_RS AND @aaSubLedgerDistID_RE AND aaSubLedgerAssignID BETWEEN @aaSubLedgerAssignID_RS AND @aaSubLedgerAssignID_RE ORDER BY aaSubLedgerHdrID ASC, aaSubLedgerDistID ASC, aaSubLedgerAssignID ASC END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_AAG50002F_1] TO [DYNGRP]
+GO

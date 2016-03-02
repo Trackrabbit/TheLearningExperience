@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE          procedure [dbo].[aagValidateCodes]  @I_nTrxDimID int = 0,   @I_nTrxDimCodeID int = 0,  @I_nRelTrxDimID int = 0,   @I_nRelTrxDimCodeID int = 0,  @IO_fValidCodeComb tinyint = 0 output as declare  @TrxDimRelType int,   @ParentTrxDimID int,  @TrxDimCodeID int,  @RelTrxDimCodeID int,  @nDataType tinyint,  @nRelDataType tinyint  set @IO_fValidCodeComb = 0  if @I_nTrxDimID = 0 or @I_nTrxDimCodeID = 0 or @I_nRelTrxDimID = 0 or @I_nRelTrxDimCodeID = 0  return if @I_nTrxDimID <> 0 and @I_nRelTrxDimID <> 0  if (select aaDataType from AAG00400 where aaTrxDimID = @I_nTrxDimID) <> 1   begin  select @IO_fValidCodeComb = 1  return  end  if (select aaDataType from AAG00400 where aaTrxDimID = @I_nRelTrxDimID) <> 1  begin  select @IO_fValidCodeComb = 1  return  end  begin  select @TrxDimRelType = aaTrxDimRelType from AAG00405   where aaTrxDimID = @I_nTrxDimID and aaRelTrxDimID = @I_nRelTrxDimID   if @TrxDimRelType = 1   begin  select @IO_fValidCodeComb = 1  return  end  else  if @TrxDimRelType = 2   begin  select @IO_fValidCodeComb = 0  return  end  if (@TrxDimRelType = 3 or @TrxDimRelType = 4 or @TrxDimRelType = 5)  begin  if EXISTS(select aaTrxDimID from AAG00406 where aaTrxDimID = @I_nTrxDimID   and aaTrxDimCodeID = @I_nTrxDimCodeID  and aaRelTrxDimID = @I_nRelTrxDimID   and aaRelTrxDimCodeID = @I_nRelTrxDimCodeID)  select @IO_fValidCodeComb = 1  else  select @IO_fValidCodeComb = 0  return  end  else  begin  select @IO_fValidCodeComb = 1  return  end end    
+GO
+GRANT EXECUTE ON  [dbo].[aagValidateCodes] TO [DYNGRP]
+GO

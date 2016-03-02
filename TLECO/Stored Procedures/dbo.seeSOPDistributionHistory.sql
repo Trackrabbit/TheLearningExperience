@@ -1,0 +1,16 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[seeSOPDistributionHistory]  @SORTBY char(15),       @i_DOCTYPE_RS tinyint = 0,     @i_DOCTYPE_RE tinyint = 0,     @i_DOCNUMBR_RS char(21) = '',    @i_DOCNUMBR_RE char(21) = '',    @i_POSTDATE_RS datetime = '',    @i_POSTDATE_RE datetime = '',    @i_AUDITRL_RS char(13) = '',    @i_AUDITRL_RE char(13) = '',    @i_CUSTNMBR_RS char(15) = '',    @i_CUSTNMBR_RE char(15) = '',    @i_ACCOUNT_RS char(129) = '',    @i_ACCOUNT_RE char(129) = '',    @DETAIL tinyint = 0,      @ACTTYPE tinyint = 0       as  set nocount on  If OBJECT_ID('tempdb..#SOPDOCDIST') is  NULL  Begin  create table #SOPDOCDIST (  SOPNUMBE char(21) not null default '',  SOPTYPE char(15) not null default '',  DOCID char(15) not null default '',  POSTDATE datetime not null default '01/01/1900',  GLPSTDTE datetime not null default '01/01/1900',  CUSTNMBR char(15) not null default '',  TRXSORCE char(13) not null default '',  ACTINDX int not null default 0,  ACTNUMST char(129) not null default '',  ACTDESCR char(51) not null default '',  DEBITAMT numeric(19,5) not null default 0.00,  CREDTAMT numeric(19,5) not null default 0.00,  MY_DEX_ROW int Identity (1,1) )  End   delete #SOPDOCDIST   If @ACTTYPE = 0  Begin  insert into #SOPDOCDIST (SOPNUMBE,SOPTYPE,DOCID,POSTDATE,GLPSTDTE,CUSTNMBR,TRXSORCE,ACTINDX,ACTNUMST,DEBITAMT,CREDTAMT)   select a.SOPNUMBE,a.SOPTYPE,a.DOCID,a.INVODATE,a.GLPOSTDT,a.CUSTNMBR,b.TRXSORCE,b.ACTINDX,c.ACTNUMST,b.DEBITAMT,b.CRDTAMNT  from SOP30200 a, SOP10102 b, GL00105 c  where a.SOPNUMBE = b.SOPNUMBE and  a.SOPTYPE = b.SOPTYPE and  b.ACTINDX = c.ACTINDX and  a.SOPTYPE between @i_DOCTYPE_RS and @i_DOCTYPE_RE and  a.SOPNUMBE between @i_DOCNUMBR_RS and @i_DOCNUMBR_RE and  case when a.SOPTYPE = 4 then a.RETUDATE else a.INVODATE end between @i_POSTDATE_RS and @i_POSTDATE_RE and  b.TRXSORCE between @i_AUDITRL_RS and @i_AUDITRL_RE and  a.CUSTNMBR between @i_CUSTNMBR_RS and @i_CUSTNMBR_RE and  c.ACTNUMST between @i_ACCOUNT_RS and @i_ACCOUNT_RE  End   If @ACTTYPE = 1  Begin  insert into #SOPDOCDIST (SOPNUMBE,SOPTYPE,DOCID,POSTDATE,GLPSTDTE,CUSTNMBR,TRXSORCE,ACTINDX,ACTNUMST,DEBITAMT,CREDTAMT)   select a.SOPNUMBE,a.SOPTYPE,a.DOCID,a.INVODATE,a.GLPOSTDT,a.CUSTNMBR,b.TRXSORCE,b.ACTINDX,c.ACTNUMST,b.DEBITAMT,b.CRDTAMNT  from SOP30200 a, SOP10102 b, GL00105 c  where a.SOPNUMBE = b.SOPNUMBE and  a.SOPTYPE = b.SOPTYPE and  b.ACTINDX = c.ACTINDX and  a.SOPTYPE between @i_DOCTYPE_RS and @i_DOCTYPE_RE and  a.SOPNUMBE between @i_DOCNUMBR_RS and @i_DOCNUMBR_RE and  case when a.SOPTYPE = 4 then a.RETUDATE else a.INVODATE end between @i_POSTDATE_RS and @i_POSTDATE_RE and  b.TRXSORCE between @i_AUDITRL_RS and @i_AUDITRL_RE and  a.CUSTNMBR between @i_CUSTNMBR_RS and @i_CUSTNMBR_RE and  c.ACTNUMST between @i_ACCOUNT_RS and @i_ACCOUNT_RE  End   update a set a.ACTDESCR = b.ACTDESCR  from #SOPDOCDIST a, GL00100 b  where a.ACTINDX = b.ACTINDX  select * from #SOPDOCDIST     
+GO
+GRANT EXECUTE ON  [dbo].[seeSOPDistributionHistory] TO [DYNGRP]
+GO
+GRANT EXECUTE ON  [dbo].[seeSOPDistributionHistory] TO [rpt_accounting manager]
+GO
+GRANT EXECUTE ON  [dbo].[seeSOPDistributionHistory] TO [rpt_bookkeeper]
+GO
+GRANT EXECUTE ON  [dbo].[seeSOPDistributionHistory] TO [rpt_certified accountant]
+GO
+GRANT EXECUTE ON  [dbo].[seeSOPDistributionHistory] TO [rpt_order processor]
+GO

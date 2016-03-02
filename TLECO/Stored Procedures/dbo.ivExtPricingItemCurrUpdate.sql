@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE     PROCEDURE [dbo].[ivExtPricingItemCurrUpdate]  @ItemNo  char(31),  @CurrencyID char(15),  @DecPlaceCurr integer   AS UPDATE IV10402   SET PSITMVAL = ROUND(SWU.PSITMVAL,@DecPlaceCurr - 1)  FROM IV10402 AS SWU   INNER JOIN SOP10110 AS SH  ON SH.PRCSHID = SWU.PRCSHID  WHERE   SH.CURNCYID = @CurrencyID and SWU.ITEMNMBR = @ItemNo    
+GO
+GRANT EXECUTE ON  [dbo].[ivExtPricingItemCurrUpdate] TO [DYNGRP]
+GO

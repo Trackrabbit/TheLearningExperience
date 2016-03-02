@@ -1,0 +1,47 @@
+CREATE TABLE [dbo].[PM10902]
+(
+[VENDORID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[VCHRNMBR] [char] (21) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[BACHNUMB] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[TAXDTLID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[TAXAMNT] [numeric] (19, 5) NOT NULL,
+[ACTINDX] [int] NOT NULL,
+[TRXSORCE] [char] (13) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CURNCYID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CURRNIDX] [smallint] NOT NULL,
+[ORTAXAMT] [numeric] (19, 5) NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[PM10902] ADD CONSTRAINT [PKPM10902] PRIMARY KEY NONCLUSTERED  ([VCHRNMBR], [TAXDTLID], [ACTINDX]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK2PM10902] ON [dbo].[PM10902] ([TRXSORCE], [DEX_ROW_ID]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[PM10902].[VENDORID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[PM10902].[VCHRNMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[PM10902].[BACHNUMB]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[PM10902].[TAXDTLID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[PM10902].[TAXAMNT]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[PM10902].[ACTINDX]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[PM10902].[TRXSORCE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[PM10902].[CURNCYID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[PM10902].[CURRNIDX]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[PM10902].[ORTAXAMT]'
+GO
+GRANT SELECT ON  [dbo].[PM10902] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[PM10902] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[PM10902] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[PM10902] TO [DYNGRP]
+GO

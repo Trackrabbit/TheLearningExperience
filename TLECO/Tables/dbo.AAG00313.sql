@@ -1,0 +1,21 @@
+CREATE TABLE [dbo].[AAG00313]
+(
+[aaMLQueryID] [int] NOT NULL,
+[aaColumn] [smallint] NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[AAG00313] ADD CONSTRAINT [PKAAG00313] PRIMARY KEY CLUSTERED  ([aaMLQueryID], [aaColumn]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[AAG00313].[aaMLQueryID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[AAG00313].[aaColumn]'
+GO
+GRANT SELECT ON  [dbo].[AAG00313] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[AAG00313] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[AAG00313] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[AAG00313] TO [DYNGRP]
+GO

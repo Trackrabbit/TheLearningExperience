@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE        FUNCTION [dbo].[aagIsRootNodeRollDown] ( @aaAmtQty  INTEGER  ) RETURNS INTEGER AS BEGIN DECLARE @aaBudgetTreeID INTEGER , @aaRootCodeSeq INTEGER , @aaTrxDimCodeID INTEGER ,  @USERID  CHAR(15), @WINTYPE INTEGER , @CMPANYID  INTEGER , @aaBudgetID INTEGER , @aaActualPriliminary INTEGER,  @aaTotal NUMERIC(19, 5)  , @aaRootTotal NUMERIC(19, 5), @Result INTEGER  , @aaRootTotalQTY NUMERIC(19, 5)  , @aaTotalQTY NUMERIC(19, 5) SELECT @USERID = SYSTEM_USER, @WINTYPE = 1, @CMPANYID = dbo.aagGetCompanyID() SELECT @aaBudgetID = aaBudgetID ,  @aaActualPriliminary = aaActualPriliminary FROM AAG00906 WHERE USERID = @USERID AND WINTYPE = @WINTYPE AND CMPANYID = @CMPANYID SELECT @aaBudgetTreeID = aaBudgetTreeID FROM AAG00903 WHERE aaBudgetID = @aaBudgetID SELECT @aaRootCodeSeq = aaCodeSequence, @aaTrxDimCodeID = aaTrxDimCodeID FROM AAG00902 WHERE aaLevel = 0 AND aaBudgetTreeID = @aaBudgetTreeID  SELECT @aaTotal = CASE @aaAmtQty WHEN 0 THEN SUM(Balance) WHEN 1 THEN SUM(QUANTITY) END FROM  AAG00904  WHERE aaBudgetID = @aaBudgetID AND aaCodeSequence IN (SELECT aaCodeSequence FROM AAG00902 WHERE aaLevel = 1 AND aaBudgetTreeID = @aaBudgetTreeID) AND aaActualPriliminary = @aaActualPriliminary  SELECT @aaRootTotal = CASE @aaAmtQty WHEN 0 THEN SUM(Balance) WHEN 1 THEN SUM(QUANTITY) END FROM AAG00904 WHERE aaBudgetID = @aaBudgetID AND aaCodeSequence  = @aaRootCodeSeq AND aaActualPriliminary = @aaActualPriliminary  IF ROUND(@aaTotal, 2, 1) = ROUND(@aaRootTotal, 2, 1) BEGIN SET @Result = 1 END ELSE BEGIN SET @Result = 0 END RETURN  @Result END    
+GO
+GRANT EXECUTE ON  [dbo].[aagIsRootNodeRollDown] TO [DYNGRP]
+GO

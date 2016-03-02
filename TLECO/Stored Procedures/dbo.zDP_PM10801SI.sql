@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_PM10801SI] (@PMNTNMBR char(21), @SEQNUMBR int, @DSTSQNUM int, @DiscTknTot numeric(19,5), @NetCkAmt numeric(19,5), @PdTot numeric(19,5), @NegTot numeric(19,5), @CrdDocAmt numeric(19,5), @TotDocAmt numeric(19,5), @WrOffTot numeric(19,5), @CrdtDesc char(31), @TRXDSCRN char(31), @PrtOnStb tinyint, @APTVCHNM char(21), @DOCNUMBR char(21), @DOCDATE datetime, @AMNTPAID numeric(19,5), @CRDTAMNT numeric(19,5), @DocDueDate datetime, @DOCAMNT numeric(19,5), @DISCDATE datetime, @DISTKNAM numeric(19,5), @WROFAMNT numeric(19,5), @PPSAMDED numeric(19,5), @GSTDSAMT numeric(19,5), @APFVCHNM char(21), @APFRDCTY smallint, @APTODCTY smallint, @CURNCYID char(15), @Outstanding_Amount numeric(19,5), @Net_Paid_Amount numeric(19,5), @VCHRNMBR char(21), @PONUMBER char(17), @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .PM10801 (PMNTNMBR, SEQNUMBR, DSTSQNUM, DiscTknTot, NetCkAmt, PdTot, NegTot, CrdDocAmt, TotDocAmt, WrOffTot, CrdtDesc, TRXDSCRN, PrtOnStb, APTVCHNM, DOCNUMBR, DOCDATE, AMNTPAID, CRDTAMNT, DocDueDate, DOCAMNT, DISCDATE, DISTKNAM, WROFAMNT, PPSAMDED, GSTDSAMT, APFVCHNM, APFRDCTY, APTODCTY, CURNCYID, Outstanding_Amount, Net_Paid_Amount, VCHRNMBR, PONUMBER) VALUES ( @PMNTNMBR, @SEQNUMBR, @DSTSQNUM, @DiscTknTot, @NetCkAmt, @PdTot, @NegTot, @CrdDocAmt, @TotDocAmt, @WrOffTot, @CrdtDesc, @TRXDSCRN, @PrtOnStb, @APTVCHNM, @DOCNUMBR, @DOCDATE, @AMNTPAID, @CRDTAMNT, @DocDueDate, @DOCAMNT, @DISCDATE, @DISTKNAM, @WROFAMNT, @PPSAMDED, @GSTDSAMT, @APFVCHNM, @APFRDCTY, @APTODCTY, @CURNCYID, @Outstanding_Amount, @Net_Paid_Amount, @VCHRNMBR, @PONUMBER) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_PM10801SI] TO [DYNGRP]
+GO

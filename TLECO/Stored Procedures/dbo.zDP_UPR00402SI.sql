@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_UPR00402SI] (@EMPLOYID char(15), @PAYRCORD char(7), @Effective_Date datetime, @PAYRTAMT numeric(19,5), @CHANGEREASON_I char(31), @PayStepStatus smallint, @PYSTPTBLID char(15), @Step smallint, @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .UPR00402 (EMPLOYID, PAYRCORD, Effective_Date, PAYRTAMT, CHANGEREASON_I, PayStepStatus, PYSTPTBLID, Step) VALUES ( @EMPLOYID, @PAYRCORD, @Effective_Date, @PAYRTAMT, @CHANGEREASON_I, @PayStepStatus, @PYSTPTBLID, @Step) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_UPR00402SI] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[aagUpdTreeStructure]  @iUserID char(15) = null,  @iTreeID int = null,  @oStatus smallint = null out as declare @transaction tinyint,  @retCode int,  @dbName varchar(32),  @companyID smallint,  @companyStatus smallint  select  @transaction = 0,  @retCode = 0,  @dbName = '',  @companyID = 0,  @companyStatus = 0,  @oStatus = 0  if (@iUserID is null) or (@iTreeID is null) begin select @oStatus = 36000 return end  if (@iUserID = '') begin select @oStatus = 36001 return end if (@iTreeID = 0)  begin select @oStatus = 36002 return end  select @dbName = db_name() exec @retCode = DYNAMICS.dbo.aagGetCompanyStatus @dbName, @companyID out, @companyStatus out, @oStatus out if ((@retCode <> 0) or (@oStatus <> 0)) return @retCode  if not exists(select aaTreeID from AAG00600 where aaTreeID = @iTreeID) return 0  if not exists(select top 1 USERID from AAG00603 where USERID = @iUserID) return 0  if (@@trancount = 0) begin select @transaction = 1 begin transaction end  delete from AAG00601 where aaTreeID = @iTreeID  insert AAG00601(aaTreeID, aaNodeID, aaNode, aaLevel, aaParentNodeID, aaOrder, NOTEINDX)  select @iTreeID, aaNodeID, aaNode, aaLevel, aaParentNodeID, aaOrder, NOTEINDX  from   AAG00603  where  USERID = @iUserID  and  Status <> 3   update AAG00602 set    aaNodeID = 1 where  aaTreeID = @iTreeID and not exists(  select AAG00601.aaTreeID from AAG00601 where AAG00601.aaTreeID = AAG00602.aaTreeID  and AAG00601.aaNodeID = AAG00602.aaNodeID) if (@transaction = 1) commit transaction return 0    
+GO
+GRANT EXECUTE ON  [dbo].[aagUpdTreeStructure] TO [DYNGRP]
+GO

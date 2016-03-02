@@ -1,0 +1,269 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+-- RMA Line view joining SVC05020 and SVC35020 
+ 
+CREATE VIEW [dbo].[ReqRmaLine] AS 
+SELECT 
+	RETDOCID 
+	,CAST(LNSEQNBR AS int) as LNSEQNBR 
+	,RETTYPE 
+	,RMA_Status 
+	,RETSTAT 
+	,Received 
+	,Traveler_Printed 
+	,SVC_Ready_To_Close 
+	,SVC_RMA_Reason_Code 
+	,SVC_RMA_Reason_Code_Desc 
+	,[SY03900].TXTFIELD 
+	,RETREF 
+	,SRVRECTYPE 
+	,CALLNBR 
+	,EQPLINE 
+	,LNITMSEQ 
+	,SVC_RMA_From_Service 
+	,SOPNUMBE 
+	,CMPNTSEQ 
+	,SOP_Line_Item_Sequence 
+	,ENTDTE 
+	,ENTTME 
+	,ETADTE 
+	,ETATME 
+	,Commit_Date 
+	,Commit_Time 
+	,RETUDATE 
+	,Return_Time 
+	,COMPDTE 
+	,COMPTME 
+	,PRMDATE 
+	,REFRENCE 
+	,USERID 
+	,OFFID 
+	,LOCNCODE 
+	,RTRNNAME 
+	,RETADDR1 
+	,RETADDR2 
+	,RETADDR3 
+	,RTRNCITY 
+	,SVC_Return_State 
+	,RTRNZIP 
+	,Return_Country 
+	,CUSTNAME 
+	,ADRSCODE 
+	,CONTACT 
+	,ADDRESS1 
+	,ADDRESS2 
+	,ADDRESS3 
+	,CITY 
+	,STATE 
+	,ZIPCODE 
+	,COUNTRY 
+	,CSTPONBR 
+	,QUANTITY 
+	,DECPLQTY 
+	,UOFM 
+	,ITEMNMBR 
+	,ITEMDESC 
+	,UNITCOST 
+	,ORUNTCST 
+	,EXTDCOST 
+	,OREXTCST 
+	,UNITPRCE 
+	,ORUNTPRC 
+	,XTNDPRCE 
+	,OXTNDPRC 
+	,CUSTOWN 
+	,FACTSEAL 
+	,ORDDOCID 
+	,CAST(TRANSLINESEQ AS int) as TRANSLINESEQ 
+	,STATUS 
+	,Flat_Rate_Repair_Price 
+	,Orig_Flat_RepairPrice 
+	,Repair_Price 
+	,Originating_Repair_Price 
+	,NTE_Price 
+	,Originating_NTE_Price 
+	,Repair_Cost 
+	,Originating_Repair_Cost 
+	,Bill_of_Lading 
+	,SHIPMTHD 
+	,Credit_SOP_Type 
+	,Credit_SOP_Number 
+	,Credit_SOP_Line_Item_Seq 
+	,Replace_SOP_Type 
+	,Replace_SOP_Number 
+	,Replace_SOP_Line_Item_Se 
+	,Location_Code_Replacemen 
+	,Replace_Item_Number 
+	,Replace_U_Of_M 
+	,Replace_Price_Level 
+	,Replace_QTY 
+	,Replace_Cost 
+	,Originating_Replace_Cost 
+	,Replace_Price 
+	,Originating_Replace_Pric 
+	,SOP_Number_Invoice 
+	,Item_Number_Invoice 
+	,USERDEF1 
+	,USERDEF2 
+	,USRDEF03 
+	,USRDEF04 
+	,USRDEF05 
+	,Return_Item_Number 
+	,Return_Item_Description 
+	,Return_Location_Code 
+	,Return_QTY 
+	,Return_U_Of_M 
+	,RETCOST 
+	,Originating_Return_Cost 
+	,SVC_Extended_Return_Cost 
+	,SVC_Orig_Ext_Return_Cost 
+	,SVC_Return_Price_Level 
+	,SVC_Return_Price 
+	,Originating_Return_Price 
+	,SVC_Extended_Return_Pric 
+	,SVC_Orig_Ext_Return_Pric 
+	,SVC_FO_ID 
+	,SVC_SCM_Complete 
+FROM 
+	[SVC05200] 
+	left outer join SY03900 on ([SVC05200].NOTEINDX = [SY03900].NOTEINDX) 
+ 
+UNION ALL 
+ 
+SELECT 
+	RETDOCID 
+	,CAST(LNSEQNBR AS int) as LNSEQNBR 
+	,RETTYPE 
+	,RMA_Status 
+	,RETSTAT 
+	,Received 
+	,Traveler_Printed 
+	,SVC_Ready_To_Close 
+	,SVC_RMA_Reason_Code 
+	,SVC_RMA_Reason_Code_Desc 
+	,[SY03900].TXTFIELD 
+	,RETREF 
+	,SRVRECTYPE 
+	,CALLNBR 
+	,EQPLINE 
+	,LNITMSEQ 
+	,SVC_RMA_From_Service 
+	,SOPNUMBE 
+	,CMPNTSEQ 
+	,SOP_Line_Item_Sequence 
+	,ENTDTE 
+	,ENTTME 
+	,ETADTE 
+	,ETATME 
+	,Commit_Date 
+	,Commit_Time 
+	,RETUDATE 
+	,Return_Time 
+	,COMPDTE 
+	,COMPTME 
+	,PRMDATE 
+	,REFRENCE 
+	,USERID 
+	,OFFID 
+	,LOCNCODE 
+	,RTRNNAME 
+	,RETADDR1 
+	,RETADDR2 
+	,RETADDR3 
+	,RTRNCITY 
+	,SVC_Return_State 
+	,RTRNZIP 
+	,Return_Country 
+	,CUSTNAME 
+	,ADRSCODE 
+	,CONTACT 
+	,ADDRESS1 
+	,ADDRESS2 
+	,ADDRESS3 
+	,CITY 
+	,STATE 
+	,ZIPCODE 
+	,COUNTRY 
+	,CSTPONBR 
+	,QUANTITY 
+	,DECPLQTY 
+	,UOFM 
+	,ITEMNMBR 
+	,ITEMDESC 
+	,UNITCOST 
+	,ORUNTCST 
+	,EXTDCOST 
+	,OREXTCST 
+	,UNITPRCE 
+	,ORUNTPRC 
+	,XTNDPRCE 
+	,OXTNDPRC 
+	,CUSTOWN 
+	,FACTSEAL 
+	,ORDDOCID 
+	,CAST(TRANSLINESEQ AS int) as TRANSLINESEQ 
+	,STATUS 
+	,Flat_Rate_Repair_Price 
+	,Orig_Flat_RepairPrice 
+	,Repair_Price 
+	,Originating_Repair_Price 
+	,NTE_Price 
+	,Originating_NTE_Price 
+	,Repair_Cost 
+	,Originating_Repair_Cost 
+	,Bill_of_Lading 
+	,SHIPMTHD 
+	,Credit_SOP_Type 
+	,Credit_SOP_Number 
+	,Credit_SOP_Line_Item_Seq 
+	,Replace_SOP_Type 
+	,Replace_SOP_Number 
+	,Replace_SOP_Line_Item_Se 
+	,Location_Code_Replacemen 
+	,Replace_Item_Number 
+	,Replace_U_Of_M 
+	,Replace_Price_Level 
+	,Replace_QTY 
+	,Replace_Cost 
+	,Originating_Replace_Cost 
+	,Replace_Price 
+	,Originating_Replace_Pric 
+	,SOP_Number_Invoice 
+	,Item_Number_Invoice 
+	,USERDEF1 
+	,USERDEF2 
+	,USRDEF03 
+	,USRDEF04 
+	,USRDEF05 
+	,Return_Item_Number 
+	,Return_Item_Description 
+	,Return_Location_Code 
+	,Return_QTY 
+	,Return_U_Of_M 
+	,RETCOST 
+	,Originating_Return_Cost 
+	,SVC_Extended_Return_Cost 
+	,SVC_Orig_Ext_Return_Cost 
+	,SVC_Return_Price_Level 
+	,SVC_Return_Price 
+	,Originating_Return_Price 
+	,SVC_Extended_Return_Pric 
+	,SVC_Orig_Ext_Return_Pric 
+	,SVC_FO_ID 
+	,SVC_SCM_Complete 
+FROM 
+	[SVC35200] 
+	left outer join SY03900 on ([SVC35200].NOTEINDX = [SY03900].NOTEINDX) 
+  
+ 
+GO
+GRANT SELECT ON  [dbo].[ReqRmaLine] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[ReqRmaLine] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[ReqRmaLine] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[ReqRmaLine] TO [DYNGRP]
+GO

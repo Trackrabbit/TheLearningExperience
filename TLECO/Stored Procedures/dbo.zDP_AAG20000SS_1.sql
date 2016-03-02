@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_AAG20000SS_1] (@aaSubLedgerHdrID int) AS  set nocount on SELECT TOP 1  aaSubLedgerHdrID, SERIES, DOCTYPE, DOCNUMBR, Master_ID, PYRNTYPE, aaHdrErrors, DEX_ROW_ID FROM .AAG20000 WHERE aaSubLedgerHdrID = @aaSubLedgerHdrID ORDER BY aaSubLedgerHdrID ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_AAG20000SS_1] TO [DYNGRP]
+GO

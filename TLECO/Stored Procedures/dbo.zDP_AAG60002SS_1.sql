@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_AAG60002SS_1] (@aaGLWorkHdrID int, @aaGLWorkDistID int, @aaGLWorkAssignID int) AS  set nocount on SELECT TOP 1  USERID, TRXBTCHSRC, aaGLWorkHdrID, aaGLWorkDistID, aaGLWorkAssignID, DEBITAMT, SERIES, CRDTAMNT, ORDBTAMT, ORCRDAMT, DistRef, DEX_ROW_ID FROM .AAG60002 WHERE aaGLWorkHdrID = @aaGLWorkHdrID AND aaGLWorkDistID = @aaGLWorkDistID AND aaGLWorkAssignID = @aaGLWorkAssignID ORDER BY aaGLWorkHdrID ASC, aaGLWorkDistID ASC, aaGLWorkAssignID ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_AAG60002SS_1] TO [DYNGRP]
+GO

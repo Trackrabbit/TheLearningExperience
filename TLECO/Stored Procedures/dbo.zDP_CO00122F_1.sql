@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_CO00122F_1] (@FieldsListGuid_RS char(37), @Group_ID_RS int, @SEQNUMBR_RS int, @FieldsListGuid_RE char(37), @Group_ID_RE int, @SEQNUMBR_RE int) AS  set nocount on IF @FieldsListGuid_RS IS NULL BEGIN SELECT TOP 25  FieldsListGuid, Group_ID, SEQNUMBR, FromDictID, FromTable, FromTablePhysicalName, FromField, FromFieldPhysicalName, ToDictID, ToTable, ToTablePhysicalName, ToField, ToFieldPhysicalName, JoinType, DEX_ROW_ID FROM .CO00122 ORDER BY FieldsListGuid ASC, Group_ID ASC, SEQNUMBR ASC END ELSE IF @FieldsListGuid_RS = @FieldsListGuid_RE BEGIN SELECT TOP 25  FieldsListGuid, Group_ID, SEQNUMBR, FromDictID, FromTable, FromTablePhysicalName, FromField, FromFieldPhysicalName, ToDictID, ToTable, ToTablePhysicalName, ToField, ToFieldPhysicalName, JoinType, DEX_ROW_ID FROM .CO00122 WHERE FieldsListGuid = @FieldsListGuid_RS AND Group_ID BETWEEN @Group_ID_RS AND @Group_ID_RE AND SEQNUMBR BETWEEN @SEQNUMBR_RS AND @SEQNUMBR_RE ORDER BY FieldsListGuid ASC, Group_ID ASC, SEQNUMBR ASC END ELSE BEGIN SELECT TOP 25  FieldsListGuid, Group_ID, SEQNUMBR, FromDictID, FromTable, FromTablePhysicalName, FromField, FromFieldPhysicalName, ToDictID, ToTable, ToTablePhysicalName, ToField, ToFieldPhysicalName, JoinType, DEX_ROW_ID FROM .CO00122 WHERE FieldsListGuid BETWEEN @FieldsListGuid_RS AND @FieldsListGuid_RE AND Group_ID BETWEEN @Group_ID_RS AND @Group_ID_RE AND SEQNUMBR BETWEEN @SEQNUMBR_RS AND @SEQNUMBR_RE ORDER BY FieldsListGuid ASC, Group_ID ASC, SEQNUMBR ASC END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_CO00122F_1] TO [DYNGRP]
+GO

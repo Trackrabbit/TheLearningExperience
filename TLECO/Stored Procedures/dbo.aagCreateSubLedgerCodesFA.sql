@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROCEDURE [dbo].[aagCreateSubLedgerCodesFA] @aaSubLedgerHdrID INT, @aaSubLedgerDistID INT, @aaSubLedgerAssignID INT, @AcctClassID INT, @aaFASetupID INT=0, @ListID SMALLINT=0 AS BEGIN  DECLARE @SERIES SMALLINT,@Cnt INT  SELECT  @SERIES  = 0,@Cnt  = 0  IF @AcctClassID = 0 Return 0  SELECT @SERIES = SERIES from AAG20000 where aaSubLedgerHdrID = @aaSubLedgerHdrID  IF @SERIES=2  BEGIN  SELECT @Cnt = count(*) from AAG20003 where aaSubLedgerHdrID = @aaSubLedgerHdrID   AND aaSubLedgerDistID = @aaSubLedgerDistID AND aaSubLedgerAssignID = @aaSubLedgerAssignID  END   IF @Cnt=0  BEGIN   IF @aaFASetupID=0   BEGIN  INSERT INTO AAG20003 (aaSubLedgerHdrID, aaSubLedgerDistID, aaSubLedgerAssignID,aaTrxDimID, aaTrxCodeID, aaCodeErrors)   SELECT @aaSubLedgerHdrID, @aaSubLedgerDistID, @aaSubLedgerAssignID, aaTrxDimID, aaTrxDimCodeIDDflt, 0  FROM AAG00202 WHERE aaAcctClassID = @AcctClassID AND aaTrxDimID >=0   AND aaTrxDimID NOT IN (SELECT l.aaTrxDimID FROM AAG20003 l WHERE l.aaSubLedgerHdrID = @aaSubLedgerHdrID AND   l.aaSubLedgerDistID = @aaSubLedgerDistID AND l.aaSubLedgerAssignID = @aaSubLedgerAssignID)  END  ELSE  BEGIN  INSERT INTO AAG20003 (aaSubLedgerHdrID, aaSubLedgerDistID, aaSubLedgerAssignID,aaTrxDimID, aaTrxCodeID, aaCodeErrors)   SELECT @aaSubLedgerHdrID, @aaSubLedgerDistID, @aaSubLedgerAssignID, aaTrxDimID,aaTrxDimCodeID, 0  FROM AAG04001 WHERE aaFASetupID=@aaFASetupID and ListID=@ListID   AND aaTrxDimID NOT IN (SELECT l.aaTrxDimID FROM AAG20003 l WHERE l.aaSubLedgerHdrID = @aaSubLedgerHdrID AND   l.aaSubLedgerDistID = @aaSubLedgerDistID AND l.aaSubLedgerAssignID = @aaSubLedgerAssignID)  END  END END    
+GO
+GRANT EXECUTE ON  [dbo].[aagCreateSubLedgerCodesFA] TO [DYNGRP]
+GO

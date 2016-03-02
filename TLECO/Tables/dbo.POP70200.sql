@@ -1,0 +1,27 @@
+CREATE TABLE [dbo].[POP70200]
+(
+[ORD] [int] NOT NULL,
+[STRNG132] [char] (133) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[USERID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[Process_ID] [smallint] NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[POP70200] ADD CONSTRAINT [PKPOP70200] PRIMARY KEY NONCLUSTERED  ([USERID], [Process_ID], [ORD]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[POP70200].[ORD]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[POP70200].[STRNG132]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[POP70200].[USERID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[POP70200].[Process_ID]'
+GO
+GRANT SELECT ON  [dbo].[POP70200] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[POP70200] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[POP70200] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[POP70200] TO [DYNGRP]
+GO

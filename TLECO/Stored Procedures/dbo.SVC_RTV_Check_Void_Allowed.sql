@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[SVC_RTV_Check_Void_Allowed]  (  @RTV char(15),  @VoidStatus smallint output ) As declare @Transfer char(15) declare @Voucher char(17)  select @VoidStatus  = 0   if exists(select * from SVC05601 where RTV_Number = @RTV and RTV_Status > 2 and RTV_Status < 6 and CUSTOWN = 0)  select @VoidStatus  = 1 else if exists(select * from SVC05601 where RTV_Number = @RTV and RTV_Status = 2 and Transfer_Reference > '' )  begin  declare xfer_cursor cursor for select Transfer_Reference from SVC05601 where RTV_Number = @RTV and RTV_Status = 2  open xfer_cursor  fetch next from xfer_cursor into @Transfer  while @@FETCH_STATUS = 0 and @VoidStatus = 0  begin   if exists(select * from SVC00701 where ORDDOCID = @Transfer and ((STATUS< 6 and STATUS > 1) or RTV_Number = ''))  select @VoidStatus  = 2   fetch next from xfer_cursor into @Transfer  end  deallocate xfer_cursor  end else if exists(select * from SVC05601 where RTV_Number = @RTV and RTV_Status < 3 and POPRCTNM > '' )  select @VoidStatus  = 3 else if exists(select * from SVC05601 where RTV_Number = @RTV and CUSTOWN = 1 and VCHNUMWK > '' and RTV_Status < 6)  begin  declare Voucher_cursor cursor for select VCHNUMWK from SVC05601 where RTV_Number = @RTV and RTV_Status < 6 and CUSTOWN = 1  open Voucher_cursor  fetch next from Voucher_cursor into @Voucher  while @@FETCH_STATUS = 0 and @VoidStatus = 0  begin   if exists(select * from PM00400 where CNTRLNUM = @Voucher)  select @VoidStatus  = 4   fetch next from Voucher_cursor into @Voucher  end  deallocate Voucher_cursor  end  return     
+GO
+GRANT EXECUTE ON  [dbo].[SVC_RTV_Check_Void_Allowed] TO [DYNGRP]
+GO

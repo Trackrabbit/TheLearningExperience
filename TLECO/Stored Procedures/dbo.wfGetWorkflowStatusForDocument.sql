@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[wfGetWorkflowStatusForDocument]  @WorkflowInstanceID char(37),  @WorkflowStatus smallint OUTPUT,  @Workflow_Error int OUTPUT AS  BEGIN   declare @Workflow_Step_Name char(51), @Workflow_Name char(51), @Workflow_Type_Name char(51)  declare @Workflow_Business_Object_Key char(201)  declare @Workflow_Where_Clause varchar(4000)  declare @Primary_Table varchar(50)  declare @SqlText1 nvarchar(500), @Params nvarchar(500)  declare @main_table char(50)  select @WorkflowInstanceID=UPPER(@WorkflowInstanceID)  select @Primary_Table=TBLPHYSNM, @Workflow_Type_Name=Workflow_Type_Name,@Workflow_Business_Object_Key=WfBusObjKey  from WFI10002 where WorkflowInstanceID=@WorkflowInstanceID   exec wfGenerateDocumentWhereClause @Workflow_Business_Object_Key,@Workflow_Type_Name,0,  1,1,@main_table OUTPUT,@Workflow_Where_Clause OUTPUT   select @SqlText1='', @Params=''  select @SqlText1=@SqlText1+'select @workflow_status=Workflow_Status '+@Workflow_Where_Clause   select @Params = '@workflow_status smallint OUTPUT'  exec sp_executesql @SqlText1,@Params,@workflow_status=@WorkflowStatus OUTPUT  if @WorkflowStatus=0   begin  exec wfGenerateDocumentWhereClause @Workflow_Business_Object_Key,@Workflow_Type_Name,1,  1,1,@main_table OUTPUT,@Workflow_Where_Clause OUTPUT   select @SqlText1='', @Params=''  select @SqlText1=@SqlText1+'select @workflow_status=Workflow_Status '+@Workflow_Where_Clause  select @Params = '@workflow_status smallint OUTPUT'  exec sp_executesql @SqlText1,@Params,@workflow_status=@WorkflowStatus OUTPUT  end END   
+GO
+GRANT EXECUTE ON  [dbo].[wfGetWorkflowStatusForDocument] TO [DYNGRP]
+GO

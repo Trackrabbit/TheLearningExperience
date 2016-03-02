@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE procedure [dbo].[SVC_EVGR_Check_PendingCancel]  @CONSTS                 smallint,  @CONTNBR                char(11),  @LNSEQNBR               numeric(19,5),  @Address         char(15),  @BillingStatus           smallint output AS  select @BillingStatus = 2  if @Address > '' and @LNSEQNBR > 0  begin  if exists(select * from SVC00603 left join SVC00601 on SVC00603.CONSTS = SVC00601.CONSTS and SVC00601.CONTNBR =  SVC00603.CONTNBR and SVC00601.LNSEQNBR = SVC00603.LNSEQNBR  where SVC00603.CONSTS = @CONSTS and SVC00603.CONTNBR = @CONTNBR and SVC00601.ADRSCODE = @Address and POSTED = 0)  select @BillingStatus = 4  else if exists(select * from SVC00604 left join SVC00601 on SVC00604.CONSTS = SVC00601.CONSTS and SVC00601.CONTNBR =  SVC00604.CONTNBR and SVC00601.LNSEQNBR = SVC00604.LNSEQNBR  where SVC00604.CONSTS = @CONSTS and SVC00604.CONTNBR = @CONTNBR and SVC00601.ADRSCODE = @Address and Status = 0)  select @BillingStatus = 4  end  else if @LNSEQNBR > 0  begin  if exists(select * from SVC00603 where CONSTS = @CONSTS and CONTNBR = @CONTNBR and LNSEQNBR = @LNSEQNBR and POSTED = 0)  select @BillingStatus = 4  if exists(select * from SVC00604 where CONSTS = @CONSTS and CONTNBR = @CONTNBR and LNSEQNBR = @LNSEQNBR and Status = 0)  select @BillingStatus = 4  end else  begin  if exists(select * from SVC00603 where CONSTS = @CONSTS and CONTNBR = @CONTNBR and POSTED = 0)  select @BillingStatus = 4  if exists(select * from SVC00604 where CONSTS = @CONSTS and CONTNBR = @CONTNBR and Status = 0)  select @BillingStatus = 4  end  return    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_EVGR_Check_PendingCancel] TO [DYNGRP]
+GO

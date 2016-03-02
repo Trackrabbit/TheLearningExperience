@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_CPO10110SI] (@PONUMBER char(17), @ORD int, @ACTINDX int, @REQDATE datetime, @VENDORID char(15), @APPROVL tinyint, @Committed_Amount numeric(19,5), @POLNESTA smallint, @QTYCANCE numeric(19,5), @UNITCOST numeric(19,5), @PostedSubtotal numeric(19,5), @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .CPO10110 (PONUMBER, ORD, ACTINDX, REQDATE, VENDORID, APPROVL, Committed_Amount, POLNESTA, QTYCANCE, UNITCOST, PostedSubtotal) VALUES ( @PONUMBER, @ORD, @ACTINDX, @REQDATE, @VENDORID, @APPROVL, @Committed_Amount, @POLNESTA, @QTYCANCE, @UNITCOST, @PostedSubtotal) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_CPO10110SI] TO [DYNGRP]
+GO

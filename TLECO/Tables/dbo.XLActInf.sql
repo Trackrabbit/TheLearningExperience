@@ -1,0 +1,21 @@
+CREATE TABLE [dbo].[XLActInf]
+(
+[FILEIDX] [int] NOT NULL,
+[ACTINDX] [int] NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[XLActInf] ADD CONSTRAINT [PKXLActInf] PRIMARY KEY NONCLUSTERED  ([FILEIDX], [ACTINDX]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[XLActInf].[FILEIDX]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[XLActInf].[ACTINDX]'
+GO
+GRANT SELECT ON  [dbo].[XLActInf] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[XLActInf] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[XLActInf] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[XLActInf] TO [DYNGRP]
+GO

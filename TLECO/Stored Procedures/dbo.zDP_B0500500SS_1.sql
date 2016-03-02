@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B0500500SS_1] (@BSSI_InvestCategoryID char(25)) AS /* 12.00.0270.000 */ set nocount on SELECT TOP 1  BSSI_InvestCategoryID, BSSI_Description, NOTEINDX, DEX_ROW_ID FROM .B0500500 WHERE BSSI_InvestCategoryID = @BSSI_InvestCategoryID ORDER BY BSSI_InvestCategoryID ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B0500500SS_1] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B4600999SS_1] (@BSSI_SSRS_Type char(25), @Series_Name char(31), @BSSI_SSRS_Name char(101)) AS /* 12.00.0270.000 */ set nocount on SELECT TOP 1  BSSI_SSRS_Type, Series_Name, BSSI_SSRS_Name, BSSI_SSRS_Version, CMPNYNAM, BSSI_SSRS_DeploymentDate, DEX_ROW_ID, BSSI_SSRS_DeploymentLoc FROM .B4600999 WHERE BSSI_SSRS_Type = @BSSI_SSRS_Type AND Series_Name = @Series_Name AND BSSI_SSRS_Name = @BSSI_SSRS_Name ORDER BY BSSI_SSRS_Type ASC, Series_Name ASC, BSSI_SSRS_Name ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B4600999SS_1] TO [DYNGRP]
+GO

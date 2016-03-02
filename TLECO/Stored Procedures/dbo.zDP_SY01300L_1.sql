@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_SY01300L_1] (@Language_ID_RS smallint, @PRODID_RS smallint, @Process_ID_RS smallint, @Language_ID_RE smallint, @PRODID_RE smallint, @Process_ID_RE smallint) AS  set nocount on IF @Language_ID_RS IS NULL BEGIN SELECT TOP 25  Process_ID, PRODID, Language_ID, DPSERIES, Load_Factor, Service_Name, Priority, Queue_Time, Queue_Date, Recurrance_Interval, Script_Name, Deletable, Deletable_When_Running, REMOTE, Begin_Group_Process_Name, TRKPSATV, ServerNotifyScriptName, DEX_ROW_ID FROM .SY01300 ORDER BY Language_ID DESC, PRODID DESC, Process_ID DESC END ELSE IF @Language_ID_RS = @Language_ID_RE BEGIN SELECT TOP 25  Process_ID, PRODID, Language_ID, DPSERIES, Load_Factor, Service_Name, Priority, Queue_Time, Queue_Date, Recurrance_Interval, Script_Name, Deletable, Deletable_When_Running, REMOTE, Begin_Group_Process_Name, TRKPSATV, ServerNotifyScriptName, DEX_ROW_ID FROM .SY01300 WHERE Language_ID = @Language_ID_RS AND PRODID BETWEEN @PRODID_RS AND @PRODID_RE AND Process_ID BETWEEN @Process_ID_RS AND @Process_ID_RE ORDER BY Language_ID DESC, PRODID DESC, Process_ID DESC END ELSE BEGIN SELECT TOP 25  Process_ID, PRODID, Language_ID, DPSERIES, Load_Factor, Service_Name, Priority, Queue_Time, Queue_Date, Recurrance_Interval, Script_Name, Deletable, Deletable_When_Running, REMOTE, Begin_Group_Process_Name, TRKPSATV, ServerNotifyScriptName, DEX_ROW_ID FROM .SY01300 WHERE Language_ID BETWEEN @Language_ID_RS AND @Language_ID_RE AND PRODID BETWEEN @PRODID_RS AND @PRODID_RE AND Process_ID BETWEEN @Process_ID_RS AND @Process_ID_RE ORDER BY Language_ID DESC, PRODID DESC, Process_ID DESC END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SY01300L_1] TO [DYNGRP]
+GO

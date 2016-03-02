@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE Procedure [dbo].[SVC_Fit_Item]   ( @StationID varchar(11),  @CheckDateTime datetime,  @TimeToFit Integer,  @Ahhugah integer,  @FitDateTime datetime output,  @FitEndDateTime datetime output) As declare @cTemp char(50) declare @FirstPass integer declare @TrialDateTime datetime declare @LastCheckTime datetime declare @GoodSlot tinyint declare Sched_cursor CURSOR for   select EndDateTime = CONVERT(varchar(10),SVC06300.ECOMPDT,102) + ' ' +   CONVERT(varchar(10),SVC06300.EComp_Time,108)   from SVC06300   where SVC06300.STATIONID = @StationID and  CONVERT(varchar(10),SVC06300.ECOMPDT,102) + ' ' +   CONVERT(varchar(10),SVC06300.EComp_Time,108) >= @CheckDateTime  order by EndDateTime set nocount on select @FirstPass = 1 OPEN Sched_cursor select @TrialDateTime = @CheckDateTime while @@FETCH_STATUS = 0 or @FirstPass = 1 BEGIN  select @FirstPass = 0  exec SVC_Calc_AvailStartEndTime @StationID,  @TimeToFit,  @TrialDateTime,   @FitDateTime OUTPUT,   @FitEndDateTime OUTPUT   select @LastCheckTime = @TrialDateTime  exec SVC_Is_Schedule_GoodSlot @StationID,  @Ahhugah,  @FitDateTime,   @FitEndDateTime,  @GoodSlot OUTPUT   if @GoodSlot = 1  BEGIN  DEALLOCATE Sched_cursor  return(0)  END  fetch next from Sched_cursor into @cTemp  select @TrialDateTime = @cTemp END DEALLOCATE Sched_cursor  select @TrialDateTime = @LastCheckTime  select @FitDateTime = @LastCheckTime  exec SVC_Calc_AvailStartEndTime @StationID,  @TimeToFit,  @TrialDateTime,   @FitDateTime OUTPUT,   @FitEndDateTime OUTPUT  return (1)    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Fit_Item] TO [DYNGRP]
+GO

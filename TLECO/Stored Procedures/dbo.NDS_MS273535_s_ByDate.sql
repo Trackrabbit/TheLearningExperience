@@ -1,0 +1,15 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+Create PROCEDURE [dbo].[NDS_MS273535_s_ByDate]
+  @date datetime 
+ AS 
+ BEGIN 
+   SELECT * 
+     FROM MS273535
+     WHERE NDS_Date = @date 
+ END 
+GO
+GRANT EXECUTE ON  [dbo].[NDS_MS273535_s_ByDate] TO [DYNGRP]
+GO

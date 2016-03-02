@@ -1,0 +1,23 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+Create View [dbo].[ReqUofM] AS 
+Select	 
+		UOMSCHDL, 
+		UMSCHDSC, 
+		BASEUOFM, 
+		UMDPQTYS, 
+		DEX_ROW_TS, 
+		0 AS IsDeleted 
+From	IV40201 
+ 
+GO
+GRANT SELECT ON  [dbo].[ReqUofM] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[ReqUofM] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[ReqUofM] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[ReqUofM] TO [DYNGRP]
+GO

@@ -1,0 +1,94 @@
+CREATE TABLE [dbo].[IV10200]
+(
+[ITEMNMBR] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[TRXLOCTN] [char] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DATERECD] [datetime] NOT NULL,
+[RCTSEQNM] [int] NOT NULL,
+[RCPTSOLD] [tinyint] NOT NULL,
+[QTYRECVD] [numeric] (19, 5) NOT NULL,
+[QTYSOLD] [numeric] (19, 5) NOT NULL,
+[QTYCOMTD] [numeric] (19, 5) NOT NULL,
+[QTYRESERVED] [numeric] (19, 5) NOT NULL,
+[FLRPLNDT] [datetime] NOT NULL,
+[PCHSRCTY] [smallint] NOT NULL,
+[RCPTNMBR] [char] (21) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[VENDORID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[PORDNMBR] [char] (21) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[UNITCOST] [numeric] (19, 5) NOT NULL,
+[QTYTYPE] [smallint] NOT NULL,
+[Landed_Cost] [tinyint] NOT NULL,
+[NEGQTYSOPINV] [tinyint] NOT NULL,
+[VCTNMTHD] [smallint] NOT NULL,
+[ADJUNITCOST] [numeric] (19, 5) NOT NULL,
+[QTYONHND] [numeric] (19, 5) NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[IV10200] ADD CONSTRAINT [CK__IV10200__DATEREC__35DCF99B] CHECK ((datepart(hour,[DATERECD])=(0) AND datepart(minute,[DATERECD])=(0) AND datepart(second,[DATERECD])=(0) AND datepart(millisecond,[DATERECD])=(0)))
+GO
+ALTER TABLE [dbo].[IV10200] ADD CONSTRAINT [CK__IV10200__FLRPLND__36D11DD4] CHECK ((datepart(hour,[FLRPLNDT])=(0) AND datepart(minute,[FLRPLNDT])=(0) AND datepart(second,[FLRPLNDT])=(0) AND datepart(millisecond,[FLRPLNDT])=(0)))
+GO
+ALTER TABLE [dbo].[IV10200] ADD CONSTRAINT [PKIV10200] PRIMARY KEY NONCLUSTERED  ([ITEMNMBR], [TRXLOCTN], [QTYTYPE], [DATERECD], [RCTSEQNM]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK4IV10200] ON [dbo].[IV10200] ([ITEMNMBR], [DATERECD], [RCTSEQNM], [DEX_ROW_ID]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK6IV10200] ON [dbo].[IV10200] ([ITEMNMBR], [RCPTNMBR], [DEX_ROW_ID]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK7IV10200] ON [dbo].[IV10200] ([ITEMNMBR], [RCTSEQNM], [DEX_ROW_ID]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK2IV10200] ON [dbo].[IV10200] ([ITEMNMBR], [TRXLOCTN], [RCPTSOLD], [QTYTYPE], [DATERECD], [RCTSEQNM]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK5IV10200] ON [dbo].[IV10200] ([PCHSRCTY], [ITEMNMBR], [QTYTYPE], [TRXLOCTN], [DATERECD], [RCTSEQNM]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK3IV10200] ON [dbo].[IV10200] ([RCPTSOLD], [ITEMNMBR], [DEX_ROW_ID]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[IV10200].[ITEMNMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[IV10200].[TRXLOCTN]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[IV10200].[DATERECD]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[IV10200].[RCTSEQNM]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[IV10200].[RCPTSOLD]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[IV10200].[QTYRECVD]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[IV10200].[QTYSOLD]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[IV10200].[QTYCOMTD]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[IV10200].[QTYRESERVED]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[IV10200].[FLRPLNDT]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[IV10200].[PCHSRCTY]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[IV10200].[RCPTNMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[IV10200].[VENDORID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[IV10200].[PORDNMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[IV10200].[UNITCOST]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[IV10200].[QTYTYPE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[IV10200].[Landed_Cost]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[IV10200].[NEGQTYSOPINV]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[IV10200].[VCTNMTHD]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[IV10200].[ADJUNITCOST]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[IV10200].[QTYONHND]'
+GO
+GRANT SELECT ON  [dbo].[IV10200] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[IV10200] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[IV10200] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[IV10200] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[SVC_Set_Service_Reverse_Dist] @srvrectype int ,  @callnbr varchar(11) ,  @EquipLine integer,  @Line integer,  @LineType char(3),  @Amount numeric (19,2),  @OrigAmount numeric (19,2),  @iType smallint ,    @CMPNTSEQ int = 0   AS declare @SEQNUMBR integer declare @MinDate datetime  exec smGetMinDate @MinDate output  if exists (select * from SVC00231 where SRVRECTYPE = @srvrectype and CALLNBR = @callnbr and EQPLINE=@EquipLine  and CMPNTSEQ = @CMPNTSEQ and LNITMSEQ = @Line and LINITMTYP=@LineType and SVC_Distribution_Type = 1 and POSTED = 1) BEGIN   exec SVC_Dist_Get_SEQ_Service @callnbr,@srvrectype,@EquipLine,@Line,@LineType,1,@SEQNUMBR output   insert SVC00231  select   @srvrectype,  @callnbr,  @EquipLine,  @Line,  @LineType,  @SEQNUMBR,  1,  DistRef,  ACTINDX,  CRDTAMNT,  ORCRDAMT,  DEBITAMT,  ORDBTAMT,  CURRNIDX,  TRXSORCE,  0,  @MinDate, @CMPNTSEQ  from SVC00231 where SRVRECTYPE = @srvrectype and CALLNBR = @callnbr and EQPLINE=@EquipLine and CMPNTSEQ = @CMPNTSEQ  and LNITMSEQ = @Line and LINITMTYP=@LineType and SVC_Distribution_Type = 1 and POSTED = 1 insert SVC00231  select   @srvrectype,  @callnbr,  @EquipLine,  @Line,  @LineType,  @SEQNUMBR,  2,  DistRef,  ACTINDX,  CRDTAMNT,  ORCRDAMT,  DEBITAMT,  ORDBTAMT,  CURRNIDX,  TRXSORCE,  0,  @MinDate, @CMPNTSEQ  from SVC00231 where SRVRECTYPE = @srvrectype and CALLNBR = @callnbr and EQPLINE=@EquipLine and CMPNTSEQ = @CMPNTSEQ  and LNITMSEQ = @Line and LINITMTYP=@LineType and SVC_Distribution_Type = 2 and POSTED = 1 END  return    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Set_Service_Reverse_Dist] TO [DYNGRP]
+GO

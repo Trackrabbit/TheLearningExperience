@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B7111200F_2] (@BSSI_Recognition_SNumber_RS char(25), @STRTDATE_RS datetime, @BSSI_Recognition_SNumber_RE char(25), @STRTDATE_RE datetime) AS /* 12.00.0270.000 */ set nocount on IF @BSSI_Recognition_SNumber_RS IS NULL BEGIN SELECT TOP 25  BSSI_Recognition_SNumber, BSSI_Line_Item_Sequence, BSSI_Recognition_Type, BSSI_Recog_Frequency, BSSI_Recog_Length_Period, BSSI_Recog_Length_Months, STRTDATE, ENDDATE, DUMYRCRD, DEX_ROW_ID FROM .B7111200 ORDER BY BSSI_Recognition_SNumber ASC, STRTDATE ASC, DEX_ROW_ID ASC END ELSE IF @BSSI_Recognition_SNumber_RS = @BSSI_Recognition_SNumber_RE BEGIN SELECT TOP 25  BSSI_Recognition_SNumber, BSSI_Line_Item_Sequence, BSSI_Recognition_Type, BSSI_Recog_Frequency, BSSI_Recog_Length_Period, BSSI_Recog_Length_Months, STRTDATE, ENDDATE, DUMYRCRD, DEX_ROW_ID FROM .B7111200 WHERE BSSI_Recognition_SNumber = @BSSI_Recognition_SNumber_RS AND STRTDATE BETWEEN @STRTDATE_RS AND @STRTDATE_RE ORDER BY BSSI_Recognition_SNumber ASC, STRTDATE ASC, DEX_ROW_ID ASC END ELSE BEGIN SELECT TOP 25  BSSI_Recognition_SNumber, BSSI_Line_Item_Sequence, BSSI_Recognition_Type, BSSI_Recog_Frequency, BSSI_Recog_Length_Period, BSSI_Recog_Length_Months, STRTDATE, ENDDATE, DUMYRCRD, DEX_ROW_ID FROM .B7111200 WHERE BSSI_Recognition_SNumber BETWEEN @BSSI_Recognition_SNumber_RS AND @BSSI_Recognition_SNumber_RE AND STRTDATE BETWEEN @STRTDATE_RS AND @STRTDATE_RE ORDER BY BSSI_Recognition_SNumber ASC, STRTDATE ASC, DEX_ROW_ID ASC END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B7111200F_2] TO [DYNGRP]
+GO

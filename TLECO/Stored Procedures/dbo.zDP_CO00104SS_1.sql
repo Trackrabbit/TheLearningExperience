@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_CO00104SS_1] (@BusObjKey char(201), @Attachment_ID char(37), @CREATDDT datetime, @CREATETIME datetime) AS  set nocount on SELECT TOP 1  BusObjKey, Attachment_ID, AttachmentStatus, CREATDDT, CREATETIME, CRUSRID, DEX_ROW_ID FROM .CO00104 WHERE BusObjKey = @BusObjKey AND Attachment_ID = @Attachment_ID AND CREATDDT = @CREATDDT AND CREATETIME = @CREATETIME ORDER BY BusObjKey ASC, Attachment_ID ASC, CREATDDT ASC, CREATETIME ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_CO00104SS_1] TO [DYNGRP]
+GO

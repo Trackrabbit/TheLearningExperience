@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ CREATE PROC [dbo].[zDP_AAG01001SI] (@aaTrxDimID int, @aaUDFID int, @aaUDFString char(51), @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .AAG01001 (aaTrxDimID, aaUDFID, aaUDFString) VALUES ( @aaTrxDimID, @aaUDFID, @aaUDFString) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_AAG01001SI] TO [DYNGRP]
+GO

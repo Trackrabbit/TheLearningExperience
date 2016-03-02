@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[taPopRcptLandedCostPost]  @I_vPOPRCTNM char(17),         @I_vLanded_Cost_ID char(15),     @I_vRCPTLNNM int,       @I_vVENDORID char(15),      @I_vLCLINENUMBER int,      @I_vLCHDRNUMBER int,      @I_vQTYSHPPD numeric(19,5),     @I_vEXTDCOST numeric(19,5),     @I_vreceiptdate datetime,     @I_vDistRef char(30),      @I_vCalculation_Percentage int,     @I_vTotal_Landed_Cost_Amount numeric(19,5)output,  @I_vOrig_TotalLandedCostAmt numeric(19,5)output,  @I_vOrig_UnapportionedAmount numeric(19,5),   @I_vOrig_Landed_Cost_Amount numeric(19,5),   @I_vApplied smallint,      @I_vLanded_Cost_Warnings smallint,    @I_vApportion_By smallint,     @I_vInvoice_Match smallint,     @I_vINVINDX int,      @I_vACPURIDX int,      @I_vPURPVIDX int,      @I_vRATECALC smallint,      @I_vCURNCYID char(15),      @I_vEXGTBLID char(15),      @I_vRATETPID char(15),      @I_vEXCHDATE datetime,      @I_vTIME1 datetime,      @I_vXCHGRATE numeric(19,5),     @I_vEXGTBDSC char(30),      @I_vEXTBLSRC char(50),      @I_vRATEEXPR smallint,        @I_vDYSTINCR smallint,      @I_vRATEVARC numeric(19,7),     @I_vTRXDTDEF smallint,      @I_vPRVDSLMT smallint,      @I_vDATELMTS smallint,      @I_vEXPNDATE datetime,      @I_vRequesterTrx smallint,     @I_vUSRDEFND1 char(50),      @I_vUSRDEFND2 char(50),      @I_vUSRDEFND3 char(50),      @I_vUSRDEFND4 varchar(8000),     @I_vUSRDEFND5 varchar(8000),     @O_iErrorState int output,     @oErrString varchar(255) output      with encryption  as  set nocount on  select @O_iErrorState = 0  return (@O_iErrorState)   
+GO
+GRANT EXECUTE ON  [dbo].[taPopRcptLandedCostPost] TO [DYNGRP]
+GO

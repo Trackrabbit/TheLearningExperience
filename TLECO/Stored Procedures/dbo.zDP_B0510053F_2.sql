@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B0510053F_2] (@MJW_Investment_Number_RS char(21), @SEQCOUNT_RS int, @MJW_Investment_Number_RE char(21), @SEQCOUNT_RE int) AS /* 12.00.0270.000 */ set nocount on IF @MJW_Investment_Number_RS IS NULL BEGIN SELECT TOP 25  MJW_Investment_Number, LNSEQNBR, VENDORID, BSSI_Units_Available, BSSI_LastRevaluationAmou, BSSI_LastRevaluationDate, BSSI_Gain, USERID, JRNENTRY, BSSI_ExgMrkt, BSSI_Symbol, SEQCOUNT, DEX_ROW_ID FROM .B0510053 ORDER BY MJW_Investment_Number ASC, SEQCOUNT ASC, DEX_ROW_ID ASC END ELSE IF @MJW_Investment_Number_RS = @MJW_Investment_Number_RE BEGIN SELECT TOP 25  MJW_Investment_Number, LNSEQNBR, VENDORID, BSSI_Units_Available, BSSI_LastRevaluationAmou, BSSI_LastRevaluationDate, BSSI_Gain, USERID, JRNENTRY, BSSI_ExgMrkt, BSSI_Symbol, SEQCOUNT, DEX_ROW_ID FROM .B0510053 WHERE MJW_Investment_Number = @MJW_Investment_Number_RS AND SEQCOUNT BETWEEN @SEQCOUNT_RS AND @SEQCOUNT_RE ORDER BY MJW_Investment_Number ASC, SEQCOUNT ASC, DEX_ROW_ID ASC END ELSE BEGIN SELECT TOP 25  MJW_Investment_Number, LNSEQNBR, VENDORID, BSSI_Units_Available, BSSI_LastRevaluationAmou, BSSI_LastRevaluationDate, BSSI_Gain, USERID, JRNENTRY, BSSI_ExgMrkt, BSSI_Symbol, SEQCOUNT, DEX_ROW_ID FROM .B0510053 WHERE MJW_Investment_Number BETWEEN @MJW_Investment_Number_RS AND @MJW_Investment_Number_RE AND SEQCOUNT BETWEEN @SEQCOUNT_RS AND @SEQCOUNT_RE ORDER BY MJW_Investment_Number ASC, SEQCOUNT ASC, DEX_ROW_ID ASC END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B0510053F_2] TO [DYNGRP]
+GO

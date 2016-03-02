@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[ivExtPricingItemClassCurrMntGroupChecks]  @piST_Currency char(15),  @piST_ITMCLSCD  char(11),  @piIN_DPCurr integer  AS DECLARE  @loST_FUNLCURR char(15),  @loST_GroupCode char(31),  @loST_DECPLCUR integer  EXECUTE ExtPricingGetFunctionalCurrency @loST_FUNLCURR OUTPUT  IF @piST_Currency <> @loST_FUNLCURR BEGIN  RETURN 0 END  SELECT @loST_DECPLCUR = GH.DECPLCUR,  @loST_GroupCode = CLASS.PriceGroup  FROM IV40400 AS CLASS  INNER JOIN SOP10108 AS GH  ON GH.PRCGRPID = CLASS.PriceGroup  WHERE CLASS.ITMCLSCD = @piST_ITMCLSCD  IF @loST_GroupCode IS NULL BEGIN  RETURN 0 END   IF @loST_DECPLCUR = @piIN_DPCurr BEGIN   RETURN 0 END  ELSE BEGIN  RETURN 1 END    
+GO
+GRANT EXECUTE ON  [dbo].[ivExtPricingItemClassCurrMntGroupChecks] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B0510107SS_1] (@MJW_Investment_Number char(21), @LNITMSEQ int) AS /* 12.00.0270.000 */ set nocount on SELECT TOP 1  MJW_Investment_Number, PRINCIPAL_AMOUNT, PAYMENT_AMOUNT, SCHEDULE_INT_RATE, SCHEDULE_INT_TYPE1, BSSI_Recognition_Type, BSSI_Recog_Frequency, BSSI_Recog_Length_Period, BSSI_Recog_Length_Months, STRTDATE, BSSI_Recalculate, LNITMSEQ, DEX_ROW_ID FROM .B0510107 WHERE MJW_Investment_Number = @MJW_Investment_Number AND LNITMSEQ = @LNITMSEQ ORDER BY MJW_Investment_Number ASC, LNITMSEQ ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B0510107SS_1] TO [DYNGRP]
+GO

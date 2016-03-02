@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ Create Procedure [dbo].[SVC_Delete_Depot_Dist]  @WONumber char(11),  @RecordType smallint,  @Line integer,  @LineType char(3),  @CMPNTSEQ int = 0 as declare @DistType smallint declare @AccountIndex integer declare @CurrencyIndex smallint  if @Line = 0  BEGIN  delete from SVC06130  where WORECTYPE = @RecordType and WORKORDNUM = @WONumber and POSTED = 0  delete from SVC06131  where WORECTYPE = @RecordType and WORKORDNUM = @WONumber and POSTED = 0  return (0) END  select @DistType = SVC_Distribution_Type, @AccountIndex = ACTINDX,  @CurrencyIndex = CURRNIDX from SVC06131  where WORECTYPE = @RecordType and WORKORDNUM = @WONumber and CMPNTSEQ = @CMPNTSEQ  and LNITMSEQ = @Line and LINITMTYP=@LineType and POSTED = 0  and SVC_Distribution_Type = 4  delete from SVC06131 where WORECTYPE = @RecordType and WORKORDNUM = @WONumber and CMPNTSEQ = @CMPNTSEQ  and LNITMSEQ = @Line and LINITMTYP=@LineType and POSTED = 0  and SVC_Distribution_Type = 4 exec SVC_Update_Depot_HDR_Dist @WONumber,@RecordType,@DistType,@AccountIndex,@CurrencyIndex,0  select @DistType = SVC_Distribution_Type, @AccountIndex = ACTINDX,  @CurrencyIndex = CURRNIDX from SVC06131  where WORECTYPE = @RecordType and WORKORDNUM = @WONumber and CMPNTSEQ = @CMPNTSEQ  and LNITMSEQ = @Line and LINITMTYP=@LineType and POSTED = 0  and SVC_Distribution_Type = 9 delete from SVC06131 where WORECTYPE = @RecordType and WORKORDNUM = @WONumber and CMPNTSEQ = @CMPNTSEQ  and LNITMSEQ = @Line and LINITMTYP=@LineType and POSTED = 0  and SVC_Distribution_Type = 9 exec SVC_Update_Depot_HDR_Dist @WONumber,@RecordType,@DistType,@AccountIndex,@CurrencyIndex,0 return    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Delete_Depot_Dist] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[SVC_RTV_FindAppendingRTV]  (  @RTV char(15) output,  @RTVLine numeric(19,5) output,  @Vendor char(15),  @RMA char(15) = NULL,  @RMALine numeric(19,5),  @Exists tinyint output,  @QTYType smallint = 1 ) As  select @Exists = 0  if @Vendor > '' BEGIN if @RMA > '' and @RMALine > 0   begin  if exists(select * from SVC05601 where RETDOCID = @RMA and LNSEQNBR = @RMALine and VENDORID = @Vendor and RTV_Status = 1 and QTYTYPE = @QTYType)  select @Exists = 1, @RTV = RTV_Number, @RTVLine = RTV_Line  from SVC05601  where RETDOCID = @RMA and RTV_Status = 1 and LNSEQNBR = @RMALine and VENDORID = @Vendor and QTYTYPE = @QTYType  end if @RMA > '' and @Exists = 0  begin  if exists(select * from SVC05600 where RETDOCID = @RMA and VENDORID = @Vendor and RTV_Status < 6)  select @Exists = 1, @RTV = RTV_Number, @RTVLine = 0  from SVC05600 where RETDOCID = @RMA and VENDORID = @Vendor and RTV_Status < 6   end END else BEGIN if @RMA > '' and @RMALine > 0   begin  if exists(select * from SVC05601 where RETDOCID = @RMA and LNSEQNBR = @RMALine and RTV_Status = 1 and QTYTYPE = @QTYType)  select @Exists = 1, @RTV = RTV_Number, @RTVLine = RTV_Line  from SVC05601 where RETDOCID = @RMA and RTV_Status = 1 and LNSEQNBR = @RMALine and QTYTYPE = @QTYType  end if @RMA > '' and @Exists = 0  begin  if exists(select * from SVC05600 where RETDOCID = @RMA and RTV_Status < 6)  select @Exists = 1, @RTV = RTV_Number, @RTVLine = 0  from SVC05600 where RETDOCID = @RMA and RTV_Status < 6   end END  return     
+GO
+GRANT EXECUTE ON  [dbo].[SVC_RTV_FindAppendingRTV] TO [DYNGRP]
+GO

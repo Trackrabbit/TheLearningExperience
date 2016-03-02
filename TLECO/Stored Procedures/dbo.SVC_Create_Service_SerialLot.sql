@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE Procedure [dbo].[SVC_Create_Service_SerialLot]  (  @ServiceRecType smallint,   @CallNumber char(11),   @Line integer,   @serial_number char(20),   @item_number char(30),   @EquipID integer,  @Location char(11),  @CMPNTSEQ int = 0   ) As declare @LotSequence int declare @MinDate datetime  exec smGetMinDate @MinDate output   if @serial_number is null or @serial_number = ''   return if @Location is null or @Location = ''   return select @LotSequence = Max(SLTSQNUM) + 1 from SVC00250  where SRVRECTYPE = @ServiceRecType and CALLNBR = @CallNumber and QTYTYPE = 1 and  EQPLINE = 1 and LNITMSEQ = @Line and LINITMTYP = 'P' and CMPNTSEQ = @CMPNTSEQ select @LotSequence = isnull(@LotSequence,1)  if exists(select * from IV00200  where ITEMNMBR = @item_number and SERLNMBR = @serial_number and LOCNCODE = @Location ) BEGIN   update IV00200 set SERLNSLD = 1   where ITEMNMBR = @item_number and SERLNMBR = @serial_number and LOCNCODE = @Location   if not exists(select * from SVC00250 where SRVRECTYPE = @ServiceRecType and  CALLNBR = @CallNumber and EQPLINE = 1 and LNITMSEQ = @Line and SERLTNUM = @serial_number  and ITEMNMBR = @item_number and LINITMTYP = 'P' and CMPNTSEQ = @CMPNTSEQ)  insert SVC00250 select  @ServiceRecType, @CallNumber, 1, 'P', @Line, 1, @serial_number, 1.0,  @LotSequence, DATERECD ,  DTSEQNUM, UNITCOST , ITEMNMBR , 0 , 0, 0, @EquipID, BIN ,  @MinDate,@MinDate, @CMPNTSEQ  from IV00200 where ITEMNMBR = @item_number and SERLNMBR = @serial_number  END return    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Create_Service_SerialLot] TO [DYNGRP]
+GO

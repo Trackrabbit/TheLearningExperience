@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[uprGetNextTrxHistID] @outNEXTRECNUM NUMERIC(14,5) OUTPUT, @O_iErrorState INT OUTPUT AS DECLARE @tmpNEXTRECNUM NUMERIC(14,5),  @IOError integer  SELECT @outNEXTRECNUM = ISNULL(MAX(CMRECNUM)+ 1, 1) FROM UPR30300 SELECT @tmpNEXTRECNUM = 0  IF EXISTS(select * from dbo.sysobjects where id = object_id(N'[dbo].[hrGetMaxCompTrxNum]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)  exec hrGetMaxCompTrxNum @tmpNEXTRECNUM OUTPUT, @IOError OUTPUT  IF @tmpNEXTRECNUM > @outNEXTRECNUM  SELECT @outNEXTRECNUM = @tmpNEXTRECNUM  return(@@ERROR)   
+GO
+GRANT EXECUTE ON  [dbo].[uprGetNextTrxHistID] TO [DYNGRP]
+GO

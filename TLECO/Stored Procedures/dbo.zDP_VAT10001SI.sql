@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_VAT10001SI] (@CCode char(7), @CCodeDesc char(31), @ECFLAG tinyint, @ISOCode char(3), @NOTEINDX numeric(19,5), @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .VAT10001 (CCode, CCodeDesc, ECFLAG, ISOCode, NOTEINDX) VALUES ( @CCode, @CCodeDesc, @ECFLAG, @ISOCode, @NOTEINDX) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_VAT10001SI] TO [DYNGRP]
+GO

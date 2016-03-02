@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ Create Procedure [dbo].[SVC_Create_RMA_Dist]  @RMANumber as char(15),  @RecordType as smallint,  @LineNumber as numeric(19,5),  @LineType as char(3), @DistType as smallint,  @DAmount numeric (19,2),@OrigDAmount numeric (19,2),  @CAmount numeric (19,2),@OrigCAmount numeric (19,2),  @CurrencyIndex smallint,  @AccountIndex integer,@Post tinyint,  @CMPNTSEQ int = 0  As declare @SEQNUMBR integer declare @PostDate datetime declare @ActDrAmt numeric(19,2), @ActOrigDrAmt numeric(19,2) declare @ActCrAmt numeric(19,2), @ActOrigCrAmt numeric(19,2)  if @Post = 1  select @PostDate = CONVERT(varchar(10),GETDATE(),102) else  exec smGetMinDate @PostDate output  SET @ActCrAmt = 0.00 SET @ActOrigCrAmt = 0.00 SET @ActDrAmt = 0.00 SET @ActOrigDrAmt = 0.00  IF @DAmount < 0.00 AND @OrigDAmount < 0.00  begin  SET @ActCrAmt = abs(@DAmount)  SET @ActOrigCrAmt = abs(@OrigDAmount)  end else  begin   IF @CAmount < 0.00 AND @OrigCAmount < 0.00  begin  SET @ActDrAmt = abs(@CAmount)  SET @ActOrigDrAmt = abs(@OrigCAmount)  end  else  begin  SET @ActCrAmt = @CAmount  SET @ActOrigCrAmt = @OrigCAmount  SET @ActDrAmt = @DAmount  SET @ActOrigDrAmt = @OrigDAmount  end   end  exec SVC_Dist_Get_SEQ_RMA  @RMANumber,@RecordType,@LineNumber,@LineType,@DistType,@SEQNUMBR output   insert SVC05030  select  @RecordType, @RMANumber, @LineNumber, @LineType, @SEQNUMBR, 0,   @DistType,   '', @AccountIndex,  @ActDrAmt,@ActOrigDrAmt,    @ActCrAmt,@ActOrigCrAmt,   isnull(@CurrencyIndex,0),  '',  @Post, @PostDate, @CMPNTSEQ  return     
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Create_RMA_Dist] TO [DYNGRP]
+GO

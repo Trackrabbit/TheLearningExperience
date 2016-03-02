@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ Create Proc [dbo].[PC_UpdateCheckSummaryAmounts] (  @v_UserID char(15),  @v_PYRNTYPE smallint)  As  set nocount on   Begin  Declare   @AUCTRLCD char(13),  @JOBTITLE char(7),  @PYADNMBR int,  @STRTDATE datetime,  @SSTaxPos numeric(19,5),  @MedTaxPos numeric(19,5),  @BenefitPos numeric(19,5),  @PayPos numeric(19,5)    Select @AUCTRLCD = AUCTRLCD From UPR10200 Where USERID = @v_UserID and PYRNTYPE = @v_PYRNTYPE   Declare WorkRcds Cursor For   Select b.JOBTITLE, a.PYADNMBR, min(c.STRTDATE)  From UPR10202 a   inner join UPR10203 b On a.USERID = b.USERID and b.PYRNTYPE = @v_PYRNTYPE   inner join PC40306 c On PLANCODE = '*CURRENT' and c.JOBTITLE = b.JOBTITLE  Where a.USERID = @v_UserID and b.PYRNTYPE = @v_PYRNTYPE  Group by b.JOBTITLE, a.PYADNMBR  Open WorkRcds  Fetch Next From WorkRcds  Into @JOBTITLE, @PYADNMBR, @STRTDATE  WHILE @@FETCH_STATUS = 0  BEGIN  Exec dbo.PC_GetPositionAmountsToDate   @v_PYRNTYPE,  @JOBTITLE,  @STRTDATE,  @PYADNMBR,  @AUCTRLCD,  @SSTaxPos output,  @MedTaxPos output,  @BenefitPos output,  @PayPos output   if exists(Select * From PC00900 Where JOBTITLE = @JOBTITLE)   Begin  Update PC00900 Set   STRTDATE = @STRTDATE,  YTDWAGES = YTDWAGES + (@PayPos),  BNFITAMTYTD = BNFITAMTYTD + (@BenefitPos),  YTDTAX = YTDTAX + @SSTaxPos + (@MedTaxPos)  Where JOBTITLE = @JOBTITLE  End  Else  Begin  Insert into PC00900   (JOBTITLE, STRTDATE, YTDWAGES, BNFITAMTYTD, YTDTAX)   Select @JOBTITLE,   @STRTDATE,   (@PayPos),   @BenefitPos,   (@SSTaxPos + @MedTaxPos)   End   Fetch NEXT From WorkRcds  Into @JOBTITLE, @PYADNMBR, @STRTDATE  End  Close WorkRcds  Deallocate WorkRcds End   
+GO
+GRANT EXECUTE ON  [dbo].[PC_UpdateCheckSummaryAmounts] TO [DYNGRP]
+GO

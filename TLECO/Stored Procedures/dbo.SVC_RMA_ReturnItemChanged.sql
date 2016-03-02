@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ Create Procedure [dbo].[SVC_RMA_ReturnItemChanged] ( @RecType smallint,  @RMANumber char(15),  @Line Numeric(19,5), @NewItem char(31), @CMPNTSEQ int = 0 )  as declare @EquipID int declare @SerialSeq int declare @Serial char(21), @Item char(31), @UserID char(15) declare @TrackingOption smallint  select @UserID = SYSTEM_USER  select @TrackingOption = ITMTRKOP from IV00101 where ITEMNMBR = @NewItem  if exists(select * from SVC05255 where RETDOCID = @RMANumber and Return_Record_Type = @RecType and LNSEQNBR = @Line and CMPNTSEQ = @CMPNTSEQ)  begin  if @TrackingOption = 3  BEGIN  update SVC05255 set Return_Item_Number = @NewItem  where RETDOCID = @RMANumber and Return_Record_Type = @RecType and LNSEQNBR = @Line and CMPNTSEQ = @CMPNTSEQ  END  else  BEGIN  declare Process_Line cursor for select Return_Item_Number, Return_Equipment_ID, SLTSQNUM, Return_Serial_Number  from SVC05255 where RETDOCID = @RMANumber and Return_Record_Type = @RecType and LNSEQNBR = @Line and CMPNTSEQ = @CMPNTSEQ  open Process_Line   fetch next from Process_Line into @Item, @EquipID, @SerialSeq, @Serial  while @@FETCH_STATUS = 0  Begin  if @EquipID > 0  Begin  update SVC00300 with (rowlock) set ITEMNMBR = @NewItem where EQUIPID = @EquipID  exec SVC_Create_Serial_Audit @EquipID,'',@Serial,@Item,'Item Number changed via RMA Rcv',@UserID  end  fetch next from Process_Line into @Item, @EquipID, @SerialSeq, @Serial  end  deallocate Process_Line   update SVC05255 set Return_Item_Number = @NewItem   where RETDOCID = @RMANumber and Return_Record_Type = @RecType and LNSEQNBR = @Line and CMPNTSEQ = @CMPNTSEQ  END  end return     
+GO
+GRANT EXECUTE ON  [dbo].[SVC_RMA_ReturnItemChanged] TO [DYNGRP]
+GO

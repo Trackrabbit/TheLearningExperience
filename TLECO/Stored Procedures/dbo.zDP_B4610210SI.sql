@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B4610210SI] (@SOPTYPE smallint, @SOPNUMBE char(21), @Item_Sequence int, @BSSI_Master_Lease_ID char(25), @BSSI_Ground_Lease_Number char(25), @LNITMSEQ int, @BSSI_Rev_Sharing_ID char(25), @BSSI_Rev_Sharing_Type smallint, @BSSI_Tenant_Lease_Number char(25), @SALSTERR char(15), @SLPRSNID char(15), @VENDORID char(15), @PMAPACCT_1 char(5), @PMAPACCT_2 char(5), @PMAPACCT_3 char(3), @PMAPACCT_4 char(3), @PMPRCHAC_1 char(5), @PMPRCHAC_2 char(5), @PMPRCHAC_3 char(3), @PMPRCHAC_4 char(3), @COMMAMNT numeric(19,5), @OCOMMAMT numeric(19,5), @CURRNIDX smallint, @OXTNDPRC numeric(19,5), @COMPRCNT smallint, @BSSI_Dummy tinyint, @DEX_ROW_ID int OUT) AS /* 12.00.0311.000 */ set nocount on BEGIN INSERT INTO .B4610210 (SOPTYPE, SOPNUMBE, Item_Sequence, BSSI_Master_Lease_ID, BSSI_Ground_Lease_Number, LNITMSEQ, BSSI_Rev_Sharing_ID, BSSI_Rev_Sharing_Type, BSSI_Tenant_Lease_Number, SALSTERR, SLPRSNID, VENDORID, PMAPACCT_1, PMAPACCT_2, PMAPACCT_3, PMAPACCT_4, PMPRCHAC_1, PMPRCHAC_2, PMPRCHAC_3, PMPRCHAC_4, COMMAMNT, OCOMMAMT, CURRNIDX, OXTNDPRC, COMPRCNT, BSSI_Dummy) VALUES ( @SOPTYPE, @SOPNUMBE, @Item_Sequence, @BSSI_Master_Lease_ID, @BSSI_Ground_Lease_Number, @LNITMSEQ, @BSSI_Rev_Sharing_ID, @BSSI_Rev_Sharing_Type, @BSSI_Tenant_Lease_Number, @SALSTERR, @SLPRSNID, @VENDORID, @PMAPACCT_1, @PMAPACCT_2, @PMAPACCT_3, @PMAPACCT_4, @PMPRCHAC_1, @PMPRCHAC_2, @PMPRCHAC_3, @PMPRCHAC_4, @COMMAMNT, @OCOMMAMT, @CURRNIDX, @OXTNDPRC, @COMPRCNT, @BSSI_Dummy) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B4610210SI] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_gpCustomerExceptionSS_1] (@CUSTNMBR char(15)) AS /* 12.00.0270.000 */ set nocount on SELECT TOP 1  CUSTNMBR, DEX_ROW_ID FROM .gpCustomerException WHERE CUSTNMBR = @CUSTNMBR ORDER BY CUSTNMBR ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_gpCustomerExceptionSS_1] TO [DYNGRP]
+GO

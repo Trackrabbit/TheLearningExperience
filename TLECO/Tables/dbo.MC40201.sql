@@ -1,0 +1,53 @@
+CREATE TABLE [dbo].[MC40201]
+(
+[CURNCYID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[REALGAIN] [int] NOT NULL,
+[REALLOSS] [int] NOT NULL,
+[UNRLGAIN] [int] NOT NULL,
+[UNRLLOSS] [int] NOT NULL,
+[FINOFFST] [int] NOT NULL,
+[PUROFFST] [int] NOT NULL,
+[SLSOFFST] [int] NOT NULL,
+[RNDWTOFF] [int] NOT NULL,
+[RNDDIFF] [int] NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[MC40201] ADD CONSTRAINT [PKMC40201] PRIMARY KEY NONCLUSTERED  ([CURNCYID]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[MC40201].[CURNCYID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[MC40201].[REALGAIN]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[MC40201].[REALLOSS]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[MC40201].[UNRLGAIN]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[MC40201].[UNRLLOSS]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[MC40201].[FINOFFST]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[MC40201].[PUROFFST]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[MC40201].[SLSOFFST]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[MC40201].[RNDWTOFF]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[MC40201].[RNDDIFF]'
+GO
+GRANT SELECT ON  [dbo].[MC40201] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[MC40201] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[MC40201] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[MC40201] TO [DYNGRP]
+GO
+GRANT SELECT ON  [dbo].[MC40201] TO [RAPIDGRP]
+GO
+GRANT INSERT ON  [dbo].[MC40201] TO [RAPIDGRP]
+GO
+GRANT DELETE ON  [dbo].[MC40201] TO [RAPIDGRP]
+GO
+GRANT UPDATE ON  [dbo].[MC40201] TO [RAPIDGRP]
+GO

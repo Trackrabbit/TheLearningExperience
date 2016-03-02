@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE FUNCTION [dbo].[uprGetEmpBatchPrefix]  (  @EmpID char(15)  )  RETURNS varchar(15) AS BEGIN   declare  @ASGMTPRTY_1 smallint,  @ASGMTPRTY_2 smallint,  @ASGMTPRTY_3 smallint,  @ASGMTPRTY_4 smallint,  @ASGMTPRTY_5 smallint,  @Priority tinyint,  @i   tinyint,  @EmplClass char(15),  @EmpPosition char(6),  @EmpDept  char(6),  @EmpLoc   char(15),  @BatchPrefix char(15)   select @ASGMTPRTY_1 = ASGMTPRTY_1, @ASGMTPRTY_2=ASGMTPRTY_2, @ASGMTPRTY_3=ASGMTPRTY_3,@ASGMTPRTY_4=ASGMTPRTY_4, @ASGMTPRTY_5=ASGMTPRTY_5 from UPR40202  select @EmplClass = EMPLCLAS, @EmpPosition = JOBTITLE, @EmpDept = DEPRTMNT, @EmpLoc = LOCATNID from UPR00100 where @EmpID = EMPLOYID  select @EmplClass = ISNULL(@EmplClass,''), @EmpPosition = ISNULL(@EmpPosition,''), @EmpDept = ISNULL(@EmpDept,''), @EmpLoc = ISNULL(@EmpLoc,'')  select @i=1  select @BatchPrefix = ''  while @i <= 5  and @BatchPrefix = ''  Begin   select @Priority =  case @i  when 1 then @ASGMTPRTY_1  when 2 then @ASGMTPRTY_2  when 3 then @ASGMTPRTY_3  when 4 then @ASGMTPRTY_4  when 5 then @ASGMTPRTY_5  end   select @BatchPrefix =   CASE @Priority  when 1 then ISNULL((select Batch_Prefix from UPR42505 where EMPLOYID = @EmpID),'')  when 2 then ISNULL((select Batch_Prefix from UPR42504 where EMPLCLAS = @EmplClass),'')  when 3 then ISNULL((select Batch_Prefix from UPR42503 where JOBTITLE = @EmpPosition),'')  when 4 then ISNULL((select Batch_Prefix from UPR42502 where DEPRTMNT = @EmpDept),'')  when 5 then ISNULL((select Batch_Prefix from UPR42501 where @EmpLoc = LOCATNID),'')  end  select @i = @i + 1   end  RETURN(@BatchPrefix) END   
+GO
+GRANT EXECUTE ON  [dbo].[uprGetEmpBatchPrefix] TO [DYNGRP]
+GO

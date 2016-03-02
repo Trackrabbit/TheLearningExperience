@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B4693201SS_1] (@BSSIChargeRateScheduleID char(25), @LNITMSEQ int) AS /* 12.00.0270.000 */ set nocount on SELECT TOP 1  BSSIChargeRateScheduleID, LNITMSEQ, BSSI_Effective_Date, BSSI_Rate, BSSI_Billing_Frequency, BSSI_ChangeRate, DEX_ROW_ID FROM .B4693201 WHERE BSSIChargeRateScheduleID = @BSSIChargeRateScheduleID AND LNITMSEQ = @LNITMSEQ ORDER BY BSSIChargeRateScheduleID ASC, LNITMSEQ ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B4693201SS_1] TO [DYNGRP]
+GO

@@ -1,0 +1,23 @@
+CREATE TABLE [dbo].[BS466003]
+(
+[DATE1] [datetime] NOT NULL,
+[BSSI_Allocation_ID] [char] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[BS466003] ADD CONSTRAINT [CK__BS466003__DATE1__5F46F347] CHECK ((datepart(hour,[DATE1])=(0) AND datepart(minute,[DATE1])=(0) AND datepart(second,[DATE1])=(0) AND datepart(millisecond,[DATE1])=(0)))
+GO
+ALTER TABLE [dbo].[BS466003] ADD CONSTRAINT [PKBS466003] PRIMARY KEY NONCLUSTERED  ([BSSI_Allocation_ID]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[BS466003].[DATE1]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[BS466003].[BSSI_Allocation_ID]'
+GO
+GRANT SELECT ON  [dbo].[BS466003] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[BS466003] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[BS466003] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[BS466003] TO [DYNGRP]
+GO

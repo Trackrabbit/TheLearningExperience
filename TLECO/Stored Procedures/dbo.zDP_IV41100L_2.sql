@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_IV41100L_2] (@VENDORID_RS char(15), @Landed_Cost_ID_RS char(15), @VENDORID_RE char(15), @Landed_Cost_ID_RE char(15)) AS  set nocount on IF @VENDORID_RS IS NULL BEGIN SELECT TOP 25  Landed_Cost_ID, Long_Description, NOTEINDX, VENDORID, CURNCYID, CURRNIDX, RATETPID, DECPLCUR, ODECPLCU, ACPURIDX, PURPVIDX, Invoice_Match, CALCMTHD, Orig_Landed_Cost_Amount, Calculation_Percentage, Revalue_Inventory, Tolerance_Percentage, Vendor_Note_Index, Currency_Note_Index, DEX_ROW_ID FROM .IV41100 ORDER BY VENDORID DESC, Landed_Cost_ID DESC END ELSE IF @VENDORID_RS = @VENDORID_RE BEGIN SELECT TOP 25  Landed_Cost_ID, Long_Description, NOTEINDX, VENDORID, CURNCYID, CURRNIDX, RATETPID, DECPLCUR, ODECPLCU, ACPURIDX, PURPVIDX, Invoice_Match, CALCMTHD, Orig_Landed_Cost_Amount, Calculation_Percentage, Revalue_Inventory, Tolerance_Percentage, Vendor_Note_Index, Currency_Note_Index, DEX_ROW_ID FROM .IV41100 WHERE VENDORID = @VENDORID_RS AND Landed_Cost_ID BETWEEN @Landed_Cost_ID_RS AND @Landed_Cost_ID_RE ORDER BY VENDORID DESC, Landed_Cost_ID DESC END ELSE BEGIN SELECT TOP 25  Landed_Cost_ID, Long_Description, NOTEINDX, VENDORID, CURNCYID, CURRNIDX, RATETPID, DECPLCUR, ODECPLCU, ACPURIDX, PURPVIDX, Invoice_Match, CALCMTHD, Orig_Landed_Cost_Amount, Calculation_Percentage, Revalue_Inventory, Tolerance_Percentage, Vendor_Note_Index, Currency_Note_Index, DEX_ROW_ID FROM .IV41100 WHERE VENDORID BETWEEN @VENDORID_RS AND @VENDORID_RE AND Landed_Cost_ID BETWEEN @Landed_Cost_ID_RS AND @Landed_Cost_ID_RE ORDER BY VENDORID DESC, Landed_Cost_ID DESC END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_IV41100L_2] TO [DYNGRP]
+GO

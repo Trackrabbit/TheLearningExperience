@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[taFSServiceCallMasterPost]  @I_vCALLNBR char (11),   @I_vSRVRECTYPE smallint,  @I_vSRVSTAT char (3),   @I_vSRVTYPE char (11),   @I_vSVCDESCR char (61),   @I_vpriorityLevel smallint,  @I_vCUSTNMBR char (15),   @I_vCustomer_Reference char (21), @I_vADRSCODE char (15),   @I_vNAME char (31),   @I_vADDRESS1 char (31),   @I_vADDRESS2 char (31),   @I_vADDRESS3 char (31),   @I_vCITY char (31),   @I_vSTATECD char (3),   @I_vZIP char (11),   @I_vCOUNTRY char (21),   @I_vCNTCPRSN char (31),   @I_vPHONE1 char (21),   @I_vCKHOLD smallint,   @I_vOFFID char (11),   @I_vSVCAREA char (11),   @I_vTECHID char (11),   @I_vTIMEZONE char (3),   @I_vCONTNBR char (11),   @I_vENTDTE datetime,   @I_vENTTME datetime,   @I_vETADTE datetime,   @I_vETATME datetime,   @I_vDISPDTE datetime,   @I_vDISPTME datetime,   @I_vARRIVDTE datetime,   @I_vARRIVTME datetime,   @I_vCOMPDTE datetime,   @I_vCOMPTME datetime,   @I_vResponse_Date datetime,  @I_vResponse_Time datetime,  @I_vSLPRSNID char (15),   @I_vPORDNMBR char (21),   @I_vNOTETXT varchar(8000),  @I_vUSERDEF1 char (21),   @I_vUSERDEF2 char (21),   @I_vUSRDEF03 char (21),   @I_vUSRDEF04 char (21),   @I_vUSRDEF05 char (21),   @I_vSVC_On_Hold tinyint,  @I_vPYMTRMID char (21),   @I_vSVC_FO_ID char (51),  @I_vCURNCYID char(15),   @I_vAutoCreateLabor tinyint,   @I_vUpdateIfExists tinyint,  @I_vRequesterTrx smallint,  @I_vUSRDEFND1 char(50),   @I_vUSRDEFND2 char(50),   @I_vUSRDEFND3 char(50),   @I_vUSRDEFND4 varchar(8000),  @I_vUSRDEFND5 varchar(8000),  @O_iErrorState int output, @oErrString varchar(255) output   as  set nocount on  select @O_iErrorState = 0  return (@O_iErrorState)   
+GO
+GRANT EXECUTE ON  [dbo].[taFSServiceCallMasterPost] TO [DYNGRP]
+GO

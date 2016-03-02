@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B7100190SS_1] (@SALSTERR char(15), @BSSI_Location_Segment char(15)) AS /* 12.00.0270.000 */ set nocount on SELECT TOP 1  SALSTERR, BSSI_Segment_Value, BSSI_Location_Segment, DEX_ROW_ID FROM .B7100190 WHERE SALSTERR = @SALSTERR AND BSSI_Location_Segment = @BSSI_Location_Segment ORDER BY SALSTERR ASC, BSSI_Location_Segment ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B7100190SS_1] TO [DYNGRP]
+GO

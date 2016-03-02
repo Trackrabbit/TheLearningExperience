@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_SVC07000SS_1] (@Menu_ID numeric(19,5)) AS  set nocount on SELECT TOP 1  Menu_ID, Name, KeyCode, Path, DEX_ROW_ID FROM .SVC07000 WHERE Menu_ID = @Menu_ID ORDER BY Menu_ID ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SVC07000SS_1] TO [DYNGRP]
+GO

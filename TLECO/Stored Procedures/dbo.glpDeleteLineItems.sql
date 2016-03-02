@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[glpDeleteLineItems]  @I_cBatchNumber char(15) = NULL,  @I_iJournalEntry int   = NULL,  @I_sTransactionType smallint = NULL,  @O_iErrorState int   = NULL output as  declare   @NORMAL_TRX smallint,  @CLEARING_TRX smallint,  @BUDGET_TRX smallint,     @BUSINESS_FORM smallint,  @tLoop tinyint,  @tTransaction tinyint  select  @O_iErrorState = 0  if @@trancount = 0 begin  select @tTransaction = 1  begin transaction end   while (@tLoop is NULL) begin  select @tLoop = 1   if  @I_cBatchNumber  is NULL or  @I_iJournalEntry is NULL or  @I_sTransactionType is NULL   begin  select @O_iErrorState = 20804  break   end   select  @NORMAL_TRX  = 1,  @CLEARING_TRX = 2,  @BUDGET_TRX  = 4,     @BUSINESS_FORM = 5   if @I_sTransactionType <> @NORMAL_TRX and   @I_sTransactionType <> @CLEARING_TRX and  @I_sTransactionType <> @BUDGET_TRX and    @I_sTransactionType <> @BUSINESS_FORM  begin  select @O_iErrorState = 20805  break  end    if @I_sTransactionType = @NORMAL_TRX  begin   delete  GL10001  where  JRNENTRY = @I_iJournalEntry   end   else if @I_sTransactionType = @CLEARING_TRX  begin  delete  GL10002  where  JRNENTRY = @I_iJournalEntry   end  else if @I_sTransactionType = @BUDGET_TRX  begin  delete  GL12001  where  JRNENTRY = @I_iJournalEntry   end  else if @I_sTransactionType = @BUSINESS_FORM  begin  delete  GL10101  where  BSNSFMID = @I_cBatchNumber  and JRNENTRY = @I_iJournalEntry   end  end   if @O_iErrorState <> 0 begin select 'I SHOULDNT BE HERE'  if @tTransaction = 1  rollback transaction  end else if @tTransaction = 1  commit transaction  return     
+GO
+GRANT EXECUTE ON  [dbo].[glpDeleteLineItems] TO [DYNGRP]
+GO

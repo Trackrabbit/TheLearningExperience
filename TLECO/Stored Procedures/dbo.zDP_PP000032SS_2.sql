@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_PP000032SS_2] (@PP_Profile_Name char(21)) AS  set nocount on SELECT TOP 1  USERID, PP_Profile_Name, DEX_ROW_ID FROM .PP000032 WHERE PP_Profile_Name = @PP_Profile_Name ORDER BY PP_Profile_Name ASC, DEX_ROW_ID ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_PP000032SS_2] TO [DYNGRP]
+GO

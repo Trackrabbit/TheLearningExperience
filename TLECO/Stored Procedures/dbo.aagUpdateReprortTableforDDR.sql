@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create     procedure [dbo].[aagUpdateReprortTableforDDR]  @USERID char(5),  @BCHSOURC char(51),  @aaSubLedgerHdrID int,  @RMDTYPAL int,  @DOCNUMBR char(21),  @GLPOSTDT datetime as begin   set nocount on   insert into AAG50000  (USERID, TRXBTCHSRC, aaSubLedgerHdrID, SERIES, DOCTYPE,DOCNUMBR, PSTGDATE,aaOrder)  values(@USERID,@BCHSOURC,@aaSubLedgerHdrID, 3,@RMDTYPAL, @DOCNUMBR,@GLPOSTDT ,0)   insert into AAG50001(aaSubLedgerHdrID,aaSubLedgerDistID, ACTINDX,  DEBITAMT, CRDTAMNT, ORDBTAMT, ORCRDAMT, CURNCYID, CURRNIDX,POSTED,USERID,SERIES,TRXBTCHSRC)   select aaSubLedgerHdrID,aaSubLedgerDistID, ACTINDX,  DEBITAMT, CRDTAMNT, ORDBTAMT, ORCRDAMT, CURNCYID, CURRNIDX,POSTED,@USERID, 3,@BCHSOURC  from AAG20001 where aaSubLedgerHdrID = @aaSubLedgerHdrID and POSTED = 1  insert into AAG50002(aaSubLedgerHdrID,aaSubLedgerDistID,aaSubLedgerAssignID,  DEBITAMT, CRDTAMNT, ORDBTAMT, ORCRDAMT,  DistRef,USERID,TRXBTCHSRC)   select aaSubLedgerHdrID,aaSubLedgerDistID,aaSubLedgerAssignID,  DEBITAMT, CRDTAMNT, ORDBTAMT, ORCRDAMT,  CAST((aaSubLedgerDistID-(SELECT MIN(aaSubLedgerDistID) FROM AAG20002 where aaSubLedgerHdrID = @aaSubLedgerHdrID   and aaSubLedgerDistID in(select aaSubLedgerDistID from AAG20001   where aaSubLedgerHdrID = @aaSubLedgerHdrID and POSTED = 1))+1) AS VARCHAR(10)), @USERID, @BCHSOURC   from AAG20002 where aaSubLedgerHdrID = @aaSubLedgerHdrID  and aaSubLedgerDistID in(select aaSubLedgerDistID from AAG20001  where aaSubLedgerHdrID = @aaSubLedgerHdrID and POSTED = 1)  set nocount off end    
+GO
+GRANT EXECUTE ON  [dbo].[aagUpdateReprortTableforDDR] TO [DYNGRP]
+GO

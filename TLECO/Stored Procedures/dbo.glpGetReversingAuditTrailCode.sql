@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[glpGetReversingAuditTrailCode]  @I_tBuildICAuditTrailCode tinyint  = NULL,  @IO_cAuditTrailCode             char(13)        = NULL  output,  @O_iErrorState                  int             = NULL  output  as  declare  @TRUE                   tinyint,   @cAuditTrailCode        char(13),  @cPrefix                char(5),  @cDBName     char(5),  @iMessageNumber         int,  @iError                 int,  @iStatus                int,  @tTransaction           tinyint,  @tLoop                  tinyint  select  @O_iErrorState = 0,  @iStatus = 0  select @TRUE = 1  if @@trancount = 0 begin  select @tTransaction = 1  begin transaction end   while (@tLoop is NULL) begin  select @tLoop = 1   if  @I_tBuildICAuditTrailCode is NULL or  @IO_cAuditTrailCode   is NULL  begin  select @O_iErrorState = 20678  break  end    select @cAuditTrailCode = @IO_cAuditTrailCode   if @I_tBuildICAuditTrailCode = @TRUE  select @iMessageNumber = 18728   else  select @iMessageNumber = 15575    select @cDBName = db_name()   exec @iStatus = DYNAMICS..smGetMsgString  @iMessageNumber,  @cDBName,  @cPrefix        output,  @O_iErrorState  output   select @iError = @@error  if @iStatus = 0 and @iError <> 0  select @iStatus = @iError   if @iStatus <> 0 or @O_iErrorState <> 0  break   select @IO_cAuditTrailCode =  stuff(  @cAuditTrailCode,  1,  len(rtrim(ltrim(@cPrefix))),  rtrim(@cPrefix))   end   if  @iStatus <> 0 or @O_iErrorState <> 0 begin  if @tTransaction = 1  rollback transaction  end else if @tTransaction = 1  commit transaction  return  (@iStatus)    
+GO
+GRANT EXECUTE ON  [dbo].[glpGetReversingAuditTrailCode] TO [DYNGRP]
+GO

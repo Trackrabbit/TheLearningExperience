@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[popGetNetQtyReceived]  @I_cPONumber                    char(21)    = NULL,  @I_nOrd                         int         = NULL,   @I_cItemNumber                  char(30)    = NULL,   @I_IsNonIV tinyint  = NULL,   @O_fCheckQtyShortTolerance      tinyint     = NULL output,   @O_NetQtyReceived               numeric(19,5) = NULL output,  @O_iErrorState                  int           = NULL output  AS  DECLARE @NetQTYShipped numeric(19,5),  @NetQTYReplaced numeric(19,5)  if( @I_cPONumber is NULL or  @I_nOrd is NULL or  @I_cItemNumber is NULL or  @I_IsNonIV is NULL  ) begin  select          @O_iErrorState = 21022  return end   select @O_iErrorState = 0,  @O_fCheckQtyShortTolerance = 0,  @O_NetQtyReceived = 0  select @NetQTYShipped = 0,  @NetQTYReplaced = 0  IF @I_IsNonIV = 1  BEGIN  IF (select UseQtyShortageTolerance from POP40100 WHERE INDEX1 = 1) = 1  BEGIN  select @O_fCheckQtyShortTolerance = 1   select @NetQTYShipped = sum(QTYSHPPD - QTYREJ) , @NetQTYReplaced = sum(QTYREPLACED)  from POP10500 (NOLOCK) where PONUMBER = @I_cPONumber and POLNENUM = @I_nOrd   END  ELSE  BEGIN  select @O_fCheckQtyShortTolerance = 0  END  END ELSE  BEGIN  IF (select UseQtyShortageTolerance from IV00101 where ITEMNMBR = @I_cItemNumber) = 1  BEGIN  select @O_fCheckQtyShortTolerance = 1   select @NetQTYShipped = sum(QTYSHPPD - QTYREJ) , @NetQTYReplaced = sum(QTYREPLACED)  from POP10500 (NOLOCK) where PONUMBER = @I_cPONumber and POLNENUM = @I_nOrd   END  ELSE  BEGIN  select @O_fCheckQtyShortTolerance = 0  END  END  select @O_NetQtyReceived = @NetQTYShipped - @NetQTYReplaced   RETURN    
+GO
+GRANT EXECUTE ON  [dbo].[popGetNetQtyReceived] TO [DYNGRP]
+GO

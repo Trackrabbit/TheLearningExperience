@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B4602951SI] (@BSSI_Ground_Lease_Number char(25), @LNITMSEQ int, @SLPRSNID char(15), @VENDORID char(15), @SLSAMNT numeric(19,5), @PRCNTAGE numeric(19,5), @STRTDATE datetime, @ENDDATE datetime, @BSSI_Rev_Sharing_Limit_T smallint, @BSSI_Limit_Start_Date datetime, @BSSI_Limit_End_Date datetime, @BSSI_Limit_Start_Int smallint, @BSSI_Limit_End_Int smallint, @BSSI_Limit_Start_SalesAm numeric(19,5), @BSSI_Limit_End_SalesAmt numeric(19,5), @PMAPACCT_1 char(5), @PMAPACCT_2 char(5), @PMAPACCT_3 char(3), @PMAPACCT_4 char(3), @PMPRCHAC_1 char(5), @PMPRCHAC_2 char(5), @PMPRCHAC_3 char(3), @PMPRCHAC_4 char(3), @NOTEINDX numeric(19,5), @DEX_ROW_ID int OUT) AS /* 12.00.0270.000 */ set nocount on BEGIN INSERT INTO .B4602951 (BSSI_Ground_Lease_Number, LNITMSEQ, SLPRSNID, VENDORID, SLSAMNT, PRCNTAGE, STRTDATE, ENDDATE, BSSI_Rev_Sharing_Limit_T, BSSI_Limit_Start_Date, BSSI_Limit_End_Date, BSSI_Limit_Start_Int, BSSI_Limit_End_Int, BSSI_Limit_Start_SalesAm, BSSI_Limit_End_SalesAmt, PMAPACCT_1, PMAPACCT_2, PMAPACCT_3, PMAPACCT_4, PMPRCHAC_1, PMPRCHAC_2, PMPRCHAC_3, PMPRCHAC_4, NOTEINDX) VALUES ( @BSSI_Ground_Lease_Number, @LNITMSEQ, @SLPRSNID, @VENDORID, @SLSAMNT, @PRCNTAGE, @STRTDATE, @ENDDATE, @BSSI_Rev_Sharing_Limit_T, @BSSI_Limit_Start_Date, @BSSI_Limit_End_Date, @BSSI_Limit_Start_Int, @BSSI_Limit_End_Int, @BSSI_Limit_Start_SalesAm, @BSSI_Limit_End_SalesAmt, @PMAPACCT_1, @PMAPACCT_2, @PMAPACCT_3, @PMAPACCT_4, @PMPRCHAC_1, @PMPRCHAC_2, @PMPRCHAC_3, @PMPRCHAC_4, @NOTEINDX) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B4602951SI] TO [DYNGRP]
+GO

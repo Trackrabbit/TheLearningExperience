@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_BSSI0200SI] (@BSSI_Product_ID smallint, @BSSI_Build_Number smallint, @DATE1 datetime, @TIME1 datetime, @PRODNAME char(31), @DEX_ROW_ID int OUT) AS /* 12.00.0270.000 */ set nocount on BEGIN INSERT INTO .BSSI0200 (BSSI_Product_ID, BSSI_Build_Number, DATE1, TIME1, PRODNAME) VALUES ( @BSSI_Product_ID, @BSSI_Build_Number, @DATE1, @TIME1, @PRODNAME) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_BSSI0200SI] TO [DYNGRP]
+GO

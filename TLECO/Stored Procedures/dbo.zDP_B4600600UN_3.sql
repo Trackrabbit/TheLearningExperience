@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B4600600UN_3] (@BS int, @BSSI_Portfolio_Type_ID char(25), @BSSI_Portfolio_Type_ID_RS char(25), @BSSI_Portfolio_Type_ID_RE char(25)) AS /* 12.00.0270.000 */ set nocount on IF @BSSI_Portfolio_Type_ID_RS IS NULL BEGIN SELECT TOP 25  BSSI_PortfolioID, BSSI_Description, BSSI_Portfolio_Type_ID, ACCTSEG1, BSSI_Contact_ID, BSSI_Aquisition_Date, BSSI_Portfolio_Status, NOTEINDX, ADDRESS1, ADDRESS2, ADDRESS3, CITY, STATE, ZIPCODE, BSSI_Consolidate, DEX_ROW_ID FROM .B4600600 WHERE ( BSSI_Portfolio_Type_ID > @BSSI_Portfolio_Type_ID ) ORDER BY BSSI_Portfolio_Type_ID ASC, DEX_ROW_ID ASC END ELSE IF @BSSI_Portfolio_Type_ID_RS = @BSSI_Portfolio_Type_ID_RE BEGIN SELECT TOP 25  BSSI_PortfolioID, BSSI_Description, BSSI_Portfolio_Type_ID, ACCTSEG1, BSSI_Contact_ID, BSSI_Aquisition_Date, BSSI_Portfolio_Status, NOTEINDX, ADDRESS1, ADDRESS2, ADDRESS3, CITY, STATE, ZIPCODE, BSSI_Consolidate, DEX_ROW_ID FROM .B4600600 WHERE BSSI_Portfolio_Type_ID = @BSSI_Portfolio_Type_ID_RS AND ( BSSI_Portfolio_Type_ID > @BSSI_Portfolio_Type_ID ) ORDER BY BSSI_Portfolio_Type_ID ASC, DEX_ROW_ID ASC END ELSE BEGIN SELECT TOP 25  BSSI_PortfolioID, BSSI_Description, BSSI_Portfolio_Type_ID, ACCTSEG1, BSSI_Contact_ID, BSSI_Aquisition_Date, BSSI_Portfolio_Status, NOTEINDX, ADDRESS1, ADDRESS2, ADDRESS3, CITY, STATE, ZIPCODE, BSSI_Consolidate, DEX_ROW_ID FROM .B4600600 WHERE BSSI_Portfolio_Type_ID BETWEEN @BSSI_Portfolio_Type_ID_RS AND @BSSI_Portfolio_Type_ID_RE AND ( BSSI_Portfolio_Type_ID > @BSSI_Portfolio_Type_ID ) ORDER BY BSSI_Portfolio_Type_ID ASC, DEX_ROW_ID ASC END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B4600600UN_3] TO [DYNGRP]
+GO

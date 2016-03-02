@@ -1,0 +1,54 @@
+CREATE TABLE [dbo].[CM20100]
+(
+[CMDNUMWK] [numeric] (19, 5) NOT NULL,
+[RecNumControl] [numeric] (19, 5) NOT NULL,
+[VOIDED] [tinyint] NOT NULL,
+[CNTRLTYP] [smallint] NOT NULL,
+[AUDITTRAIL] [char] (13) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CHEKBKID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CMTrxType] [smallint] NOT NULL,
+[CMTrxNum] [char] (21) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CMERRMSG] [binary] (4) NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[CM20100] ADD CONSTRAINT [PKCM20100] PRIMARY KEY NONCLUSTERED  ([CMDNUMWK], [VOIDED]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK2CM20100] ON [dbo].[CM20100] ([AUDITTRAIL], [CHEKBKID], [CMTrxType], [CMTrxNum], [DEX_ROW_ID]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK3CM20100] ON [dbo].[CM20100] ([AUDITTRAIL], [RecNumControl]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[CM20100].[CMDNUMWK]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[CM20100].[RecNumControl]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[CM20100].[VOIDED]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[CM20100].[CNTRLTYP]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[CM20100].[AUDITTRAIL]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[CM20100].[CHEKBKID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[CM20100].[CMTrxType]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[CM20100].[CMTrxNum]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[CM20100].[CMERRMSG]'
+GO
+GRANT SELECT ON  [dbo].[CM20100] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[CM20100] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[CM20100] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[CM20100] TO [DYNGRP]
+GO
+GRANT SELECT ON  [dbo].[CM20100] TO [RAPIDGRP]
+GO
+GRANT INSERT ON  [dbo].[CM20100] TO [RAPIDGRP]
+GO
+GRANT DELETE ON  [dbo].[CM20100] TO [RAPIDGRP]
+GO
+GRANT UPDATE ON  [dbo].[CM20100] TO [RAPIDGRP]
+GO

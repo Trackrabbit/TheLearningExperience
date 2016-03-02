@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_CO00123SI] (@FieldsListGuid char(37), @ConditionsGuid char(37), @SEQNUMBR int, @FromTable char(81), @FromField char(81), @FromDictID smallint, @FromFieldListSequence int, @ToTable char(81), @ToField char(81), @ToDictID smallint, @ToFieldListSequence int, @FieldDataType smallint, @FieldComparison tinyint, @QueryOperator smallint, @QueryConditon smallint, @StringFilter_1 char(255), @StringFilter_2 char(255), @IntegerFilter_1 int, @IntegerFilter_2 int, @NumericFilter_1 numeric(19,5), @NumericFilter_2 numeric(19,5), @DateFilter_1 datetime, @DateFilter_2 datetime, @TimeFilter_1 datetime, @TimeFilter_2 datetime, @EnumFilter char(255), @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .CO00123 (FieldsListGuid, ConditionsGuid, SEQNUMBR, FromTable, FromField, FromDictID, FromFieldListSequence, ToTable, ToField, ToDictID, ToFieldListSequence, FieldDataType, FieldComparison, QueryOperator, QueryConditon, StringFilter_1, StringFilter_2, IntegerFilter_1, IntegerFilter_2, NumericFilter_1, NumericFilter_2, DateFilter_1, DateFilter_2, TimeFilter_1, TimeFilter_2, EnumFilter) VALUES ( @FieldsListGuid, @ConditionsGuid, @SEQNUMBR, @FromTable, @FromField, @FromDictID, @FromFieldListSequence, @ToTable, @ToField, @ToDictID, @ToFieldListSequence, @FieldDataType, @FieldComparison, @QueryOperator, @QueryConditon, @StringFilter_1, @StringFilter_2, @IntegerFilter_1, @IntegerFilter_2, @NumericFilter_1, @NumericFilter_2, @DateFilter_1, @DateFilter_2, @TimeFilter_1, @TimeFilter_2, @EnumFilter) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_CO00123SI] TO [DYNGRP]
+GO

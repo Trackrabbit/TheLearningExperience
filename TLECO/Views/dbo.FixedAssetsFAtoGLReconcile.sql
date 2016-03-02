@@ -1,0 +1,20 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE VIEW [dbo].[FixedAssetsFAtoGLReconcile] AS select ['Asset Financial Detail Master'].[FINANCIALINDX] as 'Financial Index', ['Asset Financial Detail Master'].[AMOUNT] as 'Amount', ['Asset Financial Detail Master'].[FAPERIOD] as 'FA Period', ['Asset Financial Detail Master'].[FAYEAR] as 'FA Year', rtrim(['Asset Financial Detail Master'].[GLINTBTCHNUM]) as 'GL Posting Batch Number', rtrim(['Asset Financial Detail Master'].[SOURCDOC]) as 'Source Document', ['Asset Financial Detail Master'].[ASSETINDEX] as 'Asset Index', ['Asset Financial Detail Master'].[GLINTACCTINDX] as 'GL Post Acct', 'Interface to GL' = dbo.DYN_FUNC_Boolean_All(['Asset Financial Detail Master'].[INTERFACEGL]), ['Asset Financial Detail Master'].[BOOKINDX] as 'Book Index', rtrim(['Book Setup'].[BOOKID]) as 'Book ID', 'Transaction Account Type' = dbo.FA_FUNC_Transaction_Account_Type(['Asset Financial Detail Master'].[TRANSACCTTYPE]), rtrim(['Asset General Information Master'].[ASSETID]) as 'Asset ID', ['Asset General Information Master'].[ASSETIDSUF] as 'Suf', rtrim(['Asset General Information Master'].[ASSETDESC]) as 'Asset Description', rtrim(['Asset General Information Master'].[LOCATNID]) as 'Location ID', rtrim(['Asset General Information Master'].[ASSETCLASSID]) as 'Asset Class ID', rtrim(['Asset General Information Master'].[STRUCTUREID]) as 'Structure ID', 'Asset Status' = dbo.FA_FUNC_Asset_Status(['Asset General Information Master'].[ASSETSTATUS]), rtrim(['Asset General Information Master'].[Asset_Label]) as 'Asset Label', rtrim(['Asset General Information Master'].[Physical_Location_ID]) as 'Physical Location ID', (select rtrim([ACTNUMST]) from [GL00105] as ['Account Index Master'] where ['Account Index Master'].[ACTINDX] = ['Asset Financial Detail Master'].[GLINTACCTINDX]) as 'Account Number',  ['Account Master'].[ACTNUMBR_1] as 'Segment1', ['Account Master'].[ACTNUMBR_2] as 'Segment2', ['Account Master'].[ACTNUMBR_3] as 'Segment3', ['Account Master'].[ACTNUMBR_4] as 'Segment4', rtrim(['Account Master'].[ACTDESCR]) as 'Account Description', rtrim(['Account Master'].[ACTALIAS]) as 'Account Alias', 'Account Type' = dbo.DYN_FUNC_Account_Type(['Account Master'].[ACCTTYPE]), 'Account Category Number' = dbo.DYN_FUNC_Account_Category_Number(['Account Master'].[ACCATNUM]), rtrim(['Account Master'].[MNACSGMT]) as 'Main Account Segment', ['Asset Financial Detail Master'].[GLINTTRXDATE] as 'GL Posting Trx Date',  'Account Number For Drillback' = 'dgpp://DGPB/?Db=&Srv=TLEFLSQL3&Cmp=TLECO&Prod=0' +dbo.dgppAccountIndex(1,['Asset Financial Detail Master'].[GLINTACCTINDX] ), 'Asset Index For Drillback' = 'dgpp://DGPB/?Db=&Srv=TLEFLSQL3&Cmp=TLECO&Prod=309' +dbo.dgppAssetIndex(1,['Asset Financial Detail Master'].[ASSETINDEX] )          from [FA00902] as ['Asset Financial Detail Master'] with (NOLOCK) left outer join [FA00100] as ['Asset General Information Master'] with (NOLOCK) on ['Asset Financial Detail Master'].[ASSETINDEX] = ['Asset General Information Master'].[ASSETINDEX] left outer join [FA00200] as ['Asset Book Master'] with (NOLOCK) on ['Asset Financial Detail Master'].[ASSETINDEX] = ['Asset Book Master'].[ASSETINDEX]  and ['Asset Financial Detail Master'].[BOOKINDX] = ['Asset Book Master'].[BOOKINDX] left outer join [FA40200] as ['Book Setup'] with (NOLOCK) on ['Asset Book Master'].[BOOKINDX] = ['Book Setup'].[BOOKINDX] left outer join [GL00100] as ['Account Master'] with (NOLOCK) on ['Asset Financial Detail Master'].[GLINTACCTINDX] = ['Account Master'].[ACTINDX] 
+GO
+GRANT ALTER ON  [dbo].[FixedAssetsFAtoGLReconcile] TO [DYNGRP]
+GO
+GRANT SELECT ON  [dbo].[FixedAssetsFAtoGLReconcile] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[FixedAssetsFAtoGLReconcile] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[FixedAssetsFAtoGLReconcile] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[FixedAssetsFAtoGLReconcile] TO [DYNGRP]
+GO
+GRANT SELECT ON  [dbo].[FixedAssetsFAtoGLReconcile] TO [rpt_accounting manager]
+GO
+GRANT SELECT ON  [dbo].[FixedAssetsFAtoGLReconcile] TO [rpt_executive]
+GO

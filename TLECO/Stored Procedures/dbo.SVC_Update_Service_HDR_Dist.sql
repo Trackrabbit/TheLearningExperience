@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[SVC_Update_Service_HDR_Dist]  @CallNumber char(11),  @RecordType smallint,  @DistType smallint,  @AccountIndex integer,  @CurrencyIndex smallint AS declare  @NextLine integer declare  @CAmount numeric(19,2) declare  @OrigCAmount numeric (19,2) declare  @DAmount numeric(19,2) declare  @OrigDAmount numeric (19,2) declare  @PostDate datetime  if @AccountIndex > 0  BEGIN  delete from SVC00230 where SRVRECTYPE = @RecordType and CALLNBR = @CallNumber  and SVC_Distribution_Type=@DistType and POSTED = 1 and ACTINDX = @AccountIndex   if exists (select * from SVC00231 where SRVRECTYPE = @RecordType and CALLNBR = @CallNumber  and ACTINDX = @AccountIndex and SVC_Distribution_Type = @DistType and POSTED = 1)  BEGIN  if @CurrencyIndex = 0   select @CurrencyIndex = CURRNIDX from SVC00200 where SRVRECTYPE = @RecordType and CALLNBR = @CallNumber  select @CAmount = sum(CRDTAMNT), @OrigCAmount = sum(ORCRDAMT), @DAmount = sum(DEBITAMT), @OrigDAmount = sum(ORDBTAMT) from SVC00231  where SRVRECTYPE = @RecordType and CALLNBR = @CallNumber and ACTINDX = @AccountIndex  and SVC_Distribution_Type = @DistType and POSTED =1  select @PostDate = CONVERT(varchar(10),GETDATE(),102) + ' 00:00:00'  exec SVC_Dist_Get_SEQ_Service  @CallNumber,  @RecordType,  0,  0,  '',  @DistType,  @NextLine output   insert SVC00230  select   @RecordType,  @CallNumber,  @NextLine,  @DistType,   '',  @AccountIndex,  @DAmount,   @OrigDAmount,  @CAmount,   @OrigCAmount,  isnull(@CurrencyIndex,0),  '',  1,  @PostDate   END END  return(0)    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Update_Service_HDR_Dist] TO [DYNGRP]
+GO

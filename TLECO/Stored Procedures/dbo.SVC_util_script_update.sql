@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[SVC_util_script_update](@table varchar(30)) as declare @temp varchar(100) declare @fieldname varchar(40) declare @nextfieldname varchar(40) declare fields cursor for  select c.name + ',' from syscolumns c, sysobjects o where c.id = o.id and o.name = @table order by colid set nocount on select @temp = 'if exists (select * from sysobjects where id = object_id(''dbo.old_'+@table+''') and sysstat & 0xf = 3)' print @temp select @temp = 'drop table dbo.old_'+@table print @temp print 'go' print ' ' select @temp ='exec sp_rename '+@table+', old_'+@table print @temp print 'go' select @temp ='exec sp_rename PK'+@table+', old_PK'+@table print @temp print 'go' print ' ' print '' print ' ' select @temp ='insert '+@table+' select' print @temp open fields fetch next from fields into @fieldname while @@FETCH_STATUS = 0  BEGIN  fetch next from fields into @nextfieldname  if @nextfieldname <> 'DEX_ROW_ID,'  BEGIN  print @fieldname  select @fieldname = @nextfieldname  END  else  BEGIN  select @fieldname = substring(@fieldname,1,LEN(@fieldname)-1)  print @fieldname  BREAK  END  END deallocate fields select @temp ='from old_'+@table print @temp print 'go' exec SVC_util_script_indexes @table print 'go' select @temp = 'GRANT REFERENCES ON ' + @table + ' TO DYNGRP' print @temp select @temp = 'GRANT SELECT ON ' + @table + ' TO DYNGRP' print @temp select @temp = 'GRANT INSERT ON ' + @table + '  TO DYNGRP' print @temp select @temp = 'GRANT DELETE ON ' + @table + '  TO DYNGRP' print @temp select @temp = 'GRANT UPDATE ON ' + @table + '  TO DYNGRP' print @temp return    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_util_script_update] TO [DYNGRP]
+GO

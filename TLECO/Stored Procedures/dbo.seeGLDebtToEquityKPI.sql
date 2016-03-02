@@ -1,0 +1,16 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[seeGLDebtToEquityKPI]   @UserDate datetime = NULL,  @TimeUnit varchar(10) = 'Period' as  declare   @CurrentDebtToEquity numeric(19,5),  @PreviousDebtToEquity numeric(19,5),  @LastYearDebtToEquity numeric(19,5),  @CurrentBalanceLiabilities numeric(19,5),  @PreviousBalanceLiabilities numeric(19,5),  @LastYearBalanceLiabilities numeric(19,5),  @CurrentBalanceEquity numeric(19,5),  @PreviousBalanceEquity numeric(19,5),  @LastYearBalanceEquity numeric(19,5)  SELECT   @CurrentBalanceLiabilities = sum(CurrentBalance),  @PreviousBalanceLiabilities = sum(PreviousBalance),  @LastYearBalanceLiabilities = sum(LastYearBalance)  FROM   (SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 13) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 14) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 15) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 16) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 17) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 18) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 19) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 20) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 21) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 22)) s1  SELECT  @CurrentBalanceEquity =  sum(CurrentBalance),  @PreviousBalanceEquity = sum(PreviousBalance),  @LastYearBalanceEquity = sum(LastYearBalance) FROM   (SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 23) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 24) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 25) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 26) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 27) UNION  SELECT * FROM GetGLAcctCatBalanceKPI(@UserDate, @TimeUnit, 'YTD', 28)) s2   select @CurrentDebtToEquity =  CASE   WHEN @CurrentBalanceEquity = 0 THEN 0   ELSE ROUND(@CurrentBalanceLiabilities / @CurrentBalanceEquity,2)  END  select @PreviousDebtToEquity =   CASE   WHEN @PreviousBalanceEquity = 0 THEN 0  ELSE ROUND(@PreviousBalanceLiabilities / @PreviousBalanceEquity,2)  END  select @LastYearDebtToEquity =   CASE   WHEN @LastYearBalanceEquity = 0 THEN 0  ELSE ROUND(@LastYearBalanceLiabilities / @LastYearBalanceEquity,2)  END   select @CurrentDebtToEquity as CurrentDebtToEquity,   @PreviousDebtToEquity as PreviousDebtToEquity,  @LastYearDebtToEquity as LastYearDebtToEquity,  dbo.CalcPercentChange(@PreviousDebtToEquity, @CurrentDebtToEquity) as 'CurrPrevPercChange',  dbo.CalcPercentChange(@LastYearDebtToEquity, @CurrentDebtToEquity) as 'CurrLYPercChange'    
+GO
+GRANT EXECUTE ON  [dbo].[seeGLDebtToEquityKPI] TO [DYNGRP]
+GO
+GRANT EXECUTE ON  [dbo].[seeGLDebtToEquityKPI] TO [rpt_accounting manager]
+GO
+GRANT EXECUTE ON  [dbo].[seeGLDebtToEquityKPI] TO [rpt_bookkeeper]
+GO
+GRANT EXECUTE ON  [dbo].[seeGLDebtToEquityKPI] TO [rpt_certified accountant]
+GO
+GRANT EXECUTE ON  [dbo].[seeGLDebtToEquityKPI] TO [rpt_executive]
+GO

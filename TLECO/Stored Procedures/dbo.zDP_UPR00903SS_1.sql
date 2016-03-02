@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_UPR00903SS_1] (@EMPLOYID char(15), @YEAR1 smallint, @PERIODID smallint) AS  set nocount on SELECT TOP 1  EMPLOYID, PERIODID, YEAR1, Reported_Tips, Charged_Tips, FDTXTIPS, FICASS_Tips_Fiscal, FICSTPTX, Uncollected_FICASS_Tax_F, FICAMed_Tips_Fiscal, FICMTPTX, Uncollect_FICAMed_Tx_Fis, Reported_Receipts, Charged_Receipts, Allocated_Tips_Fiscal, Federal_Tips_Fiscal, DEX_ROW_ID FROM .UPR00903 WHERE EMPLOYID = @EMPLOYID AND YEAR1 = @YEAR1 AND PERIODID = @PERIODID ORDER BY EMPLOYID ASC, YEAR1 ASC, PERIODID ASC set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_UPR00903SS_1] TO [DYNGRP]
+GO

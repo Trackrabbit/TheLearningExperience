@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ create proc [dbo].[ivPurchaseReceiptGetNextAvailOrd]  (@cItem char(30)=NULL, @nQtyToReserve int, @nRxSeqNum int output, @iErrorState int=NULL output)  AS  DECLARE @nQtyToReserveTemp int,  @nRxSeqNum1 int,  @MaxSeqNum int,  @iStatus int,  @iError int,  @tTransaction tinyint  BEGIN  select     @nRxSeqNum = 0.0,  @iErrorState = 0  set nocount on  if @cItem=NULL  begin  select @iErrorState = 21036  return end   select @nQtyToReserveTemp = @nQtyToReserve if @nQtyToReserveTemp = 0.0  select @nQtyToReserveTemp = 1.0  exec @iStatus = ivPurchaseReceiptGetMaxOrd  @cItem,  @MaxSeqNum output,  @iErrorState output  select @iError = @@error if @iStatus = 0 and @iError <> 0  select @iStatus = @iError if ( (@iStatus <> 0) or (@iErrorState <> 0) )  return (@iStatus)  if exists( select 1 from IV10202 (nolock) where ITEMNMBR = @cItem ) begin  if @@trancount = 0  begin  select @tTransaction = 1  begin transaction  end    update   IV10202  set RCTSEQNM =   case   when RCTSEQNM > @MaxSeqNum then  RCTSEQNM + @nQtyToReserveTemp  else  @MaxSeqNum + @nQtyToReserveTemp + 1    end,  @nRxSeqNum =   case   when RCTSEQNM > @MaxSeqNum then  RCTSEQNM  else  @MaxSeqNum + 1   end  where   ITEMNMBR = @cItem   if (@@rowcount <> 1)  begin  select          @iErrorState = 20081  if @tTransaction = 1  rollback transaction  return  end   if (@nRxSeqNum < 1)  select @nRxSeqNum = 1.0   if @tTransaction = 1  commit transaction  end else begin  select @nRxSeqNum = 1.0  if @MaxSeqNum > @nRxSeqNum   select @nRxSeqNum = @MaxSeqNum + 1  insert into   IV10202  values   (@cItem,  (@nRxSeqNum + @nQtyToReserveTemp))  end  return   end     
+GO
+GRANT EXECUTE ON  [dbo].[ivPurchaseReceiptGetNextAvailOrd] TO [DYNGRP]
+GO

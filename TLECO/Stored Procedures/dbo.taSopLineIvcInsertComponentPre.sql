@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[taSopLineIvcInsertComponentPre]  @I_vSOPTYPE smallint output,    @I_vSOPNUMBE char(21) output,     @I_vUSERDATE datetime output,    @I_vLOCNCODE char(10) output,    @I_vLNITMSEQ int output,     @I_vITEMNMBR char(30) output,    @I_vAutoAssignBin smallint output,   @I_vITEMDESC char(100) output,    @I_vQUANTITY numeric(19,5) output,   @I_vQTYTBAOR numeric(19,5) output,   @I_vQTYCANCE numeric(19,5) output,   @I_vQTYFULFI numeric(19,5) output,   @I_vQUOTEQTYTOINV numeric(19,5) output,  @I_vQTYONHND numeric(19,5) output,   @I_vQTYRTRND numeric(19,5) output,   @I_vQTYINUSE numeric(19,5) output,   @I_vQTYINSVC numeric(19,5) output,   @I_vQTYDMGED numeric(19,5) output,   @I_vCUSTNMBR char(15) output,     @I_vDOCID char(15) output,     @I_vUNITCOST numeric (19,5) output,   @I_vNONINVEN smallint output,    @I_vAUTOALLOCATESERIAL int output,   @I_vAUTOALLOCATELOT int output,    @I_vCMPNTSEQ int output,     @I_vCMPITUOM char(9) output,    @I_vCURNCYID char(15) output,    @I_vUpdateIfExists smallint output,   @I_vRecreateDist smallint output,   @I_vRequesterTrx smallint output,   @I_vQtyShrtOpt smallint output,    @I_vRECREATECOMM smallint output,   @I_vUSRDEFND1 char(50) output,    @I_vUSRDEFND2 char(50) output,    @I_vUSRDEFND3 char(50) output,    @I_vUSRDEFND4 varchar(8000) output,   @I_vUSRDEFND5 varchar(8000) output,   @O_iErrorState int output, @oErrString char(255) output  as  set nocount on  select @O_iErrorState = 0  return (@O_iErrorState)   
+GO
+GRANT EXECUTE ON  [dbo].[taSopLineIvcInsertComponentPre] TO [DYNGRP]
+GO

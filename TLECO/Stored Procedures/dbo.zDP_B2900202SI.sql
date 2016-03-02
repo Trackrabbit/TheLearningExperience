@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B2900202SI] (@USERID char(15), @BSSI_ImportID char(15), @CUSTNMBR char(15), @SCHEDULE_INT_TYPE1 smallint, @FIRST_INV_DUE_DATE datetime, @DOCDATE datetime, @BSSI_DownPayment numeric(19,5), @ERRDESCR char(131), @DOCNUMBR char(21), @BSSI_LeaseLoanType char(7), @SCHEDULE_NUMBER char(21), @BSSI_EnableNegativeAmort tinyint, @SLSAMNT numeric(19,5), @BSSI_Lease_Loan_Number char(17), @BSSI_EnableLoanPayrollLi tinyint, @BSSI_Facility_ID char(67), @BSSI_EnableDisbLoan tinyint, @BSSI_InterestMethod smallint, @BSSI_RecalculateInterest tinyint, @PYMTTYPE smallint, @BSSI_Rev_Source_ID char(25), @BSSI_nSuccess smallint, @DEX_ROW_ID int OUT) AS /* 12.00.0270.000 */ set nocount on BEGIN INSERT INTO .B2900202 (USERID, BSSI_ImportID, CUSTNMBR, SCHEDULE_INT_TYPE1, FIRST_INV_DUE_DATE, DOCDATE, BSSI_DownPayment, ERRDESCR, DOCNUMBR, BSSI_LeaseLoanType, SCHEDULE_NUMBER, BSSI_EnableNegativeAmort, SLSAMNT, BSSI_Lease_Loan_Number, BSSI_EnableLoanPayrollLi, BSSI_Facility_ID, BSSI_EnableDisbLoan, BSSI_InterestMethod, BSSI_RecalculateInterest, PYMTTYPE, BSSI_Rev_Source_ID, BSSI_nSuccess) VALUES ( @USERID, @BSSI_ImportID, @CUSTNMBR, @SCHEDULE_INT_TYPE1, @FIRST_INV_DUE_DATE, @DOCDATE, @BSSI_DownPayment, @ERRDESCR, @DOCNUMBR, @BSSI_LeaseLoanType, @SCHEDULE_NUMBER, @BSSI_EnableNegativeAmort, @SLSAMNT, @BSSI_Lease_Loan_Number, @BSSI_EnableLoanPayrollLi, @BSSI_Facility_ID, @BSSI_EnableDisbLoan, @BSSI_InterestMethod, @BSSI_RecalculateInterest, @PYMTTYPE, @BSSI_Rev_Source_ID, @BSSI_nSuccess) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B2900202SI] TO [DYNGRP]
+GO

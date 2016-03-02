@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE FUNCTION [dbo].[SVC_Calc_Cont_Billing_Amount]   (  @I_vCONTNBR char(11),  @I_vCHECKDATE datetime,  @I_vIncludeMeter smallint,  @I_vFuncOrOrig tinyint = 0   ) RETURNS numeric(19,5) as BEGIN declare @iAmountToInvoice numeric(19,5),  @iOrigAmountToInvoice numeric(19,5),  @iMeterAmount numeric(19,5),  @iOrigMeterAmount numeric(19,5),  @MeterInvoiceDate datetime,  @iReturnValue numeric(19,5)   select @iAmountToInvoice = 0,  @iOrigAmountToInvoice = 0,  @iMeterAmount = 0,  @iOrigMeterAmount = 0,  @MeterInvoiceDate = convert(char(10), '1900-01-01', 101),  @iReturnValue = 0   if (@I_vCONTNBR <> '')  begin  select @iAmountToInvoice = sum(DOCAMNT) - sum(SVC_Invoice_Credit_Amoun) - sum(DSCDLRAM),  @iOrigAmountToInvoice = sum(ORDOCAMT) - sum(OrigInvCreditAmt) -sum(ORDDLRAT)  from SVC00603 WITH (NOLOCK)  where SVC00603.CONSTS = 2 and  SVC00603.CONTNBR = @I_vCONTNBR and  SVC00603.INVODATE <= @I_vCHECKDATE and  SVC00603.POSTED = 0   if @I_vIncludeMeter =1  BEGIN  select @iMeterAmount = sum(Amount_To_Invoice),  @iOrigMeterAmount = sum(Orig_Amount_To_Invoice),  @MeterInvoiceDate = min(INVODATE)  from SVC00607   where CONSTS = 2 and CONTNBR = @I_vCONTNBR and Amount_To_Invoice > 0.0 and  INVODATE <= @I_vCHECKDATE and INVODATE > '1900-01-01'  select @iAmountToInvoice = isnull(@iMeterAmount,0) + isnull(@iAmountToInvoice,0)  select @iOrigAmountToInvoice = isnull(@iOrigMeterAmount,0) + isnull(@iOrigAmountToInvoice,0)  END  end  if (@I_vFuncOrOrig = 0)  set @iReturnValue = @iAmountToInvoice  else  set @iReturnValue = @iOrigAmountToInvoice   RETURN (@iReturnValue) END   
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Calc_Cont_Billing_Amount] TO [DYNGRP]
+GO

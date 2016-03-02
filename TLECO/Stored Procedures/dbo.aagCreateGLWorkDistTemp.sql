@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE    procedure [dbo].[aagCreateGLWorkDistTemp] @I_nHdrID int = 0, @I_cTableDistTemp nvarchar(30) = null, @Flag int  as declare @max int,  @str  varchar(50),  @TempTable VARCHAR(50),  @TempTableQuery VARCHAR (8000)  select @max=0 select @TempTable = '##aaGLWorkDistTemp'  + REPLACE(system_user,'''','') + db_name()  select @TempTableQuery = 'drop table ['+ @TempTable + ']'  if exists(select name from tempdb..sysobjects where name = @TempTable and type = 'U')  exec (@TempTableQuery)  begin  if @Flag = 1   set @str =  ' aaOFFSETAcct = 1'  else if @Flag = 0  set @str = ' aaOFFSETAcct = 0'  else  set @str = ' aaOFFSETAcct in (0,1)'   exec('select [aaGLWorkHdrID], [aaGLWorkDistID],[INTERID], [CorrespondingUnit], [ACTINDX], [ACCTTYPE], [aaBrowseType],  [DECPLACS], [FXDORVAR], [DEBITAMT], [CRDTAMNT], [ORDBTAMT], [ORCRDAMT], [CURNCYID], [CURRNIDX],  [RATETPID], [EXGTBLID], [XCHGRATE], [EXCHDATE], [TIME1], [RTCLCMTD], [DENXRATE], [MCTRXSTT],  [SQNCLINE], [aaCustID], [aaVendID], [aaSiteID], [aaItemID], [aaCopyStatus], [aaWinWasOpen], [aaDistErrors]  INTO ['+ @TempTable + '] from AAG10001 where aaGLWorkHdrID = ' + @I_nHdrID + ' and aaBrowseType <> 0 and' + @str )  if @Flag = 1  Select @max = max(aaGLWorkDistID)   from AAG10001   where aaGLWorkHdrID =  @I_nHdrID  and aaGLWorkDistID >0 and  aaBrowseType <> 0   else  set @max = 1   exec('alter table ['+ @TempTable + '] add aaDistplayDistID int IDENTITY('+ @max + ', 1)')  exec('truncate table ' + @I_cTableDistTemp)  exec('Insert into ' + @I_cTableDistTemp + ' select * from ['+ @TempTable + ']')   exec (@TempTableQuery)   return end    
+GO
+GRANT EXECUTE ON  [dbo].[aagCreateGLWorkDistTemp] TO [DYNGRP]
+GO

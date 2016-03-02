@@ -1,0 +1,3 @@
+CREATE SCHEMA [TLECORP\theexperts]
+AUTHORIZATION [TLECORP\theexperts]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_SY04930F_2] (@EmailMessageID_RS char(25), @Workflow_Type_Name_RS char(51), @Email_Message_Type_RS smallint, @SEQNUMBR_RS int, @EmailMessageID_RE char(25), @Workflow_Type_Name_RE char(51), @Email_Message_Type_RE smallint, @SEQNUMBR_RE int) AS  set nocount on IF @EmailMessageID_RS IS NULL BEGIN SELECT TOP 25  EmailMessageID, Ord_Line, FieldName, Workflow_Type_Name, Email_Message_Type, SEQNUMBR, DEX_ROW_ID FROM .SY04930 ORDER BY EmailMessageID ASC, Workflow_Type_Name ASC, Email_Message_Type ASC, SEQNUMBR ASC END ELSE IF @EmailMessageID_RS = @EmailMessageID_RE BEGIN SELECT TOP 25  EmailMessageID, Ord_Line, FieldName, Workflow_Type_Name, Email_Message_Type, SEQNUMBR, DEX_ROW_ID FROM .SY04930 WHERE EmailMessageID = @EmailMessageID_RS AND Workflow_Type_Name BETWEEN @Workflow_Type_Name_RS AND @Workflow_Type_Name_RE AND Email_Message_Type BETWEEN @Email_Message_Type_RS AND @Email_Message_Type_RE AND SEQNUMBR BETWEEN @SEQNUMBR_RS AND @SEQNUMBR_RE ORDER BY EmailMessageID ASC, Workflow_Type_Name ASC, Email_Message_Type ASC, SEQNUMBR ASC END ELSE BEGIN SELECT TOP 25  EmailMessageID, Ord_Line, FieldName, Workflow_Type_Name, Email_Message_Type, SEQNUMBR, DEX_ROW_ID FROM .SY04930 WHERE EmailMessageID BETWEEN @EmailMessageID_RS AND @EmailMessageID_RE AND Workflow_Type_Name BETWEEN @Workflow_Type_Name_RS AND @Workflow_Type_Name_RE AND Email_Message_Type BETWEEN @Email_Message_Type_RS AND @Email_Message_Type_RE AND SEQNUMBR BETWEEN @SEQNUMBR_RS AND @SEQNUMBR_RE ORDER BY EmailMessageID ASC, Workflow_Type_Name ASC, Email_Message_Type ASC, SEQNUMBR ASC END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SY04930F_2] TO [DYNGRP]
+GO

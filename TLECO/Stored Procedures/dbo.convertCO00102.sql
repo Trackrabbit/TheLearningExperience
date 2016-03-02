@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+ create procedure [dbo].[convertCO00102]  @replacementString as nvarchar(500),  @I_nLanguageID as int,       @I_nMsg1 as nvarchar(50),     @I_nMsg2 as nvarchar(50),     @I_nMsg3 as nvarchar(50),     @I_nMsg4 as nvarchar(50),     @O_iErrorState  int output      as  set transaction isolation level read uncommitted set nocount on  declare  @iAddCodeErrState int,     @iStatus int,       @iCustomState int,  @O_oErrorState int,  @iCustomErrString varchar(255),  @iError int      if (@replacementString is null or  @I_nMsg1 is null or  @I_nMsg2 is null) begin  select @O_iErrorState = 34    return (@O_iErrorState) end  if @I_nMsg3 = '' and @I_nMsg4 = '' begin   update CO00102 set BusObjKey = replace(BusObjKey,substring(BusObjKey,0,charindex('\',BusObjKey,charindex('\',BusObjKey,charindex('\',BusObjKey,0)+1)+1)+1),@replacementString)  where BusObjKey like   '0\' +  rtrim(@I_nMsg1) +  '\' +  rtrim(@I_nMsg2) +  '\' +  '%' end  else if @I_nMsg4 = '' begin   update CO00102 set BusObjKey = replace(BusObjKey,substring(BusObjKey,0,charindex('\',BusObjKey,charindex('\',BusObjKey,charindex('\',BusObjKey,0)+1)+1)+1),@replacementString)  where BusObjKey like   '0\' +  rtrim(@I_nMsg1) +  '\' +  rtrim(@I_nMsg2) +  ' ' +  rtrim(@I_nMsg3) +  '\' +  '%' end  else  begin   update CO00102 set BusObjKey = replace(BusObjKey,substring(BusObjKey,0,charindex('\',BusObjKey,charindex('\',BusObjKey,charindex('\',BusObjKey,0)+1)+1)+1),@replacementString)  where BusObjKey like   '0\' +  rtrim(@I_nMsg1) +  '\' +   rtrim(@I_nMsg2) +  ' ' +  rtrim(@I_nMsg3) +  ' ' +  rtrim(@I_nMsg4) +  '\' +  '%' end    
+GO
+GRANT EXECUTE ON  [dbo].[convertCO00102] TO [DYNGRP]
+GO

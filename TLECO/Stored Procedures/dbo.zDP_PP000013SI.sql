@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_PP000013SI] (@PP_Profile_Name char(21), @SEQNUMBR int, @DistRef char(31), @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .PP000013 (PP_Profile_Name, SEQNUMBR, DistRef) VALUES ( @PP_Profile_Name, @SEQNUMBR, @DistRef) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_PP000013SI] TO [DYNGRP]
+GO

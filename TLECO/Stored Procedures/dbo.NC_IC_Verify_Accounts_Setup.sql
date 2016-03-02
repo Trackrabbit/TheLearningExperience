@@ -1,0 +1,10 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+create procedure [dbo].[NC_IC_Verify_Accounts_Setup]  	@TABLENAME		char(30), 	@Setupoption	smallint, 	@Delete			smallint as 	/*To update the table for intercompany verification process 	vilasw	date:10/24/2010			 	*/ begin 	exec(' delete ' + @TABLENAME) 	if exists (select name from tempdb..sysobjects where name like '##NCVerifyAcct' and xtype = 'U') drop table ##NCVerifyAcct 	create table ##NCVerifyAcct(CMPANYID smallint,INTERID char(5),ACTINDX int,ACTNUMST char(155))	 	if @Setupoption = 1 /*Accounts setup*/ 	begin	 		insert into ##NCVerifyAcct(CMPANYID,INTERID,ACTINDX,ACTNUMST) 		select NC_Source_Company_ID,(select INTERID from DYNAMICS..SY01500 where CMPANYID = NC_Source_Company_ID), NC_Trigger_Account_Index, 		'Account does not exist in this database.' 		from NCIC0003 where NC_Source_Company_ID not in  		(select CMPANYID from DYNAMICS..SY01500 where INTERID = db_name()) 		 		if @Delete = 1 /*To delete the records*/ 		begin 			delete NCIC0003 where NC_Source_Company_ID not in (select CMPANYID from DYNAMICS..SY01500 where INTERID = db_name()) 		end	 	end 	if @Setupoption = 2 /*Alternate Accounts setup*/ 	begin	 		insert into ##NCVerifyAcct(CMPANYID,INTERID,ACTINDX,ACTNUMST) 		select NC_Source_Company_ID,(select INTERID from DYNAMICS..SY01500 where CMPANYID = NC_Source_Company_ID),NC_Src_IC_Account_Index, 		'Account does not exist in this database.' 		from NCIC3005 where NC_Source_Company_ID not in  		(select CMPANYID from DYNAMICS..SY01500 where INTERID = db_name()) 		 		if @Delete = 1 /*To delete the records*/ 		begin 			delete NCIC3005 where NC_Source_Company_ID not in (select CMPANYID from DYNAMICS..SY01500 where INTERID = db_name()) 		end	 	end 	exec('insert into '+@TABLENAME+' (CMPANYID,INTERID,ACTINDX,ACTNUMST) select CMPANYID,INTERID,ACTINDX,ACTNUMST from ##NCVerifyAcct' ) end  
+GO
+GRANT EXECUTE ON  [dbo].[NC_IC_Verify_Accounts_Setup] TO [DYNGRP]
+GO
+GRANT EXECUTE ON  [dbo].[NC_IC_Verify_Accounts_Setup] TO [public]
+GO

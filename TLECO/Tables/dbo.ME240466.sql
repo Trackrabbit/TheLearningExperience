@@ -1,0 +1,48 @@
+CREATE TABLE [dbo].[ME240466]
+(
+[MEUSERID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[BACHNUMB] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[BCHSOURC] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[REQSTDATE] [datetime] NOT NULL,
+[APPRVLDT] [datetime] NOT NULL,
+[COMMENT_1] [char] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[COMMENT_2] [char] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[COMMENT_3] [char] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[COMMENT_4] [char] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[ME240466] ADD CONSTRAINT [CK__ME240466__APPRVL__1CFF9C5E] CHECK ((datepart(hour,[APPRVLDT])=(0) AND datepart(minute,[APPRVLDT])=(0) AND datepart(second,[APPRVLDT])=(0) AND datepart(millisecond,[APPRVLDT])=(0)))
+GO
+ALTER TABLE [dbo].[ME240466] ADD CONSTRAINT [CK__ME240466__REQSTD__1C0B7825] CHECK ((datepart(hour,[REQSTDATE])=(0) AND datepart(minute,[REQSTDATE])=(0) AND datepart(second,[REQSTDATE])=(0) AND datepart(millisecond,[REQSTDATE])=(0)))
+GO
+ALTER TABLE [dbo].[ME240466] ADD CONSTRAINT [PKME240466] PRIMARY KEY NONCLUSTERED  ([MEUSERID], [BACHNUMB], [BCHSOURC]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK2ME240466] ON [dbo].[ME240466] ([BACHNUMB], [BCHSOURC], [MEUSERID]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[ME240466].[MEUSERID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[ME240466].[BACHNUMB]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[ME240466].[BCHSOURC]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[ME240466].[REQSTDATE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[ME240466].[APPRVLDT]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[ME240466].[COMMENT_1]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[ME240466].[COMMENT_2]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[ME240466].[COMMENT_3]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[ME240466].[COMMENT_4]'
+GO
+GRANT SELECT ON  [dbo].[ME240466] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[ME240466] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[ME240466] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[ME240466] TO [DYNGRP]
+GO

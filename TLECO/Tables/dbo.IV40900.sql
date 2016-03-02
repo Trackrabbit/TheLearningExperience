@@ -1,0 +1,44 @@
+CREATE TABLE [dbo].[IV40900]
+(
+[PriceGroup] [char] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DSCRIPTN] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CREATDDT] [datetime] NOT NULL,
+[MODIFDT] [datetime] NOT NULL,
+[NOTEINDX] [numeric] (19, 5) NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[IV40900] ADD CONSTRAINT [CK__IV40900__CREATDD__22951AFD] CHECK ((datepart(hour,[CREATDDT])=(0) AND datepart(minute,[CREATDDT])=(0) AND datepart(second,[CREATDDT])=(0) AND datepart(millisecond,[CREATDDT])=(0)))
+GO
+ALTER TABLE [dbo].[IV40900] ADD CONSTRAINT [CK__IV40900__MODIFDT__23893F36] CHECK ((datepart(hour,[MODIFDT])=(0) AND datepart(minute,[MODIFDT])=(0) AND datepart(second,[MODIFDT])=(0) AND datepart(millisecond,[MODIFDT])=(0)))
+GO
+ALTER TABLE [dbo].[IV40900] ADD CONSTRAINT [PKIV40900] PRIMARY KEY NONCLUSTERED  ([PriceGroup]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK2IV40900] ON [dbo].[IV40900] ([DSCRIPTN], [PriceGroup]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[IV40900].[PriceGroup]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[IV40900].[DSCRIPTN]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[IV40900].[CREATDDT]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[IV40900].[MODIFDT]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[IV40900].[NOTEINDX]'
+GO
+GRANT SELECT ON  [dbo].[IV40900] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[IV40900] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[IV40900] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[IV40900] TO [DYNGRP]
+GO
+GRANT SELECT ON  [dbo].[IV40900] TO [RAPIDGRP]
+GO
+GRANT INSERT ON  [dbo].[IV40900] TO [RAPIDGRP]
+GO
+GRANT DELETE ON  [dbo].[IV40900] TO [RAPIDGRP]
+GO
+GRANT UPDATE ON  [dbo].[IV40900] TO [RAPIDGRP]
+GO

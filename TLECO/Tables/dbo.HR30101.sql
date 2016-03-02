@@ -1,0 +1,39 @@
+CREATE TABLE [dbo].[HR30101]
+(
+[EMPLOYID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[UNIVERSITY] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[SEQNUMBR] [int] NOT NULL,
+[MAJOR] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[GRADUATIONYEAR] [char] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEGREE] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[GPA] [char] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[GPABASE] [char] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[HR30101] ADD CONSTRAINT [PKHR30101] PRIMARY KEY NONCLUSTERED  ([EMPLOYID], [UNIVERSITY], [SEQNUMBR]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR30101].[EMPLOYID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR30101].[UNIVERSITY]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[HR30101].[SEQNUMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR30101].[MAJOR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR30101].[GRADUATIONYEAR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR30101].[DEGREE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR30101].[GPA]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[HR30101].[GPABASE]'
+GO
+GRANT SELECT ON  [dbo].[HR30101] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[HR30101] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[HR30101] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[HR30101] TO [DYNGRP]
+GO

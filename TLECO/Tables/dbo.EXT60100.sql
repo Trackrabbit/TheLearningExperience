@@ -1,0 +1,21 @@
+CREATE TABLE [dbo].[EXT60100]
+(
+[Setup_Option] [smallint] NOT NULL,
+[Setup_CB] [tinyint] NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[EXT60100] ADD CONSTRAINT [PKEXT60100] PRIMARY KEY NONCLUSTERED  ([Setup_Option]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[EXT60100].[Setup_Option]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[EXT60100].[Setup_CB]'
+GO
+GRANT SELECT ON  [dbo].[EXT60100] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[EXT60100] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[EXT60100] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[EXT60100] TO [DYNGRP]
+GO

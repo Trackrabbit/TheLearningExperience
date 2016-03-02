@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[rmCLSchLine]   @I_cUserID char(15) = NULL,  @I_cFileName1 varchar(40) = NULL,  @I_cSearchString1 char(2)  = NULL,  @O_iErrorState int  = NULL output as  declare  @iError int,   @iStatus int,   @tLoop tinyint,  @RM_DOC_SALES tinyint  select  @O_iErrorState = 0,  @iStatus  = 0  while (@tLoop is NULL) begin  select @tLoop = 1   if   @I_cUserID is NULL  or @I_cFileName1 is NULL  or @I_cSearchString1 is NULL  begin  select @O_iErrorState = 20846  break  end   exec @iStatus = DYNAMICS.dbo.smGetConstantInt  'RM_DOC_SALES',   @RM_DOC_SALES output,   @O_iErrorState output   select @iError = @@error   if @iStatus = 0 and @iError <> 0  select @iStatus = @iError   if (@iStatus <> 0) or (@O_iErrorState <> 0)  break   insert into  #CNTRLNUMTEMP(  CNTRLNUM,  DOCTYPE,  VENDORID )  select   DOCNUMBR,  @RM_DOC_SALES,  CUSTNMBR  from   RM20401  where   not exists  (select   1  from   RM20400  where   RM20400.SCHEDULE_NUMBER = RM20401.SCHEDULE_NUMBER)  and  not exists  (select   1  from   RM30401  where   RM30401.SCHEDULE_NUMBER = RM20401.SCHEDULE_NUMBER)   if @@rowcount <> 0  begin  delete  RM20401  where   not exists  (select   1  from   RM20400  where   RM20400.SCHEDULE_NUMBER = RM20401.SCHEDULE_NUMBER)   exec @iStatus = smCreateErrorLogRecord  @I_cUserID,  @I_cFileName1,  NULL,  4918,  @O_iErrorState output   select @iError = @@error   if @iStatus = 0 and @iError <> 0  select @iStatus = @iError  if @iStatus <> 0 or @O_iErrorState <> 0  break  end  end   return(@iStatus)    
+GO
+GRANT EXECUTE ON  [dbo].[rmCLSchLine] TO [DYNGRP]
+GO

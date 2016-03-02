@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE  procedure [dbo].[uprProcessEICfor941XCmpy]  @Year smallint,  @sCheckDate datetime,  @eCheckDate datetime,  @InterCompID varchar(5),  @UserID varchar(15),  @EICAmount dec(19,5) output,  @O_iErrorState     int output  AS  if not exists (select * from tempdb..sysobjects where name = '##Temp941EIC') begin  CREATE TABLE dbo.##Temp941EIC  ( EICAMT dec(19, 5), USERID varchar(15)  ) end  DECLARE @SQLString  varchar(1000) DECLARE @CompanyID varchar (5)  SET @CompanyID = rtrim (@InterCompID)  SET  @SQLString = ' insert into ##Temp941EIC select sum(' + @CompanyID + '.dbo.UPR30300.UPRTRXAM), ''' + @UserID + '''  from ' + @CompanyID + '.dbo.UPR30300 join ' + @CompanyID + '.dbo.UPR00400 ' SET  @SQLString =  @SQLString +' on ' + @CompanyID + '.dbo.UPR30300.EMPLOYID = ' + @CompanyID + '.dbo.UPR00400.EMPLOYID ' SET  @SQLString =  @SQLString +' where ' + @CompanyID + '.dbo.UPR30300.PAYROLCD = ' + @CompanyID + '.dbo.UPR00400.PAYRCORD ' SET  @SQLString =  @SQLString +' and ' + @CompanyID + '.dbo.UPR30300.YEAR1= '+CAST( @Year as CHAR(4) ) +  ' ' SET  @SQLString =  @SQLString +'  and ' + @CompanyID + '.dbo.UPR30300.CHEKDATE between ''' + CONVERT(varchar(8), @sCheckDate, 112)  +''' and '''+ CONVERT(varchar(8), @eCheckDate, 112) +''' ' SET  @SQLString =  @SQLString +' and ' + @CompanyID + '.dbo.UPR30300.PAYADVNC = 0.00 '  SET  @SQLString =  @SQLString +' and ' + @CompanyID + '.dbo.UPR30300.PYRLRTYP = 1 '  SET  @SQLString =  @SQLString +' and ' + @CompanyID + '.dbo.UPR00400.PAYTYPE = 13 '  EXEC(@SQLString)  return(@@ERROR)   
+GO
+GRANT EXECUTE ON  [dbo].[uprProcessEICfor941XCmpy] TO [DYNGRP]
+GO

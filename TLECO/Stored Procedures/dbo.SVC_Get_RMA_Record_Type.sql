@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[SVC_Get_RMA_Record_Type]  @ReturnDocID char(16),  @RecordType smallint OUTPUT AS BEGIN  IF EXISTS(SELECT Return_Record_Type FROM SVC35000 WHERE RETDOCID = @ReturnDocID)  SET @RecordType = 2  ELSE  SET @RecordType = (SELECT TOP 1 ISNULL(Return_Record_Type,0) FROM SVC05000 WHERE RETDOCID = @ReturnDocID) END    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Get_RMA_Record_Type] TO [DYNGRP]
+GO

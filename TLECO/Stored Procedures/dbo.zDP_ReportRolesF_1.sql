@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_ReportRolesF_1] (@PRODNAME_RS char(31), @Business_Desk_Report_Nam_RS char(51), @Report_Option_RS char(51), @BP_Role_RS char(51), @PRODNAME_RE char(31), @Business_Desk_Report_Nam_RE char(51), @Report_Option_RE char(51), @BP_Role_RE char(51)) AS  set nocount on IF @PRODNAME_RS IS NULL BEGIN SELECT TOP 25  Business_Desk_Report_Nam, PRODNAME, Report_Option, BP_Role, MKTOPROC, DEX_ROW_ID FROM .ReportRoles ORDER BY PRODNAME ASC, Business_Desk_Report_Nam ASC, Report_Option ASC, BP_Role ASC END ELSE IF @PRODNAME_RS = @PRODNAME_RE BEGIN SELECT TOP 25  Business_Desk_Report_Nam, PRODNAME, Report_Option, BP_Role, MKTOPROC, DEX_ROW_ID FROM .ReportRoles WHERE PRODNAME = @PRODNAME_RS AND Business_Desk_Report_Nam BETWEEN @Business_Desk_Report_Nam_RS AND @Business_Desk_Report_Nam_RE AND Report_Option BETWEEN @Report_Option_RS AND @Report_Option_RE AND BP_Role BETWEEN @BP_Role_RS AND @BP_Role_RE ORDER BY PRODNAME ASC, Business_Desk_Report_Nam ASC, Report_Option ASC, BP_Role ASC END ELSE BEGIN SELECT TOP 25  Business_Desk_Report_Nam, PRODNAME, Report_Option, BP_Role, MKTOPROC, DEX_ROW_ID FROM .ReportRoles WHERE PRODNAME BETWEEN @PRODNAME_RS AND @PRODNAME_RE AND Business_Desk_Report_Nam BETWEEN @Business_Desk_Report_Nam_RS AND @Business_Desk_Report_Nam_RE AND Report_Option BETWEEN @Report_Option_RS AND @Report_Option_RE AND BP_Role BETWEEN @BP_Role_RS AND @BP_Role_RE ORDER BY PRODNAME ASC, Business_Desk_Report_Nam ASC, Report_Option ASC, BP_Role ASC END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_ReportRolesF_1] TO [DYNGRP]
+GO

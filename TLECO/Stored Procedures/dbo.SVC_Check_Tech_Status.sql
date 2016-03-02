@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[SVC_Check_Tech_Status]( @In_tech_id char(11),  @In_check_date datetime,  @In_check_time datetime,  @Out_available smallint output,  @Out_reason char(31) output,  @Out_backup CHAR(11) output  ) as declare @Check_datetime datetime,  @Tech_status char(11) exec SVC_util_combine_date_time @In_check_date,  @In_check_time,  @Check_datetime output if exists(  select *   from SVC00101   where TECHID = @In_tech_id and  @Check_datetime >= dateadd(Minute,datepart(Minute,STRTTIME),dateadd(Hour,datepart(Hour,STRTTIME),STRTDATE)) and  @Check_datetime <= dateadd(Minute,datepart(Minute,ENDTME),dateadd(Hour,datepart(Hour,ENDTME),ENDDATE))  )  begin  select @Out_backup = TECHID2, @Tech_status = TECHSTAT  from SVC00101   where TECHID = @In_tech_id and  @Check_datetime >= dateadd(Minute,datepart(Minute,STRTTIME),dateadd(Hour,datepart(Hour,STRTTIME),STRTDATE)) and  @Check_datetime <= dateadd(Minute,datepart(Minute,ENDTME),dateadd(Hour,datepart(Hour,ENDTME),ENDDATE))  Select @Out_available = 0  if exists(select * from SVC00905 where TECHSTAT = @Tech_status)  begin  select @Out_reason = DSCRIPTN from SVC00905 where TECHSTAT = @Tech_status  end  end else  begin  if 1 in ( select Tech_Available   from SVC00905  where SVC00905.TECHSTAT in (select TECHSTAT  from SVC00100  where TECHID = @In_tech_id))   begin  select @Out_available = 1  select @Out_reason=''  select @Out_backup=''  end  else  begin  select @Out_available = 0  select @Out_reason='Overall Status Unavailable'  select @Out_backup=''  end  end    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Check_Tech_Status] TO [DYNGRP]
+GO

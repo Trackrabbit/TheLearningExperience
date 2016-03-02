@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B4640039L_1] (@BSSI_Building_ID_RS char(25), @BSSI_PropertyAttribute_RS smallint, @LNSEQNBR_RS numeric(19,5), @BSSI_Building_ID_RE char(25), @BSSI_PropertyAttribute_RE smallint, @LNSEQNBR_RE numeric(19,5)) AS /* 12.00.0270.000 */ set nocount on IF @BSSI_Building_ID_RS IS NULL BEGIN SELECT TOP 25  BSSI_Building_ID, BSSI_PropertyAttribute, BSSI_PropertyAttrOldVal, BSSI_PropertyAttrNewVal, DATE1, USERID, LNSEQNBR, BSSI_Comment, Effective_Date, DEX_ROW_ID FROM .B4640039 ORDER BY BSSI_Building_ID DESC, BSSI_PropertyAttribute DESC, LNSEQNBR DESC END ELSE IF @BSSI_Building_ID_RS = @BSSI_Building_ID_RE BEGIN SELECT TOP 25  BSSI_Building_ID, BSSI_PropertyAttribute, BSSI_PropertyAttrOldVal, BSSI_PropertyAttrNewVal, DATE1, USERID, LNSEQNBR, BSSI_Comment, Effective_Date, DEX_ROW_ID FROM .B4640039 WHERE BSSI_Building_ID = @BSSI_Building_ID_RS AND BSSI_PropertyAttribute BETWEEN @BSSI_PropertyAttribute_RS AND @BSSI_PropertyAttribute_RE AND LNSEQNBR BETWEEN @LNSEQNBR_RS AND @LNSEQNBR_RE ORDER BY BSSI_Building_ID DESC, BSSI_PropertyAttribute DESC, LNSEQNBR DESC END ELSE BEGIN SELECT TOP 25  BSSI_Building_ID, BSSI_PropertyAttribute, BSSI_PropertyAttrOldVal, BSSI_PropertyAttrNewVal, DATE1, USERID, LNSEQNBR, BSSI_Comment, Effective_Date, DEX_ROW_ID FROM .B4640039 WHERE BSSI_Building_ID BETWEEN @BSSI_Building_ID_RS AND @BSSI_Building_ID_RE AND BSSI_PropertyAttribute BETWEEN @BSSI_PropertyAttribute_RS AND @BSSI_PropertyAttribute_RE AND LNSEQNBR BETWEEN @LNSEQNBR_RS AND @LNSEQNBR_RE ORDER BY BSSI_Building_ID DESC, BSSI_PropertyAttribute DESC, LNSEQNBR DESC END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B4640039L_1] TO [DYNGRP]
+GO

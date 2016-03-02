@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ Create Procedure [dbo].[popGetXfrLotSelectedQty] (  @RCVNumber char(21),  @RCVLineSeq numeric(19,5),  @Location char(10),  @ItemNumber char(31),  @SerialLotNumber char(21),  @DateReceived datetime,  @DateSeq numeric(19,5),  @IsAddingNew tinyint,  @Qty numeric(19,5) output ) AS declare @PostedQty numeric(19,5),  @UnPostedQty numeric(19,5),  @UnPostedQtyOther numeric(19,5),  @TransferNumber char(15),   @AllocatedQty numeric(19,5),  @Line int  select @AllocatedQty = ATYALLOC from IV00300 where ITEMNMBR = @ItemNumber and LOTNUMBR = @SerialLotNumber and LOCNCODE = @Location and DATERECD = @DateReceived AND DTSEQNUM = @DateSeq  select @UnPostedQty = isnull(SUM(SERLTQTY),0) from POP10330 where ITMTRKOP =3 and POPRCTNM = @RCVNumber and RCPTLNNM = @RCVLineSeq  and ITEMNMBR = @ItemNumber and SERLTNUM = @SerialLotNumber and DATERECD = @DateReceived and DTSEQNUM = @DateSeq   select @UnPostedQtyOther = isnull(SUM(SERLTQTY),0) from POP10330 SL  join POP10500 APL  on SL.POPRCTNM = APL.POPRCTNM and SL.RCPTLNNM = APL.RCPTLNNM  join SVC00701 SVC  on APL.PONUMBER = SVC.ORDDOCID and APL.POLNENUM = SVC.LNITMSEQ   where SL.ITMTRKOP = 3 and SL.ITEMNMBR = @ItemNumber and SL.SERLTNUM = @SerialLotNumber   and SL.DATERECD = @DateReceived and SL.DTSEQNUM = @DateSeq   and SVC.ITLOCN = @Location  if @IsAddingNew = 1  select @Qty = @AllocatedQty - @UnPostedQty - @UnPostedQtyOther else  select @Qty = @AllocatedQty - @UnPostedQtyOther  if @Qty < 0 or @Qty is null  select @Qty = 0  return    
+GO
+GRANT EXECUTE ON  [dbo].[popGetXfrLotSelectedQty] TO [DYNGRP]
+GO

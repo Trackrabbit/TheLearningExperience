@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+/* @Reference should be in the form *	IS: TWO, Journal: 3353			 *	IC: TWO, Journal: 3353 * @PartIndex is the section of the reference to return *	PartIndex=0	: Company *	PartIndex=1	: JournalEntry * If the @Reference does not start with IS: or IC: then NULL will be returned */ create   function [dbo].[ncICDecodeRef] (@Reference varchar(30),@PartIndex int) RETURNS varchar(50) AS BEGIN 	if (SUBSTRING(@Reference,1,3)<>'IS:') AND (SUBSTRING(@Reference,1,3)<>'IC:') 		RETURN NULL 	 DECLARE  @l_ComPos INT,@l_VoidPos INT 	SET @l_ComPos=CHARINDEX(',',@Reference,1) 	if(@l_ComPos=0) 		RETURN NULL 	declare @l_Company varchar(30), @l_JournalEntry varchar(30) 	SET @l_Company=SUBSTRING(@Reference,5,@l_ComPos-5) 	SET @l_JournalEntry=SUBSTRING(@Reference,@l_ComPos+10,100) 	/*NCL 31/07/2006 Mike South - Strip out the void*/     	SET @l_VoidPos = CHARINDEX('Void',@l_JournalEntry,1)    	 IF (@l_VoidPos > 0)    	 begin 	 	SET @l_JournalEntry = SUBSTRING(@l_JournalEntry,1,@l_VoidPos-1)     	end 	SET @l_VoidPos = CHARINDEX('Voi',@l_JournalEntry,1)    	 IF (@l_VoidPos > 0)    	 begin 	 	SET @l_JournalEntry = SUBSTRING(@l_JournalEntry,1,@l_VoidPos-1)     end 	SET @l_VoidPos = CHARINDEX('Vo',@l_JournalEntry,1)    	IF (@l_VoidPos > 0)    	begin 	 	SET @l_JournalEntry = SUBSTRING(@l_JournalEntry,1,@l_VoidPos-1)     end 	SET @l_VoidPos = CHARINDEX('V',@l_JournalEntry,1)    	IF (@l_VoidPos > 0)    	begin 	 	SET @l_JournalEntry = SUBSTRING(@l_JournalEntry,1,@l_VoidPos-1)     end  	 	if(@PartIndex=0) 		RETURN(@l_Company) 	else if(@PartIndex=1) 		RETURN(@l_JournalEntry) 	RETURN NULL END  
+GO
+GRANT EXECUTE ON  [dbo].[ncICDecodeRef] TO [DYNGRP]
+GO

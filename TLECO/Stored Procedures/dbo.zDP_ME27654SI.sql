@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_ME27654SI] (@CHEKBKID char(15), @PRODID smallint, @MSO_BeginPayablesDocumen tinyint, @MSO_BeginPayablesVendor tinyint, @MSO_BeginPayablesVoucher tinyint, @MSO_BeginPayablesVouchGL tinyint, @MSO_BeginPayrollDocument tinyint, @MSO_BeginPayrollEmployee tinyint, @MSO_EndPayablesDocument tinyint, @MSO_EndPayablesVendor tinyint, @MSO_EndPayablesVoucher tinyint, @MSO_EndPayablesVouchGL tinyint, @MSO_EndPayrollDocument tinyint, @MSO_EndPayrollEmployee tinyint, @MSO_IntegratedProductEna tinyint, @MSO_PayrollSortKey tinyint, @MSO_PayablesSortKey tinyint, @MSO_Payables_Handle_Take tinyint, @DEX_ROW_ID int OUT) AS /* 14.00.0084.000 */ set nocount on BEGIN INSERT INTO .ME27654 (CHEKBKID, PRODID, MSO_BeginPayablesDocumen, MSO_BeginPayablesVendor, MSO_BeginPayablesVoucher, MSO_BeginPayablesVouchGL, MSO_BeginPayrollDocument, MSO_BeginPayrollEmployee, MSO_EndPayablesDocument, MSO_EndPayablesVendor, MSO_EndPayablesVoucher, MSO_EndPayablesVouchGL, MSO_EndPayrollDocument, MSO_EndPayrollEmployee, MSO_IntegratedProductEna, MSO_PayrollSortKey, MSO_PayablesSortKey, MSO_Payables_Handle_Take) VALUES ( @CHEKBKID, @PRODID, @MSO_BeginPayablesDocumen, @MSO_BeginPayablesVendor, @MSO_BeginPayablesVoucher, @MSO_BeginPayablesVouchGL, @MSO_BeginPayrollDocument, @MSO_BeginPayrollEmployee, @MSO_EndPayablesDocument, @MSO_EndPayablesVendor, @MSO_EndPayablesVoucher, @MSO_EndPayablesVouchGL, @MSO_EndPayrollDocument, @MSO_EndPayrollEmployee, @MSO_IntegratedProductEna, @MSO_PayrollSortKey, @MSO_PayablesSortKey, @MSO_Payables_Handle_Take) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_ME27654SI] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ Create Procedure [dbo].[SVC_Check_Inv_Req] (  @USERID char(15),  @LocationCode char(11),  @SourceType smallint,  @SourceNumber char(21),  @ItemNumber char(31),  @Lineseq integer,  @Error integer OUTPUT,  @ErrorMsg varchar(255) OUTPUT,  @CMPNTSEQ int = 0  ) As declare @OtherUser char(15) set nocount on select @Error = 0, @ErrorMsg = '' select @OtherUser = USERID from SVC00710 where LOCNCODE = @LocationCode and SRCDOCTYP = @SourceType and  SRCDOCNUM = @SourceNumber and ITEMNMBR = @ItemNumber and LNITMSEQ = @Lineseq and CMPNTSEQ = @CMPNTSEQ and  (TRNFLAG = 1 or MKDTOPST = 1) and USERID <> @USERID  if @OtherUser is null begin   if exists(select * from SVC00203 where SRVRECTYPE = 2 and CALLNBR= @SourceNumber and EQPLINE  = 1 and  LNITMSEQ = @Lineseq and LINITMTYP = 'P' and CMPNTSEQ = @CMPNTSEQ) or   exists(select * from SVC06101 where WORECTYPE = 2 and WORKORDNUM= @SourceNumber and   LNITMSEQ = @Lineseq and LINITMTYP = 'P' and CMPNTSEQ = @CMPNTSEQ)  return  else  begin  select @Error = 99, @ErrorMsg = ' This part has been deleted by another user'  delete from SVC00710 where LOCNCODE = @LocationCode and SRCDOCTYP = @SourceType and  SRCDOCNUM = @SourceNumber and ITEMNMBR = @ItemNumber and LNITMSEQ = @Lineseq  delete SVC00205 where SRVRECTYPE = 2 and SVC_Document_Number = @SourceNumber and SVC_Document_Type = 1  and LNITMSEQ = @Lineseq and LINITMTYP = 'P' and USERID = @USERID  return  end end select @Error = 50,  @ErrorMsg = ' is marked by ' + RTrim(@OtherUser) + ' for Transfer/Create PO.' set nocount off return   
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Check_Inv_Req] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_UPR42404SI] (@Restriction_Code char(15), @JOBTITLE char(7), @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .UPR42404 (Restriction_Code, JOBTITLE) VALUES ( @Restriction_Code, @JOBTITLE) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_UPR42404SI] TO [DYNGRP]
+GO

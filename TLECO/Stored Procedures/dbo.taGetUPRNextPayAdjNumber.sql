@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[taGetUPRNextPayAdjNumber] @I_vInc_Dec tinyint = NULL, @O_vPYADNMBR int = NULL output, @O_vPYRLCTYP int = NULL output, @O_iErrorState int = NULL output   with encryption as  set transaction isolation level read uncommitted set nocount on  declare @Loop int,  @iError int,  @iStatus int,  @PYADNMBR int,  @DocExists tinyint   select  @PYADNMBR=0,  @O_iErrorState = 0,  @iStatus = 0,  @Loop = 0,  @DocExists = 1  if  @I_vInc_Dec is NULL begin  select @O_iErrorState = 2361   return (@O_iErrorState) end  select @O_vPYADNMBR = UPRNPNUM from UPR40200 WITH (TABLOCKX HOLDLOCK) where SETUPKEY = 1 if (@@rowcount <> 1) begin  select @O_iErrorState = 2362    return (@O_iErrorState) end  select @PYADNMBR = @O_vPYADNMBR  while (@Loop < 1000) begin  select @Loop = @Loop + 1  select @DocExists = 0   select @PYADNMBR = @PYADNMBR + 1   if  ( exists (select 1 from UPR10309 (nolock) where PYRLCNBR = @PYADNMBR and PYRLCTYP = @O_vPYRLCTYP ))  begin  select @DocExists = 1  end  else  begin  if  (exists (select 1 from UPR10309 (nolock) where PYRLCNBR = @O_vPYADNMBR and PYRLCTYP = @O_vPYRLCTYP ))  begin  select @O_vPYADNMBR = @PYADNMBR  end  else  begin  select @DocExists = 0  break  end  end end  if (@DocExists = 1) begin  select @O_iErrorState = 2363   end  if (@O_iErrorState = 0) begin  update UPR40200 set UPRNPNUM = @PYADNMBR where SETUPKEY = 1  if (@@error <> 0)  begin  select @O_iErrorState = 4175    end end else begin  select @O_vPYADNMBR = 0 end  return (@O_iErrorState)   
+GO
+GRANT EXECUTE ON  [dbo].[taGetUPRNextPayAdjNumber] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B7100110SI] (@SETUPKEY smallint, @BSSI_Offering_Type_ID char(25), @BSSI_Recog_TemplateID char(25), @BSSI_OffType_For_SalesFr smallint, @BSSI_Template_ID_SalesFr smallint, @BSSI_Default_Revenue_Sou char(25), @BSSI_Default_Order_TypeS char(25), @BSSI_RevRecognitionAcctF smallint, @BSSI_DeferralStartDateOt smallint, @BSSI_EBTemplateID char(25), @BSSI_EnableExpiryDate tinyint, @BSSI_ExpiryPeriod smallint, @BSSI_Recog_Acct_Index1 int, @BSSI_EnableATExpiryDate tinyint, @BSSI_ATExpiryPeriod smallint, @BSSI_AttachReturnsToSche tinyint, @BSSI_UpdateScheduleOnRet tinyint, @DEX_ROW_ID int OUT) AS /* 12.00.0270.000 */ set nocount on BEGIN INSERT INTO .B7100110 (SETUPKEY, BSSI_Offering_Type_ID, BSSI_Recog_TemplateID, BSSI_OffType_For_SalesFr, BSSI_Template_ID_SalesFr, BSSI_Default_Revenue_Sou, BSSI_Default_Order_TypeS, BSSI_RevRecognitionAcctF, BSSI_DeferralStartDateOt, BSSI_EBTemplateID, BSSI_EnableExpiryDate, BSSI_ExpiryPeriod, BSSI_Recog_Acct_Index1, BSSI_EnableATExpiryDate, BSSI_ATExpiryPeriod, BSSI_AttachReturnsToSche, BSSI_UpdateScheduleOnRet) VALUES ( @SETUPKEY, @BSSI_Offering_Type_ID, @BSSI_Recog_TemplateID, @BSSI_OffType_For_SalesFr, @BSSI_Template_ID_SalesFr, @BSSI_Default_Revenue_Sou, @BSSI_Default_Order_TypeS, @BSSI_RevRecognitionAcctF, @BSSI_DeferralStartDateOt, @BSSI_EBTemplateID, @BSSI_EnableExpiryDate, @BSSI_ExpiryPeriod, @BSSI_Recog_Acct_Index1, @BSSI_EnableATExpiryDate, @BSSI_ATExpiryPeriod, @BSSI_AttachReturnsToSche, @BSSI_UpdateScheduleOnRet) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B7100110SI] TO [DYNGRP]
+GO

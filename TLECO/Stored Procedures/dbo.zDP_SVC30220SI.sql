@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_SVC30220SI] (@SRVRECTYPE smallint, @CALLNBR char(11), @SOPTYPE smallint, @SOPNUMBE char(21), @Invoiced_Amount numeric(19,5), @Amount_To_Invoice numeric(19,5), @CREATDDT datetime, @CREATETIME datetime, @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .SVC30220 (SRVRECTYPE, CALLNBR, SOPTYPE, SOPNUMBE, Invoiced_Amount, Amount_To_Invoice, CREATDDT, CREATETIME) VALUES ( @SRVRECTYPE, @CALLNBR, @SOPTYPE, @SOPNUMBE, @Invoiced_Amount, @Amount_To_Invoice, @CREATDDT, @CREATETIME) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SVC30220SI] TO [DYNGRP]
+GO

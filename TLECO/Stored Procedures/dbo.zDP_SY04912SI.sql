@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_SY04912SI] (@Identity_Column int, @DOCNUMBR char(21), @CHEKNMBR char(21), @FilePath char(255), @SEQNUMBR int, @ERROR smallint, @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .SY04912 (Identity_Column, DOCNUMBR, CHEKNMBR, FilePath, SEQNUMBR, ERROR) VALUES ( @Identity_Column, @DOCNUMBR, @CHEKNMBR, @FilePath, @SEQNUMBR, @ERROR) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_SY04912SI] TO [DYNGRP]
+GO

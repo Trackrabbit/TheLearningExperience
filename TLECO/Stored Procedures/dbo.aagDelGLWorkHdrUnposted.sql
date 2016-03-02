@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create     procedure [dbo].[aagDelGLWorkHdrUnposted]  @iHdrID int,  @oStatus smallint = null out as  declare @transaction tinyint,  @retCode int,  @dbName varchar(32),  @companyID smallint,  @companyStatus smallint,  @HdrID int,  @TempDistID int  select  @transaction = 0,  @retCode = 0,  @dbName = '',  @companyID = 0,  @companyStatus = 0,  @HdrID = 0,  @oStatus = 0  if (@iHdrID is null) begin select @oStatus = 35000 return end  if (@iHdrID = 0) begin select @oStatus = 35001 return end  select @dbName = db_name() exec @retCode = DYNAMICS.dbo.aagGetCompanyStatus @dbName, @companyID out, @companyStatus out, @oStatus out if ((@retCode <> 0) or (@oStatus <> 0)) return @retCode  select @HdrID = aaGLWorkHdrID from AAG10000   where aaGLWorkHdrID = @iHdrID  if (@@rowcount <> 1) return 0  if (@@trancount = 0) begin select @transaction = 1 begin transaction end  declare UnpostedDists cursor LOCAL STATIC  for select aaGLWorkDistID from AAG10001 where aaGLWorkHdrID = @HdrID   open UnpostedDists   fetch next from UnpostedDists into @TempDistID  while @@fetch_status = 0 begin  delete SY03900  from   SY03900 join AAG10002 on SY03900.NOTEINDX = AAG10002.NOTEINDX  where  aaGLWorkHdrID = @HdrID and aaGLWorkDistID = @TempDistID  delete from AAG10003 where  aaGLWorkHdrID = @HdrID and aaGLWorkDistID = @TempDistID  delete from AAG10002 where  aaGLWorkHdrID = @HdrID and aaGLWorkDistID = @TempDistID   fetch next from UnpostedDists into @TempDistID end  delete from AAG10001 where aaGLWorkHdrID = @HdrID   deallocate UnpostedDists  if (@transaction = 1) commit transaction  return 0    
+GO
+GRANT EXECUTE ON  [dbo].[aagDelGLWorkHdrUnposted] TO [DYNGRP]
+GO

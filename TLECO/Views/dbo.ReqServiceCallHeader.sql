@@ -1,0 +1,244 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+-- Service Call Header View union of SVC00200 and SVC30200 
+ 
+CREATE VIEW [dbo].[ReqServiceCallHeader] AS 
+select  
+	1 "TrxState" -- Set to 1 for Work 
+	,CALLNBR      
+	,SVC00200.SRVRECTYPE     
+	,SRVSTAT  
+	,SRVTYPE      
+	,SVCDESCR                                                       
+	,priorityLevel  
+	,CUSTNMBR         
+	,Customer_Reference     
+	,ADRSCODE         
+	,CUSTNAME                                                           
+	,ADDRESS1                                                       
+	,ADDRESS2                                                       
+	,CITY                                 
+	,STATE                          
+	,ZIP "ZIPCODE"         
+	,CNTCPRSN                                                       
+	,PHONE1                 
+	,OFFID        
+	,SVCAREA      
+	,TECHID       
+	,TIMEZONE  
+	,ENTDTE                                                  
+	,ENTTME                                                  
+	,ETADTE                                                  
+	,ETATME                                                  
+	,Response_Date                                           
+	,Response_Time                                           
+	,PRICELVL         
+	,PYMTRMID               
+	,SLPRSNID         
+	,LABSTOTPRC             
+	,LABPCT                 
+	,LABSTOTCST             
+	,PARSTOTPRC             
+	,PARTPCT                
+	,PARSTOTCST             
+	,MSCSTOTPRC             
+	,MISCPCT                
+	,MISSTOTCST             
+	,TAXSCHID         
+	,TAXEXMT1                   
+	,TAXEXMT2                   
+	,PRETAXTOT              
+	,TAXAMNT                
+	,TOTAL                  
+	,PORDNMBR               
+	,SY03900.TXTFIELD 
+	,USERDEF1               
+	,USERDEF2               
+	,USRDEF03               
+	,USRDEF04               
+	,USRDEF05               
+	,CONTNBR      
+	,SVC_Contract_Line_SEQ  
+	,ETTR                   
+	,SVC_On_Hold  
+	,Bill_To_Customer  
+	,CURNCYID         
+	,SVC_Bill_To_Address_Code  
+	,RATETPID         
+	,XCHGRATE               
+	,EXCHDATE                                                
+	,ORIGMISSTOTCST         
+	,ORIGMSCSTOTPRC         
+	,ORIGLABSUBTOTCOST      
+	,ORIGLABSTOTPRC         
+	,ORIGPARSTOTCST         
+	,ORIGPARSTOTPRC         
+	,ORIGPRETAXTOT          
+	,ORTAXAMT               
+	,ORIGTOTAL              
+	,ADDRESS3                                                       
+	,COUNTRY                                                        
+	,SVC_FO_ID	 
+	,Notify_Date 
+	,Notify_Time 
+	,DISPDTE 
+	,DISPTME 
+	,ARRIVDTE 
+	,ARRIVTME 
+	,COMPDTE 
+	,COMPTME 
+	,Invoiced_Amount 
+	,NOTFYFLAG 
+	,ESCDATE 
+	,ESCTIME 
+	,Escalation_Level 
+	,Callback 
+	,Meters_1 
+	,Meters_2 
+	,Meters_3 
+	,Meters_4 
+	,Meters_5 
+	,Meter_Internal_Uses_1 
+	,Meter_Internal_Uses_2 
+	,Meter_Internal_Uses_3 
+	,Meter_Internal_Uses_4 
+	,Meter_Internal_Uses_5 
+	,Orig_Invoiced_Amount 
+	,Replaces_1 
+	,Replaces_2 
+	,Replaces_3 
+	,Replaces_4 
+	,Replaces_5 
+	,SVC00200.DEX_ROW_ID 
+from  
+	SVC00200 left outer join SY03900 on (SVC00200.NOTEINDX = SY03900.NOTEINDX) 
+where  
+	SVC00200.SRVRECTYPE = 2 OR SVC00200.SRVRECTYPE = 3 --open and invoiced calls 
+ 
+union all 
+ 
+select  
+	3 "TrxState" -- Set to 3 for history 
+	,CALLNBR  
+	,SVC30200.SRVRECTYPE     
+	,SRVSTAT  
+	,SRVTYPE      
+	,SVCDESCR                                                       
+	,priorityLevel  
+	,CUSTNMBR         
+	,Customer_Reference     
+	,ADRSCODE         
+	,CUSTNAME                                                           
+	,ADDRESS1                                                       
+	,ADDRESS2                                                       
+	,CITY                                 
+	,STATE                          
+	,ZIP "ZIPCODE"          
+	,CNTCPRSN                                                       
+	,PHONE1                 
+	,OFFID        
+	,SVCAREA      
+	,TECHID       
+	,TIMEZONE  
+	,ENTDTE                                                  
+	,ENTTME                                                  
+	,ETADTE                                                  
+	,ETATME                                                  
+	,Response_Date                                           
+	,Response_Time                                           
+	,PRICELVL         
+	,PYMTRMID               
+	,SLPRSNID         
+	,LABSTOTPRC             
+	,LABPCT                 
+	,LABSTOTCST             
+	,PARSTOTPRC             
+	,PARTPCT                
+	,PARSTOTCST             
+	,MSCSTOTPRC             
+	,MISCPCT                
+	,MISSTOTCST             
+	,TAXSCHID         
+	,TAXEXMT1                   
+	,TAXEXMT2                   
+	,PRETAXTOT              
+	,TAXAMNT                
+	,TOTAL                  
+	,PORDNMBR               
+	,SY03900.TXTFIELD 
+	,USERDEF1               
+	,USERDEF2               
+	,USRDEF03               
+	,USRDEF04               
+	,USRDEF05               
+	,CONTNBR      
+	,SVC_Contract_Line_SEQ  
+	,ETTR                   
+	,SVC_On_Hold  
+	,Bill_To_Customer  
+	,CURNCYID         
+	,SVC_Bill_To_Address_Code  
+	,RATETPID         
+	,XCHGRATE               
+	,EXCHDATE                                                
+	,ORIGMISSTOTCST         
+	,ORIGMSCSTOTPRC         
+	,ORIGLABSUBTOTCOST      
+	,ORIGLABSTOTPRC         
+	,ORIGPARSTOTCST         
+	,ORIGPARSTOTPRC         
+	,ORIGPRETAXTOT          
+	,ORTAXAMT               
+	,ORIGTOTAL              
+	,ADDRESS3                                                       
+	,COUNTRY                                                        
+	,SVC_FO_ID 
+	,Notify_Date 
+	,Notify_Time 
+	,DISPDTE 
+	,DISPTME 
+	,ARRIVDTE 
+	,ARRIVTME 
+	,COMPDTE 
+	,COMPTME 
+	,Invoiced_Amount 
+	,NOTFYFLAG 
+	,ESCDATE 
+	,ESCTIME 
+	,Escalation_Level 
+	,Callback 
+	,Meters_1 
+	,Meters_2 
+	,Meters_3 
+	,Meters_4 
+	,Meters_5 
+	,Meter_Internal_Uses_1 
+	,Meter_Internal_Uses_2 
+	,Meter_Internal_Uses_3 
+	,Meter_Internal_Uses_4 
+	,Meter_Internal_Uses_5 
+	,Orig_Invoiced_Amount 
+	,Replaces_1 
+	,Replaces_2 
+	,Replaces_3 
+	,Replaces_4 
+	,Replaces_5 
+	,SVC30200.DEX_ROW_ID 
+from  
+	SVC30200 left outer join SY03900 on (SVC30200.NOTEINDX = SY03900.NOTEINDX) 
+where  
+	SVC30200.SRVRECTYPE = 2 OR SVC30200.SRVRECTYPE = 3 --open and invoiced calls 
+ 
+ 
+ 
+GO
+GRANT SELECT ON  [dbo].[ReqServiceCallHeader] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[ReqServiceCallHeader] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[ReqServiceCallHeader] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[ReqServiceCallHeader] TO [DYNGRP]
+GO

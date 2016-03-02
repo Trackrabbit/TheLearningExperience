@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_MS273521SI] (@BCHSOURC char(15), @BACHNUMB char(15), @MSO_Scheduled_Time_XML char(255), @MSO_BatchScheduleType char(101), @DEX_ROW_ID int OUT) AS /* 12.00.0311.000 */ set nocount on BEGIN INSERT INTO .MS273521 (BCHSOURC, BACHNUMB, MSO_Scheduled_Time_XML, MSO_BatchScheduleType) VALUES ( @BCHSOURC, @BACHNUMB, @MSO_Scheduled_Time_XML, @MSO_BatchScheduleType) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_MS273521SI] TO [DYNGRP]
+GO

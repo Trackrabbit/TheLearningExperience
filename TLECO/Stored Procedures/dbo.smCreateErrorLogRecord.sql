@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[smCreateErrorLogRecord]  @I_cUserID char(15)  = NULL,  @I_cFileName char(40)  = NULL,  @I_cSearchString1 char(2)  = NULL,  @I_iErrorMessage int   = NULL,  @O_iErrorState int   = NULL output as  declare  @cOriginalMessage char(255),   @iError int,    @iStatus int,    @iIndex int,    @cDBName char(5),  @cBlanks char(4)    if @I_cUserID is NULL or  @I_cFileName is NULL or  @I_iErrorMessage is NULL begin  select @O_iErrorState = 20833  return end else  select @O_iErrorState = 0  select @cBlanks = '    '  select @cDBName = db_name()  exec @iStatus = DYNAMICS.dbo.smGetMsgString  @I_iErrorMessage,  @cDBName,  @cOriginalMessage output,  @O_iErrorState output  select @iError = @@error if @iStatus = 0 and @iError <> 0  select @iStatus = @iError if @iStatus <> 0 or @O_iErrorState <> 0  return @iStatus  if @I_cSearchString1 is not NULL begin  select @iIndex = charindex(@I_cSearchString1, @cOriginalMessage)   if @iIndex = 0  begin  select @O_iErrorState = 20835  return  end   insert into  SY03400  (USERID,  INDXLONG,  FILENAME,  ERMSGTXT,  ERMSGTX2)  select  @I_cUserID,  0,  @I_cFileName,  stuff(@cOriginalMessage, @iIndex, 2, rtrim(CNTRLNUM)),  ''  from  #CNTRLNUMTEMP  end else begin  insert into  SY03400  (USERID,  INDXLONG,  FILENAME,  ERMSGTXT,  ERMSGTX2)  select  @I_cUserID,  0,  @I_cFileName,  rtrim(VENDORID) + @cBlanks + rtrim(CNTRLNUM) + ': ' + @cOriginalMessage,  ''  from  #CNTRLNUMTEMP  order by     VENDORID,    CNTRLNUM end  delete #CNTRLNUMTEMP  return    
+GO
+GRANT EXECUTE ON  [dbo].[smCreateErrorLogRecord] TO [DYNGRP]
+GO

@@ -1,0 +1,56 @@
+CREATE TABLE [dbo].[SOP10203]
+(
+[SOPNUMBE] [char] (21) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[SOPTYPE] [smallint] NOT NULL,
+[LNITMSEQ] [int] NOT NULL,
+[CMPNTSEQ] [int] NOT NULL,
+[SEQNUMBR] [int] NOT NULL,
+[ITEMNMBR] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[LOCNCODE] [char] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[BIN] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[QTYTYPE] [smallint] NOT NULL,
+[QUANTITY] [numeric] (19, 5) NOT NULL,
+[POSTED] [tinyint] NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[SOP10203] ADD CONSTRAINT [PKSOP10203] PRIMARY KEY NONCLUSTERED  ([SOPNUMBE], [SOPTYPE], [LNITMSEQ], [CMPNTSEQ], [SEQNUMBR]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SOP10203].[SOPNUMBE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10203].[SOPTYPE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10203].[LNITMSEQ]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10203].[CMPNTSEQ]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10203].[SEQNUMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SOP10203].[ITEMNMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SOP10203].[LOCNCODE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[SOP10203].[BIN]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10203].[QTYTYPE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[SOP10203].[QUANTITY]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[SOP10203].[POSTED]'
+GO
+GRANT SELECT ON  [dbo].[SOP10203] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[SOP10203] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[SOP10203] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[SOP10203] TO [DYNGRP]
+GO
+GRANT SELECT ON  [dbo].[SOP10203] TO [RAPIDGRP]
+GO
+GRANT INSERT ON  [dbo].[SOP10203] TO [RAPIDGRP]
+GO
+GRANT DELETE ON  [dbo].[SOP10203] TO [RAPIDGRP]
+GO
+GRANT UPDATE ON  [dbo].[SOP10203] TO [RAPIDGRP]
+GO

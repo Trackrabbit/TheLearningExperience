@@ -1,0 +1,33 @@
+CREATE TABLE [dbo].[IV00112]
+(
+[ITEMNMBR] [char] (31) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[LOCNCODE] [char] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[BIN] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[QTYTYPE] [smallint] NOT NULL,
+[QUANTITY] [numeric] (19, 5) NOT NULL,
+[ATYALLOC] [numeric] (19, 5) NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[IV00112] ADD CONSTRAINT [PKIV00112] PRIMARY KEY NONCLUSTERED  ([ITEMNMBR], [LOCNCODE], [BIN], [QTYTYPE]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[IV00112].[ITEMNMBR]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[IV00112].[LOCNCODE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[IV00112].[BIN]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[IV00112].[QTYTYPE]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[IV00112].[QUANTITY]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[IV00112].[ATYALLOC]'
+GO
+GRANT SELECT ON  [dbo].[IV00112] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[IV00112] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[IV00112] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[IV00112] TO [DYNGRP]
+GO

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_BS464000SS_1] (@BSSI_OccupancyTypeID char(25)) AS /* 12.00.0270.000 */ set nocount on SELECT TOP 1  BSSI_OccupancyTypeID, BSSI_Description, BSSI_ExcludeFromGLA, NOTEINDX, DEX_ROW_ID FROM .BS464000 WHERE BSSI_OccupancyTypeID = @BSSI_OccupancyTypeID ORDER BY BSSI_OccupancyTypeID ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_BS464000SS_1] TO [DYNGRP]
+GO

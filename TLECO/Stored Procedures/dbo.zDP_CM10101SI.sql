@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROC [dbo].[zDP_CM10101SI] (@depositnumber char(21), @CHEKBKID char(15), @CURNCYID char(15), @CMRECNUM numeric(19,5), @CURRNIDX smallint, @RATETPID char(15), @EXGTBLID char(15), @XCHGRATE numeric(19,7), @EXCHDATE datetime, @TIME1 datetime, @RTCLCMTD smallint, @EXPNDATE datetime, @DECPLCUR smallint, @RCPTCOUNT smallint, @ORCHKTTL numeric(19,5), @Originating_Check_Count smallint, @Orig_Credit_Card_Total numeric(19,5), @Originating_Credit_Card_ smallint, @Originating_Cash_Total numeric(19,5), @Originating_Cash_Count smallint, @Originating_Coin_Amount numeric(19,5), @Originating_Deposit_Amou numeric(19,5), @Originating_Checkbook_Am numeric(19,5), @DENXRATE numeric(19,7), @MCTRXSTT smallint, @DEX_ROW_ID int OUT) AS  set nocount on BEGIN INSERT INTO .CM10101 (depositnumber, CHEKBKID, CURNCYID, CMRECNUM, CURRNIDX, RATETPID, EXGTBLID, XCHGRATE, EXCHDATE, TIME1, RTCLCMTD, EXPNDATE, DECPLCUR, RCPTCOUNT, ORCHKTTL, Originating_Check_Count, Orig_Credit_Card_Total, Originating_Credit_Card_, Originating_Cash_Total, Originating_Cash_Count, Originating_Coin_Amount, Originating_Deposit_Amou, Originating_Checkbook_Am, DENXRATE, MCTRXSTT) VALUES ( @depositnumber, @CHEKBKID, @CURNCYID, @CMRECNUM, @CURRNIDX, @RATETPID, @EXGTBLID, @XCHGRATE, @EXCHDATE, @TIME1, @RTCLCMTD, @EXPNDATE, @DECPLCUR, @RCPTCOUNT, @ORCHKTTL, @Originating_Check_Count, @Orig_Credit_Card_Total, @Originating_Credit_Card_, @Originating_Cash_Total, @Originating_Cash_Count, @Originating_Coin_Amount, @Originating_Deposit_Amou, @Originating_Checkbook_Am, @DENXRATE, @MCTRXSTT) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off    
+GO
+GRANT EXECUTE ON  [dbo].[zDP_CM10101SI] TO [DYNGRP]
+GO

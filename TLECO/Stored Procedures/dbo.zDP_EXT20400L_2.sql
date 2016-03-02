@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_EXT20400L_2] (@Extender_Type_RS smallint, @Extender_ID_RS char(15), @Extender_Event_Type_RS smallint, @Field_ID_RS int, @Extender_Type_RE smallint, @Extender_ID_RE char(15), @Extender_Event_Type_RE smallint, @Field_ID_RE int) AS /* 12.00.0311.000 */ set nocount on IF @Extender_Type_RS IS NULL BEGIN SELECT TOP 25  Extender_Event_ID, Extender_Type, Extender_ID, Extender_Event_Type, Field_ID, Extender_Event_Desc, DEX_ROW_ID FROM .EXT20400 ORDER BY Extender_Type DESC, Extender_ID DESC, Extender_Event_Type DESC, Field_ID DESC END ELSE IF @Extender_Type_RS = @Extender_Type_RE BEGIN SELECT TOP 25  Extender_Event_ID, Extender_Type, Extender_ID, Extender_Event_Type, Field_ID, Extender_Event_Desc, DEX_ROW_ID FROM .EXT20400 WHERE Extender_Type = @Extender_Type_RS AND Extender_ID BETWEEN @Extender_ID_RS AND @Extender_ID_RE AND Extender_Event_Type BETWEEN @Extender_Event_Type_RS AND @Extender_Event_Type_RE AND Field_ID BETWEEN @Field_ID_RS AND @Field_ID_RE ORDER BY Extender_Type DESC, Extender_ID DESC, Extender_Event_Type DESC, Field_ID DESC END ELSE BEGIN SELECT TOP 25  Extender_Event_ID, Extender_Type, Extender_ID, Extender_Event_Type, Field_ID, Extender_Event_Desc, DEX_ROW_ID FROM .EXT20400 WHERE Extender_Type BETWEEN @Extender_Type_RS AND @Extender_Type_RE AND Extender_ID BETWEEN @Extender_ID_RS AND @Extender_ID_RE AND Extender_Event_Type BETWEEN @Extender_Event_Type_RS AND @Extender_Event_Type_RE AND Field_ID BETWEEN @Field_ID_RS AND @Field_ID_RE ORDER BY Extender_Type DESC, Extender_ID DESC, Extender_Event_Type DESC, Field_ID DESC END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_EXT20400L_2] TO [DYNGRP]
+GO

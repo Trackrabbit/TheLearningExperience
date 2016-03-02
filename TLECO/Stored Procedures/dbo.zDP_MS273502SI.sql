@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_MS273502SI] (@MSO_EngineGUID char(51), @MSO_UserCanSelectEngine tinyint, @DEX_ROW_ID int OUT) AS /* 12.00.0311.000 */ set nocount on BEGIN INSERT INTO .MS273502 (MSO_EngineGUID, MSO_UserCanSelectEngine) VALUES ( @MSO_EngineGUID, @MSO_UserCanSelectEngine) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_MS273502SI] TO [DYNGRP]
+GO

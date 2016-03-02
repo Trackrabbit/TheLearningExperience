@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_ME27650SS_1] (@ME_UseCfgStubs tinyint) AS /* 14.00.0084.000 */ set nocount on SELECT TOP 1  ME_STB_REPOSITORY, ME_UseCfgStubs, ME_Dummy_File_Convert_De, DEX_ROW_ID FROM .ME27650 WHERE ME_UseCfgStubs = @ME_UseCfgStubs ORDER BY ME_UseCfgStubs ASC set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_ME27650SS_1] TO [DYNGRP]
+GO

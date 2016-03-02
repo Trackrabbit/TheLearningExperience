@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+ create procedure [dbo].[taGetUPRNextManualTrxNumber] @I_vInc_Dec tinyint = NULL, @O_vMLTRXNBR int = NULL output, @O_vPYADNMBR int = NULL output, @O_iErrorState int = NULL output   with encryption as  set transaction isolation level read uncommitted set nocount on  declare @Loop int,  @iError int,  @iStatus int,  @MLTRXNBR int,  @DocExists tinyint   select  @MLTRXNBR=0,  @O_iErrorState = 0,  @iStatus = 0,  @Loop = 0,  @DocExists = 1  if  @I_vInc_Dec is NULL begin  select @O_iErrorState = 2379    return (@O_iErrorState) end  select @O_vMLTRXNBR = NXMTRNUM from UPR40200 WITH (TABLOCKX HOLDLOCK) where SETUPKEY = 1 if (@@rowcount <> 1) begin  select @O_iErrorState = 2380    return (@O_iErrorState) end  select @MLTRXNBR = @O_vMLTRXNBR  while (@Loop < 1000) begin  select @Loop = @Loop + 1  select @DocExists = 0   select @MLTRXNBR = @MLTRXNBR + 1   if  ( exists (select 1 from UPR10308 (nolock) where MLTRXNBR = @MLTRXNBR and PYADNMBR = @O_vPYADNMBR ))  begin  select @DocExists = 1  end  else  begin  if  (exists (select 1 from UPR10308 (nolock) where MLTRXNBR = @O_vMLTRXNBR and PYADNMBR = @O_vPYADNMBR ))  begin  select @O_vMLTRXNBR = @MLTRXNBR  end  else  begin  select @DocExists = 0  break  end  end end  if (@DocExists = 1) begin  select @O_iErrorState = 2381   end  if (@O_iErrorState = 0) begin  update UPR40200 set NXMTRNUM = @MLTRXNBR where SETUPKEY = 1  if (@@error <> 0)  begin  select @O_iErrorState = 2382    end end else begin  select @O_vMLTRXNBR = 0 end  return (@O_iErrorState)   
+GO
+GRANT EXECUTE ON  [dbo].[taGetUPRNextManualTrxNumber] TO [DYNGRP]
+GO

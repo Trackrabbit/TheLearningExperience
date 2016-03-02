@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+ CREATE PROCEDURE [dbo].[SVC_Set_Contract_Invoice_Dist]  @CONSTS smallint,  @CONTNBR char(11),  @LNSEQNBR numeric(19,5),  @SVC_Invoice_SEQ_Number integer,  @Amount numeric (19,2),  @OrigAmount numeric (19,2),  @iType smallint     AS declare @SEQNUMBR integer declare @AccountIndex integer declare @CurrencyIndex smallint declare @DistType smallint declare @MinDate datetime  exec smGetMinDate @MinDate output  select @CurrencyIndex = CURRNIDX from DYNAMICS..MC40200 where CURNCYID in   (select CURNCYID from SVC00600 where CONSTS = @CONSTS and CONTNBR = @CONTNBR)  select @SEQNUMBR = 16384 select @AccountIndex = ACTINDX from SVC00609 where CONSTS = @CONSTS and CONTNBR = @CONTNBR  and LNSEQNBR = @LNSEQNBR and SVC_Distribution_Type = 1 if @iType = 1  select @DistType = 1  else  select @DistType = 2  select @AccountIndex = isnull(@AccountIndex,0) insert SVC00631  select  @CONSTS,  @CONTNBR,  @LNSEQNBR,  @SVC_Invoice_SEQ_Number,  @SEQNUMBR,  @DistType,   '',  @AccountIndex,  0,0,   @Amount,   @OrigAmount,  @CurrencyIndex,  '',  0,  @MinDate  select @AccountIndex = ACTINDX from SVC00609 where CONSTS = @CONSTS and CONTNBR = @CONTNBR  and LNSEQNBR = @LNSEQNBR and SVC_Distribution_Type = 2  select @AccountIndex = isnull(@AccountIndex,0) if @iType = 1  select @DistType = 2  else  select @DistType = 1   insert SVC00631  select  @CONSTS,  @CONTNBR,  @LNSEQNBR,  @SVC_Invoice_SEQ_Number,  @SEQNUMBR,  @DistType,  '',  @AccountIndex,  @Amount,   @OrigAmount,  0,0,   @CurrencyIndex,  '',  0,  @MinDate  return    
+GO
+GRANT EXECUTE ON  [dbo].[SVC_Set_Contract_Invoice_Dist] TO [DYNGRP]
+GO

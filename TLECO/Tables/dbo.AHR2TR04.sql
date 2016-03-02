@@ -1,0 +1,50 @@
+CREATE TABLE [dbo].[AHR2TR04]
+(
+[EMPID_I] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[COURSEID_I] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[ICLASSID_I] [char] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CB_I] [tinyint] NOT NULL,
+[DATE1] [datetime] NOT NULL,
+[STR20DUMMY_I] [char] (21) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CHANGEDATE_I] [datetime] NOT NULL,
+[USERID] [char] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[NOTESINDEX_I] [numeric] (19, 5) NOT NULL,
+[DEX_ROW_ID] [int] NOT NULL IDENTITY(1, 1)
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[AHR2TR04] ADD CONSTRAINT [CK__AHR2TR04__CHANGE__1901F2B6] CHECK ((datepart(hour,[CHANGEDATE_I])=(0) AND datepart(minute,[CHANGEDATE_I])=(0) AND datepart(second,[CHANGEDATE_I])=(0) AND datepart(millisecond,[CHANGEDATE_I])=(0)))
+GO
+ALTER TABLE [dbo].[AHR2TR04] ADD CONSTRAINT [CK__AHR2TR04__DATE1__19F616EF] CHECK ((datepart(hour,[DATE1])=(0) AND datepart(minute,[DATE1])=(0) AND datepart(second,[DATE1])=(0) AND datepart(millisecond,[DATE1])=(0)))
+GO
+ALTER TABLE [dbo].[AHR2TR04] ADD CONSTRAINT [PKAHR2TR04] PRIMARY KEY CLUSTERED  ([EMPID_I], [COURSEID_I], [ICLASSID_I]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK3AHR2TR04] ON [dbo].[AHR2TR04] ([COURSEID_I], [CB_I], [DEX_ROW_ID]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK2AHR2TR04] ON [dbo].[AHR2TR04] ([COURSEID_I], [ICLASSID_I], [EMPID_I]) ON [PRIMARY]
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[AHR2TR04].[EMPID_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[AHR2TR04].[COURSEID_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[AHR2TR04].[ICLASSID_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_INT]', N'[dbo].[AHR2TR04].[CB_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[AHR2TR04].[DATE1]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[AHR2TR04].[STR20DUMMY_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_DATE]', N'[dbo].[AHR2TR04].[CHANGEDATE_I]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_CHAR]', N'[dbo].[AHR2TR04].[USERID]'
+GO
+EXEC sp_bindefault N'[dbo].[GPS_MONEY]', N'[dbo].[AHR2TR04].[NOTESINDEX_I]'
+GO
+GRANT SELECT ON  [dbo].[AHR2TR04] TO [DYNGRP]
+GO
+GRANT INSERT ON  [dbo].[AHR2TR04] TO [DYNGRP]
+GO
+GRANT DELETE ON  [dbo].[AHR2TR04] TO [DYNGRP]
+GO
+GRANT UPDATE ON  [dbo].[AHR2TR04] TO [DYNGRP]
+GO

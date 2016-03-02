@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROC [dbo].[zDP_B0510106SI] (@MJW_Investor_Group_ID char(41), @VENDORID char(15), @MJW_Default_CB tinyint, @DEX_ROW_ID int OUT) AS /* 12.00.0270.000 */ set nocount on BEGIN INSERT INTO .B0510106 (MJW_Investor_Group_ID, VENDORID, MJW_Default_CB) VALUES ( @MJW_Investor_Group_ID, @VENDORID, @MJW_Default_CB) SELECT @DEX_ROW_ID = @@IDENTITY END set nocount off 
+GO
+GRANT EXECUTE ON  [dbo].[zDP_B0510106SI] TO [DYNGRP]
+GO
